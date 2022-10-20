@@ -12,26 +12,28 @@ struct SelectDrawingView: View {
     let navigationBarTitle = "Choose a drawing"
     
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
-    let samplePhotos = (1...20).map {
+    let sampleDrawings = (1...20).map {
         DrawingThumbnail(name: "coffee-\($0)")
-        
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
-
-                    ForEach(samplePhotos.indices, id: \.self) { index in
-                        VStack{
-                            Image(samplePhotos[index].name)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .frame(width: 200, height: 200)
-                                .cornerRadius(10)
-                                .shadow(color: Color.primary.opacity(0.3), radius: 1)
-                            Text(samplePhotos[index].name)
+                    ForEach(sampleDrawings.indices, id: \.self) { index in
+                        NavigationLink {
+                            DrawingView(drawing: sampleDrawings[index])
+                        } label: {
+                            VStack{
+                                Image(sampleDrawings[index].name)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .frame(width: 200, height: 200)
+                                    .cornerRadius(10)
+                                    .shadow(color: Color.primary.opacity(0.3), radius: 1)
+                                Text(sampleDrawings[index].name)
+                            }
                         }
                     }
                 }
@@ -59,10 +61,11 @@ struct DrawingThumbnail: Identifiable {
 
 private extension SelectDrawingView {
     func createDrawing() {
-        
+        print("Creating drawing")
     }
     
     func importPhoto() {
+        print("Importing photo")
         // Create drawing with default photo
     }
 }
