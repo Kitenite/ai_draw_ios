@@ -15,7 +15,9 @@ struct SelectDrawingView: View {
         DrawingThumbnail(name: "coffee-\($0)")
     }
     @State private var selection: String? = nil
-    
+    @State private var drawingSelected: Bool = false
+    @State private var selectedDrawing: DrawingThumbnail? = nil
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -30,7 +32,15 @@ struct SelectDrawingView: View {
                                     .frame(width: 200, height: 200)
                                     .cornerRadius(10)
                                     .shadow(color: Color.primary.opacity(0.3), radius: 1)
+                                    .overlay(
+                                        sampleDrawings[index].id.uuidString == selectedDrawing?.id.uuidString ?
+                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : nil)
+                                    
+                                    
                                 Text(sampleDrawings[index].name)
+                            }.onLongPressGesture {
+                                drawingSelected = true
+                                selectedDrawing = sampleDrawings[index]
                             }
                         }
                     }
@@ -40,6 +50,11 @@ struct SelectDrawingView: View {
             .navigationBarTitle(Text(navigationBarTitle), displayMode: .inline)
             .navigationBarItems(
                 trailing: HStack {
+                    if drawingSelected {
+                        Button(action: deleteSelectedDrawing) {
+                            Image(systemName: "trash")
+                        }
+                    }
                     Button(action: importPhoto) {
                         Image(systemName: "photo.on.rectangle.angled")
                     }
@@ -74,6 +89,17 @@ private extension SelectDrawingView {
     
     func navigateToDrawing(drawing: DrawingThumbnail) {
         selection = drawing.id.uuidString
+    }
+    
+    func deleteSelectedDrawing() {
+        drawingSelected = false
+        if selectedDrawing != nil {
+            deleteDrawing(drawing: selectedDrawing!)
+        }
+    }
+    
+    func deleteDrawing(drawing: DrawingThumbnail){
+        sampleDrawings = sampleDrawings.filter({ $0.id.uuidString != drawing.id.uuidString })
     }
 }
 
