@@ -10,20 +10,18 @@ import SwiftUI
 struct SelectDrawingView: View {
     
     let navigationBarTitle = "Choose a drawing"
-    
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
-    let sampleDrawings = (1...20).map {
+    @State var sampleDrawings = (1...3).map {
         DrawingThumbnail(name: "coffee-\($0)")
     }
+    @State private var selection: String? = nil
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(sampleDrawings.indices, id: \.self) { index in
-                        NavigationLink {
-                            DrawingView(drawing: sampleDrawings[index])
-                        } label: {
+                        NavigationLink(destination: DrawingView(drawing: sampleDrawings[index]), tag: sampleDrawings[index].id.uuidString, selection: $selection) {
                             VStack{
                                 Image(sampleDrawings[index].name)
                                     .resizable()
@@ -42,7 +40,7 @@ struct SelectDrawingView: View {
             .navigationBarTitle(Text(navigationBarTitle), displayMode: .inline)
             .navigationBarItems(
                 trailing: HStack {
-                    Button(action: createDrawing) {
+                    Button(action: importPhoto) {
                         Image(systemName: "photo.on.rectangle.angled")
                     }
                     Button(action: createDrawing) {
@@ -62,11 +60,20 @@ struct DrawingThumbnail: Identifiable {
 private extension SelectDrawingView {
     func createDrawing() {
         print("Creating drawing")
+        let newDrawing = DrawingThumbnail(name: "coffee-20")
+        sampleDrawings.insert(newDrawing, at: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            navigateToDrawing(drawing: newDrawing)
+        }
     }
     
     func importPhoto() {
         print("Importing photo")
         // Create drawing with default photo
+    }
+    
+    func navigateToDrawing(drawing: DrawingThumbnail) {
+        selection = drawing.id.uuidString
     }
 }
 
