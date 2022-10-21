@@ -35,10 +35,11 @@ struct SelectDrawingView: View {
                                     .overlay(
                                         sampleDrawings[index].id.uuidString == selectedDrawing?.id.uuidString ?
                                         RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : nil)
-                                    
-                                    
                                 Text(sampleDrawings[index].name)
-                            }.onLongPressGesture {
+                            }.onTapGesture {
+                                navigateToDrawing(drawing: sampleDrawings[index])
+                            }
+                            .onLongPressGesture {
                                 drawingSelected = true
                                 selectedDrawing = sampleDrawings[index]
                             }
@@ -51,18 +52,29 @@ struct SelectDrawingView: View {
             .navigationBarItems(
                 trailing: HStack {
                     if drawingSelected {
+                        Button(action: duplicateSelectedDrawing) {
+                            Image(systemName: "doc.on.doc")
+                        }
                         Button(action: deleteSelectedDrawing) {
                             Image(systemName: "trash")
                         }
+                        Button(action: unselectDrawing) {
+                            Text("Cancel")
+                        }
+                    } else {
+                        Button(action: importPhoto) {
+                            Image(systemName: "photo.on.rectangle.angled")
+                        }
+                        Button(action: createDrawing) {
+                            Image(systemName: "plus")
+                        }
                     }
-                    Button(action: importPhoto) {
-                        Image(systemName: "photo.on.rectangle.angled")
-                    }
-                    Button(action: createDrawing) {
-                        Image(systemName: "plus")
-                    }
+                   
                 }
             )
+            .onTapGesture {
+                unselectDrawing()
+            }
         }.navigationViewStyle(.stack)
     }
 }
@@ -92,15 +104,34 @@ private extension SelectDrawingView {
     }
     
     func deleteSelectedDrawing() {
-        drawingSelected = false
         if selectedDrawing != nil {
             deleteDrawing(drawing: selectedDrawing!)
         }
+        unselectDrawing()
     }
     
     func deleteDrawing(drawing: DrawingThumbnail){
         sampleDrawings = sampleDrawings.filter({ $0.id.uuidString != drawing.id.uuidString })
     }
+    
+    func duplicateSelectedDrawing() {
+        if selectedDrawing != nil {
+            duplicateDrawing(drawing: selectedDrawing!)
+        }
+        unselectDrawing()
+    }
+    
+    func duplicateDrawing(drawing: DrawingThumbnail) {
+        let newDrawing = DrawingThumbnail(name: drawing.name)
+        sampleDrawings.insert(newDrawing, at: 0)
+        
+    }
+    
+    func unselectDrawing() {
+        drawingSelected = false
+        selectedDrawing = nil
+    }
+
 }
 
             
