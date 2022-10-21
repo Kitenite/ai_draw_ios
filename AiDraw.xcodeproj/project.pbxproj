@@ -13,6 +13,11 @@
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
+		FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC829025918007D40A5 /* CanvasView.swift */; };
+		FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */; };
+		FEDCAACE29025F92007D40A5 /* InferenceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACD29025F92007D40A5 /* InferenceHandler.swift */; };
+		FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */; };
+		FEDCAAD42902641A007D40A5 /* InferredImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD32902641A007D40A5 /* InferredImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,12 @@
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FE06E63128FE267A00B6F4CE /* DrawingData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DrawingData.json; sourceTree = "<group>"; };
 		FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		FEDCAAC829025918007D40A5 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		FEDCAACD29025F92007D40A5 /* InferenceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceHandler.swift; sourceTree = "<group>"; };
+		FEDCAACF29026300007D40A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToInferenceModalView.swift; sourceTree = "<group>"; };
+		FEDCAAD32902641A007D40A5 /* InferredImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferredImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +67,9 @@
 		FE06E61F28FE1FF600B6F4CE /* AiDraw */ = {
 			isa = PBXGroup;
 			children = (
+				FEDCAAD229026405007D40A5 /* Model */,
+				FEDCAACF29026300007D40A5 /* Info.plist */,
+				FEDCAACA29025EDE007D40A5 /* Utils */,
 				FE06E63028FE261A00B6F4CE /* Resources */,
 				FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */,
 				FE06E62F28FE206A00B6F4CE /* Views */,
@@ -79,6 +93,8 @@
 			children = (
 				FE06E62228FE1FF600B6F4CE /* SelectDrawingView.swift */,
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
+				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
+				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -89,6 +105,23 @@
 				FE06E63128FE267A00B6F4CE /* DrawingData.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FEDCAACA29025EDE007D40A5 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */,
+				FEDCAACD29025F92007D40A5 /* InferenceHandler.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		FEDCAAD229026405007D40A5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FEDCAAD32902641A007D40A5 /* InferredImage.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,8 +195,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEDCAAD42902641A007D40A5 /* InferredImage.swift in Sources */,
+				FEDCAACE29025F92007D40A5 /* InferenceHandler.swift in Sources */,
+				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
+				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */,
 				FE06E62328FE1FF600B6F4CE /* SelectDrawingView.swift in Sources */,
+				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,12 +331,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AiDraw/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME)";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -333,12 +374,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AiDraw/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "$(PRODUCT_NAME)";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

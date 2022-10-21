@@ -134,8 +134,6 @@ private extension SelectDrawingView {
 
 }
 
-            
-
 struct SelectDrawingView_Previews: PreviewProvider {
     static var previews: some View {
         SelectDrawingView()
