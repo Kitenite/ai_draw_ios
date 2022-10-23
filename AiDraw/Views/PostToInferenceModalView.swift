@@ -36,6 +36,7 @@ struct PostToInferenceModalView: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .padding(5)
+          .shadow(color: .gray, radius: 5, x: 5, y: 5) 
         
         Button(action: sendDrawing) {
           Text("Enhance image with AI")

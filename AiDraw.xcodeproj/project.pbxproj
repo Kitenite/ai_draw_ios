@@ -18,6 +18,7 @@
 		FEDCAACE29025F92007D40A5 /* InferenceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACD29025F92007D40A5 /* InferenceHandler.swift */; };
 		FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */; };
 		FEDCAAD42902641A007D40A5 /* InferredImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD32902641A007D40A5 /* InferredImage.swift */; };
+		FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		FEDCAACF29026300007D40A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToInferenceModalView.swift; sourceTree = "<group>"; };
 		FEDCAAD32902641A007D40A5 /* InferredImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferredImage.swift; sourceTree = "<group>"; };
+		FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				FE06E62228FE1FF600B6F4CE /* SelectDrawingView.swift */,
+				FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */,
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
 				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
@@ -199,6 +202,7 @@
 				FEDCAACE29025F92007D40A5 /* InferenceHandler.swift in Sources */,
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
+				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */,
 				FE06E62328FE1FF600B6F4CE /* SelectDrawingView.swift in Sources */,
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,

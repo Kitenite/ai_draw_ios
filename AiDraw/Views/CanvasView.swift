@@ -11,36 +11,38 @@ import SwiftUI
 import PencilKit
 
 struct CanvasView {
-  @Binding var canvasView: PKCanvasView
-  let onSaved: () -> Void
-  @State var toolPicker = PKToolPicker()
+    @Binding var canvasView: PKCanvasView
+    let onSaved: () -> Void
+    @State var toolPicker = PKToolPicker()
 }
 
 // MARK: - UIViewRepresentable
 extension CanvasView: UIViewRepresentable {
-  func makeUIView(context: Context) -> PKCanvasView {
-    canvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
-    #if targetEnvironment(simulator)
-      canvasView.drawingPolicy = .anyInput
-    #endif
-    canvasView.delegate = context.coordinator
-    showToolPicker()
-    return canvasView
-  }
+    func makeUIView(context: Context) -> PKCanvasView {
+        canvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
+        #if targetEnvironment(simulator)
+          canvasView.drawingPolicy = .anyInput
+        #endif
+        canvasView.delegate = context.coordinator
+        canvasView.backgroundColor = .clear
+        canvasView.isOpaque = false
+        showToolPicker()
+        return canvasView
+    }
 
-  func updateUIView(_ uiView: PKCanvasView, context: Context) {}
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {}
 
-  func makeCoordinator() -> Coordinator {
-    Coordinator(canvasView: $canvasView, onSaved: onSaved)
-  }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(canvasView: $canvasView, onSaved: onSaved)
+    }
 }
 
 private extension CanvasView {
-  func showToolPicker() {
-    toolPicker.setVisible(true, forFirstResponder: canvasView)
-    toolPicker.addObserver(canvasView)
-    canvasView.becomeFirstResponder()
-  }
+    func showToolPicker() {
+        toolPicker.setVisible(true, forFirstResponder: canvasView)
+        toolPicker.addObserver(canvasView)
+        canvasView.becomeFirstResponder()
+    }
 }
 
 class Coordinator: NSObject {
@@ -54,9 +56,13 @@ class Coordinator: NSObject {
 }
 
 extension Coordinator: PKCanvasViewDelegate {
-  func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
-    if !canvasView.drawing.bounds.isEmpty {
-      onSaved()
+    func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+        if !canvasView.drawing.bounds.isEmpty {
+          onSaved()
+        }
     }
-  }
+}
+
+class Tool{
+    
 }
