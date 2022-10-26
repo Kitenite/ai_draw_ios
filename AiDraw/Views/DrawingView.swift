@@ -15,7 +15,8 @@ struct DrawingView: View {
     var drawing: DrawingThumbnail
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
-    
+    @State private var erasedDrawing: PKDrawing?
+
     // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -50,7 +51,14 @@ struct DrawingView: View {
                             Button(action: downloadDrawing) {
                                 Image(systemName: "square.and.arrow.down")
                             }
-
+                            if ((erasedDrawing) != nil) {
+                                Button(action: restoreDrawing) {
+                                    Image(systemName: "arrow.uturn.left")
+                                }
+                            }
+                            Button(action: deleteDrawing) {
+                                Image(systemName: "trash")
+                            }
                         },
                         trailing: HStack {
                             if (isRunningInference) {
@@ -116,9 +124,7 @@ private extension DrawingView {
     }
     
     func downloadDrawing() {
-      let image = canvasView.drawing.image(
-        from: canvasView.bounds, scale: UIScreen.main.scale
-      )
+      let image = getDrawingAsImageWithBackground()
       let imageSaver = ImageSaver()
       imageSaver.writeToPhotoAlbum(image: image)
     }
@@ -136,6 +142,7 @@ private extension DrawingView {
     func addInferredImage(newInferredImage: InferredImage) {
         let croppedImage = cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
         addImageToBackgroundImages(newImage: croppedImage)
+        deleteDrawing()
         isRunningInference = false
     }
     
@@ -192,6 +199,17 @@ private extension DrawingView {
         backgroundImage = newImage
     }
     
+    func deleteDrawing() {
+        erasedDrawing = canvasView.drawing
+        canvasView.drawing = PKDrawing()
+    }
+    
+    func restoreDrawing() {
+        if (erasedDrawing != nil) {
+            canvasView.drawing = erasedDrawing!
+        }
+
+    }
 }
 
 
