@@ -53,7 +53,7 @@ struct DrawingView: View {
                             Button(action: uploadDrawingForInference) {
                                 Image(systemName: "brain")
                             }.sheet(isPresented: $isUploadingDrawing) {
-                              PostToInferenceModalView(sourceImage: canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                              PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
                             }
                             PhotosPicker(
                                 selection: $selectedItem,
@@ -79,7 +79,35 @@ struct DrawingView: View {
 }
 
 private extension DrawingView {
+    
     func saveDrawing() {}
+    
+    func getDrawingAsImageWithBackground() -> UIImage {
+        let drawingImage = getDrawingAsImage()
+        if (backgroundImage != nil) {
+            return overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage)
+        }
+        return drawingImage
+    }
+    
+    func getDrawingAsImage() -> UIImage {
+        return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
+    }
+    
+    func overlayDrawingOnBackground(backgroundImage: UIImage, drawingImage : UIImage) -> UIImage {
+        let newImage = autoreleasepool { () -> UIImage in
+            
+            UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
+            backgroundImage.draw(in: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            drawingImage.draw(in: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            let createdImage = UIGraphicsGetImageFromCurrentImageContext()
+            
+            UIGraphicsEndImageContext()
+            return createdImage ?? drawingImage
+        }
+        return newImage
+    }
+    
     
     func downloadDrawing() {
       let image = canvasView.drawing.image(
@@ -105,8 +133,50 @@ private extension DrawingView {
     }
     
     func handleUploadedPhotoData(data: Data) {
-//        backgroundImage = UIImage(named: "coffee-1")
-        backgroundImage = UIImage(data: data)
+        let uploadedPhoto = UIImage(data: data)
+        if (uploadedPhoto != nil) {
+            backgroundImage = cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+        }
+   
+    }
+    
+    func cropImageToRect(sourceImage: UIImage, cropRect: CGRect) -> UIImage {
+        // The shortest side
+        let sideLength = min(
+            sourceImage.size.width,
+            sourceImage.size.height
+        )
+        
+        // Determines the x,y coordinate of a centered
+        // sideLength by sideLength square
+        let sourceSize = sourceImage.size
+        let xOffset = (sourceSize.width - sideLength) / 2.0
+        let yOffset = (sourceSize.height - sideLength) / 2.0
+
+        // The cropRect is the rect of the image to keep,
+        // in this case centered
+        let cropRect = CGRect(
+            x: xOffset,
+            y: yOffset,
+            width: sideLength,
+            height: sideLength
+        ).integral
+
+        // Center crop the image
+        let sourceCGImage = sourceImage.cgImage!
+        let croppedCGImage = sourceCGImage.cropping(
+            to: cropRect
+        )!
+        
+        // Use the cropped cgImage to initialize a cropped
+        // UIImage with the same image scale and orientation
+        let croppedImage = UIImage(
+            cgImage: croppedCGImage,
+            scale: sourceImage.imageRendererFormat.scale,
+            orientation: sourceImage.imageOrientation
+        )
+        
+        return croppedImage
     }
     
 }
