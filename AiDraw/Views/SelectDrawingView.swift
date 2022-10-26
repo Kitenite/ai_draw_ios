@@ -62,9 +62,9 @@ struct SelectDrawingView: View {
                             Text("Cancel")
                         }
                     } else {
-                        Button(action: importPhoto) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                        }
+//                        Button(action: importPhoto) {
+//                            Image(systemName: "photo.on.rectangle.angled")
+//                        }
                         Button(action: createDrawing) {
                             Image(systemName: "plus")
                         }

@@ -11,20 +11,23 @@ import PhotosUI
 
 struct DrawingView: View {
     
+    // Drawing
     var drawing: DrawingThumbnail
     @State private var canvasView = PKCanvasView()
-    @State private var isUploadingDrawing = false
-    @State private var isRunningInference = false
     @State private var prompt = ""
-    @State private var inferredImages: [InferredImage] = []
     
-    // Image Picker
+    // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     
+    // Background images
+    @State private var backgroundImages: [UIImage] = []
     @State private var backgroundImage: UIImage?
-
-
+    
+    // State of the application
+    @State private var isUploadingDrawing = false
+    @State private var isRunningInference = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -50,10 +53,14 @@ struct DrawingView: View {
 
                         },
                         trailing: HStack {
-                            Button(action: uploadDrawingForInference) {
-                                Image(systemName: "brain")
-                            }.sheet(isPresented: $isUploadingDrawing) {
-                              PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                            if (isRunningInference) {
+                                ProgressView()
+                            } else {
+                                Button(action: uploadDrawingForInference) {
+                                    Image(systemName: "brain")
+                                }.sheet(isPresented: $isUploadingDrawing) {
+                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                                }
                             }
                             PhotosPicker(
                                 selection: $selectedItem,
@@ -108,7 +115,6 @@ private extension DrawingView {
         return newImage
     }
     
-    
     func downloadDrawing() {
       let image = canvasView.drawing.image(
         from: canvasView.bounds, scale: UIScreen.main.scale
@@ -128,14 +134,16 @@ private extension DrawingView {
      }
     
     func addInferredImage(newInferredImage: InferredImage) {
-      inferredImages.append(newInferredImage)
-      isRunningInference = false
+        let croppedImage = cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+        addImageToBackgroundImages(newImage: croppedImage)
+        isRunningInference = false
     }
     
     func handleUploadedPhotoData(data: Data) {
         let uploadedPhoto = UIImage(data: data)
         if (uploadedPhoto != nil) {
-            backgroundImage = cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            let croppedImage = cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            addImageToBackgroundImages(newImage: croppedImage)
         }
    
     }
@@ -179,11 +187,17 @@ private extension DrawingView {
         return croppedImage
     }
     
+    func addImageToBackgroundImages(newImage: UIImage) {
+        backgroundImages.append(newImage)
+        backgroundImage = newImage
+    }
+    
 }
 
 
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
+//        let mockBackgroundImages = [UIImage(named: "coffee-0"), UIImage(named: "coffee-1")]
         DrawingView(drawing: DrawingThumbnail(name: "coffee-0"))
     }
 }
