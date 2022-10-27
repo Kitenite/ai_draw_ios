@@ -28,6 +28,8 @@ struct DrawingView: View {
     // State of the application
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
+    @State private var isShowingSidebar = false
+
     
     var body: some View {
         NavigationStack {
@@ -70,6 +72,18 @@ struct DrawingView: View {
                                     PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
                                 }
                             }
+                            
+                            Button {
+                                isShowingSidebar = true
+                            } label: {
+                                Image(systemName: "square.3.stack.3d.top.filled")
+                            }.popover(
+                                isPresented: $isShowingSidebar,
+                                arrowEdge: .top
+                            ) {
+                                // Add drawing states in here, show as list, swap with select using handler
+                                StatesSideBarView()
+                            }
                             PhotosPicker(
                                 selection: $selectedItem,
                                 matching: .images,
@@ -85,7 +99,7 @@ struct DrawingView: View {
                                     }
                                 }
                             }
-                            Image(systemName: "square.3.stack.3d.top.filled")
+
                         }
                     )
             }
