@@ -50,7 +50,7 @@ struct DrawingView: View {
                     .navigationBarItems(
                         leading: HStack {
                             Spacer(minLength: 10)
-                            Button(action: downloadDrawing) {
+                            Button(action: downloadCurrentDrawingAndBackground) {
                                 Image(systemName: "square.and.arrow.down")
                             }
                             if ((erasedDrawing) != nil) {
@@ -73,17 +73,7 @@ struct DrawingView: View {
                                 }
                             }
                             
-                            Button {
-                                isShowingSidebar = true
-                            } label: {
-                                Image(systemName: "square.3.stack.3d.top.filled")
-                            }.popover(
-                                isPresented: $isShowingSidebar,
-                                arrowEdge: .top
-                            ) {
-                                // Add drawing states in here, show as list, swap with select using handler
-                                StatesSideBarView()
-                            }
+                            // Upload photo button
                             PhotosPicker(
                                 selection: $selectedItem,
                                 matching: .images,
@@ -96,6 +86,37 @@ struct DrawingView: View {
                                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                         handleUploadedPhotoData(data: data)
                                         print(data)
+                                    }
+                                }
+                            }
+                            
+                            // History button
+                            if( backgroundImages.count > 0) {
+                                Button {
+                                    isShowingSidebar = true
+                                } label: {
+                                    Image(systemName: "square.3.stack.3d.top.filled")
+                                }.popover(
+                                    isPresented: $isShowingSidebar,
+                                    arrowEdge: .top
+                                ) {
+                                    VStack {
+                                        Text("History")
+                                            .padding(10)
+                                        ForEach(backgroundImages.indices, id: \.self) {index in
+                                            HStack {
+                                                Image(uiImage: backgroundImages[index])
+                                                    .resizable()
+                                                    .frame(width: 100, height: 100)
+                                                Button {
+                                                    downloadImage(image: backgroundImages[index])
+                                                } label: {
+                                                    Image(systemName: "square.and.arrow.down")
+                                                }
+                                                
+                                            }
+                                            
+                                        }
                                     }
                                 }
                             }
@@ -137,10 +158,14 @@ private extension DrawingView {
         return newImage
     }
     
-    func downloadDrawing() {
-      let image = getDrawingAsImageWithBackground()
-      let imageSaver = ImageSaver()
-      imageSaver.writeToPhotoAlbum(image: image)
+    func downloadCurrentDrawingAndBackground() {
+      let currentDrawingAndBackground = getDrawingAsImageWithBackground()
+        downloadImage(image: currentDrawingAndBackground)
+    }
+    
+    func downloadImage(image: UIImage) {
+        let imageSaver = ImageSaver()
+        imageSaver.writeToPhotoAlbum(image: image)
     }
     
     func uploadDrawingForInference() {
