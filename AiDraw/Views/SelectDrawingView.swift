@@ -11,42 +11,41 @@ struct SelectDrawingView: View {
     
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
-    @State var sampleDrawings = (1...3).map {
-        DrawingThumbnail(name: "coffee-\($0)")
+    @State var drawingStates = (1...3).map {
+        DrawingState(name: "coffee-\($0)")
     }
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
-    @State private var selectedDrawing: DrawingThumbnail? = nil
+    @State private var selectedDrawing: DrawingState? = nil
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
-                    ForEach(sampleDrawings.indices, id: \.self) { index in
-                        NavigationLink(destination: DrawingView(drawing: sampleDrawings[index]), tag: sampleDrawings[index].id.uuidString, selection: $selection) {
-                            VStack{
-                                Image(sampleDrawings[index].name)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(minWidth: 0, maxWidth: .infinity)
-                                    .frame(width: 200, height: 200)
-                                    .cornerRadius(10)
-                                    .shadow(color: Color.primary.opacity(0.3), radius: 1)
-                                    .overlay(
-                                        sampleDrawings[index].id.uuidString == selectedDrawing?.id.uuidString ?
-                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : nil)
-                                Text(sampleDrawings[index].name)
-                            }.onTapGesture {
-                                navigateToDrawing(drawing: sampleDrawings[index])
-                            }
-                            .onLongPressGesture {
-                                drawingSelected = true
-                                selectedDrawing = sampleDrawings[index]
-                            }
-                        }
+                    ForEach(drawingStates.indices, id: \.self) { index in
+//                        NavigationLink(destination: DrawingView(drawing: drawingStates[index]), tag: drawingStates[index].id.uuidString, selection: $selection) {
+//                            VStack{
+//                                Image(drawingStates[index].name)
+//                                    .resizable()
+//                                    .scaledToFill()
+//                                    .frame(minWidth: 0, maxWidth: .infinity)
+//                                    .frame(width: 200, height: 200)
+//                                    .cornerRadius(10)
+//                                    .shadow(color: Color.primary.opacity(0.3), radius: 1)
+//                                    .overlay(
+//                                        drawingStates[index].id.uuidString == selectedDrawing?.id.uuidString ?
+//                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : nil)
+//                                Text(drawingStates[index].name)
+//                            }.onTapGesture {
+//                                navigateToDrawing(drawing: drawingStates[index])
+//                            }.onLongPressGesture {
+//                                drawingSelected = true
+//                                selectedDrawing = drawingStates[index]
+//                            }
+//                        }
+                        Text("\(index)")
                     }
                 }
-                .padding(.all, 20)
             }
             .navigationBarTitle(Text(navigationBarTitle), displayMode: .inline)
             .navigationBarItems(
@@ -79,16 +78,11 @@ struct SelectDrawingView: View {
     }
 }
 
-struct DrawingThumbnail: Identifiable {
-    var id = UUID()
-    var name: String
-}
-
 private extension SelectDrawingView {
     func createDrawing() {
         print("Creating drawing")
-        let newDrawing = DrawingThumbnail(name: "coffee-20")
-        sampleDrawings.insert(newDrawing, at: 0)
+        let newDrawing = DrawingState(name: "coffee-20")
+        drawingStates.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             navigateToDrawing(drawing: newDrawing)
         }
@@ -99,7 +93,7 @@ private extension SelectDrawingView {
         // Create drawing with default photo
     }
     
-    func navigateToDrawing(drawing: DrawingThumbnail) {
+    func navigateToDrawing(drawing: DrawingState) {
         selection = drawing.id.uuidString
     }
     
@@ -110,8 +104,8 @@ private extension SelectDrawingView {
         unselectDrawing()
     }
     
-    func deleteDrawing(drawing: DrawingThumbnail){
-        sampleDrawings = sampleDrawings.filter({ $0.id.uuidString != drawing.id.uuidString })
+    func deleteDrawing(drawing: DrawingState){
+        drawingStates = drawingStates.filter({ $0.id.uuidString != drawing.id.uuidString })
     }
     
     func duplicateSelectedDrawing() {
@@ -121,9 +115,9 @@ private extension SelectDrawingView {
         unselectDrawing()
     }
     
-    func duplicateDrawing(drawing: DrawingThumbnail) {
-        let newDrawing = DrawingThumbnail(name: drawing.name)
-        sampleDrawings.insert(newDrawing, at: 0)
+    func duplicateDrawing(drawing: DrawingState) {
+        let newDrawing = DrawingState(name: drawing.name)
+        drawingStates.insert(newDrawing, at: 0)
         
     }
     

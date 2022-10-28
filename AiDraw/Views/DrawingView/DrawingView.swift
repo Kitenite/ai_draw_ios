@@ -12,7 +12,7 @@ import PhotosUI
 struct DrawingView: View {
     
     // Drawing
-    var drawing: DrawingThumbnail
+    var drawing: DrawingState
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
     @State private var erasedDrawing: PKDrawing?
@@ -22,27 +22,25 @@ struct DrawingView: View {
     @State private var selectedImageData: Data? = nil
     
     // Background images
-    @State private var backgroundImages: [UIImage] = []
-    @State private var backgroundImage: UIImage?
+    @State private var drawingStates: [DrawingState] = []
+    @State private var selectedDrawingState: DrawingState = DrawingState(name:"coffee-1")
     
     // State of the application
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
-    @State private var isShowingSidebar = false
+    @State private var isShowingPopover = false
 
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if (backgroundImage != nil) {
-                    Image(uiImage: backgroundImage!)
+                if (selectedDrawingState.backgroundImage != nil) {
+                    Image(uiImage: selectedDrawingState.backgroundImage!)
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .padding(20.0)
                 }
-
-
                 CanvasView(canvasView: $canvasView, onSaved: saveDrawing)
                     .padding(20.0)
                     .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
@@ -72,18 +70,19 @@ struct DrawingView: View {
                                     PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
                                 }
                             }
-                            
-                            Button {
-                                isShowingSidebar = true
-                            } label: {
-                                Image(systemName: "square.3.stack.3d.top.filled")
-                            }.popover(
-                                isPresented: $isShowingSidebar,
-                                arrowEdge: .top
-                            ) {
-                                // Add drawing states in here, show as list, swap with select using handler
-                                StatesSideBarView()
-                            }
+//                            Button {
+//                                isShowingPopover = true
+//                            } label: {
+//                                Image(systemName: "square.3.stack.3d.top.filled")
+//                            }.popover(
+//                                isPresented: $isShowingPopover,
+//                                arrowEdge: .top
+//                            ) {
+//                                // Add drawing states in here, show as list, swap with select using handler
+//                                let mockDrawingStates =  [DrawingState(image: UIImage(named: "coffee-1")!), DrawingState(image: UIImage(named: "coffee-2")!)]
+//                                StatesPopoverView(drawingStates: mockDrawingStates, selectedDrawingState: mockDrawingStates[0], onStateSelected: onDrawingStateSelected)
+//                                    .frame(height: 1000)
+//                            }
                             PhotosPicker(
                                 selection: $selectedItem,
                                 matching: .images,
@@ -222,6 +221,9 @@ private extension DrawingView {
         if (erasedDrawing != nil) {
             canvasView.drawing = erasedDrawing!
         }
+    }
+    
+    func onDrawingStateSelected(drawingState: DrawingState) {
 
     }
 }
@@ -230,6 +232,6 @@ private extension DrawingView {
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
 //        let mockBackgroundImages = [UIImage(named: "coffee-0"), UIImage(named: "coffee-1")]
-        DrawingView(drawing: DrawingThumbnail(name: "coffee-0"))
+        DrawingView(drawing: DrawingState(name: "coffee-0"))
     }
 }
