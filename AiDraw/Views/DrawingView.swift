@@ -30,6 +30,9 @@ struct DrawingView: View {
     @State private var isRunningInference = false
     @State private var isShowingSidebar = false
 
+    // Helpers
+    internal var imageHelper = ImageHelper()
+
     
     var body: some View {
         NavigationStack {
@@ -98,7 +101,7 @@ struct DrawingView: View {
                                     isPresented: $isShowingSidebar,
                                     arrowEdge: .top
                                 ) {
-                                    HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: downloadImage )
+                                    HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
                                 }
                             }
 
@@ -116,7 +119,7 @@ private extension DrawingView {
     func getDrawingAsImageWithBackground() -> UIImage {
         let drawingImage = getDrawingAsImage()
         if (backgroundImage != nil) {
-            return overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage)
+            return imageHelper.overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage, canvasSize: canvasView.frame.size)
         }
         return drawingImage
     }
@@ -125,28 +128,10 @@ private extension DrawingView {
         return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
     }
     
-    func overlayDrawingOnBackground(backgroundImage: UIImage, drawingImage : UIImage) -> UIImage {
-        let newImage = autoreleasepool { () -> UIImage in
-            
-            UIGraphicsBeginImageContextWithOptions(canvasView.frame.size, false, 0.0)
-            backgroundImage.draw(in: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
-            drawingImage.draw(in: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
-            let createdImage = UIGraphicsGetImageFromCurrentImageContext()
-            
-            UIGraphicsEndImageContext()
-            return createdImage ?? drawingImage
-        }
-        return newImage
-    }
     
     func downloadCurrentDrawingAndBackground() {
-      let currentDrawingAndBackground = getDrawingAsImageWithBackground()
-        downloadImage(image: currentDrawingAndBackground)
-    }
-    
-    func downloadImage(image: UIImage) {
-        let imageSaver = ImageSaver()
-        imageSaver.writeToPhotoAlbum(image: image)
+        let currentDrawingAndBackground = getDrawingAsImageWithBackground()
+        imageHelper.downloadImage(image: currentDrawingAndBackground)
     }
     
     func uploadDrawingForInference() {
@@ -160,7 +145,7 @@ private extension DrawingView {
      }
     
     func addInferredImage(newInferredImage: InferredImage) {
-        let croppedImage = cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+        let croppedImage = imageHelper.cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
         addImageToBackgroundImages(newImage: croppedImage)
         deleteDrawing()
         isRunningInference = false
@@ -169,49 +154,10 @@ private extension DrawingView {
     func handleUploadedPhotoData(data: Data) {
         let uploadedPhoto = UIImage(data: data)
         if (uploadedPhoto != nil) {
-            let croppedImage = cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            let croppedImage = imageHelper.cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
             addImageToBackgroundImages(newImage: croppedImage)
         }
    
-    }
-    
-    func cropImageToRect(sourceImage: UIImage, cropRect: CGRect) -> UIImage {
-        // The shortest side
-        let sideLength = min(
-            sourceImage.size.width,
-            sourceImage.size.height
-        )
-        
-        // Determines the x,y coordinate of a centered
-        // sideLength by sideLength square
-        let sourceSize = sourceImage.size
-        let xOffset = (sourceSize.width - sideLength) / 2.0
-        let yOffset = (sourceSize.height - sideLength) / 2.0
-
-        // The cropRect is the rect of the image to keep,
-        // in this case centered
-        let cropRect = CGRect(
-            x: xOffset,
-            y: yOffset,
-            width: sideLength,
-            height: sideLength
-        ).integral
-
-        // Center crop the image
-        let sourceCGImage = sourceImage.cgImage!
-        let croppedCGImage = sourceCGImage.cropping(
-            to: cropRect
-        )!
-        
-        // Use the cropped cgImage to initialize a cropped
-        // UIImage with the same image scale and orientation
-        let croppedImage = UIImage(
-            cgImage: croppedCGImage,
-            scale: sourceImage.imageRendererFormat.scale,
-            orientation: sourceImage.imageOrientation
-        )
-        
-        return croppedImage
     }
     
     func addImageToBackgroundImages(newImage: UIImage) {
