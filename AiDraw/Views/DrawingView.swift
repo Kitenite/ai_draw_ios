@@ -41,8 +41,6 @@ struct DrawingView: View {
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .padding(20.0)
                 }
-
-
                 CanvasView(canvasView: $canvasView, onSaved: saveDrawing)
                     .padding(20.0)
                     .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
@@ -100,24 +98,7 @@ struct DrawingView: View {
                                     isPresented: $isShowingSidebar,
                                     arrowEdge: .top
                                 ) {
-                                    VStack {
-                                        Text("History")
-                                            .padding(10)
-                                        ForEach(backgroundImages.indices, id: \.self) {index in
-                                            HStack {
-                                                Image(uiImage: backgroundImages[index])
-                                                    .resizable()
-                                                    .frame(width: 100, height: 100)
-                                                Button {
-                                                    downloadImage(image: backgroundImages[index])
-                                                } label: {
-                                                    Image(systemName: "square.and.arrow.down")
-                                                }
-                                                
-                                            }
-                                            
-                                        }
-                                    }
+                                    HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: downloadImage )
                                 }
                             }
 
@@ -254,7 +235,6 @@ private extension DrawingView {
 
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
-//        let mockBackgroundImages = [UIImage(named: "coffee-0"), UIImage(named: "coffee-1")]
-        DrawingView(drawing: DrawingThumbnail(name: "coffee-0"))
+        DrawingView(drawing: DrawingThumbnail(name: "coffee-1"))
     }
 }
