@@ -9,15 +9,16 @@ import SwiftUI
 
 struct SelectProjectView: View {
     
-    let navigationBarTitle = "Choose a drawing"
-    let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
-    @State var projects = [
-        DrawingProject(name: "Example project")
-    ]
+    @Binding var projects: [DrawingProject]
+    @Environment(\.scenePhase) private var scenePhase
+    let saveAction: ()->Void
+
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
 
+    let navigationBarTitle = "Choose a drawing"
+    let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -70,7 +71,11 @@ struct SelectProjectView: View {
             .onTapGesture {
                 unselectDrawing()
             }
-        }.navigationViewStyle(.stack)
+        }
+        .navigationViewStyle(.stack)
+        .onChange(of: scenePhase) { phase in
+           if phase == .inactive { saveAction() }
+        }
     }
 }
 
@@ -125,6 +130,6 @@ private extension SelectProjectView {
 
 struct SelectDrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectProjectView()
+        SelectProjectView(projects: .constant([DrawingProject(name: "My project")])) {}
     }
 }
