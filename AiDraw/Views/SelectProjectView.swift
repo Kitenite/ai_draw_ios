@@ -7,15 +7,12 @@
 
 import SwiftUI
 
-struct SelectDrawingView: View {
+struct SelectProjectView: View {
     
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     @State var projects = [
-        DrawingProject(name: "coffee-1"),
-        DrawingProject(name: "coffee-2"),
-        DrawingProject(name: "coffee-3"),
-        DrawingProject(name: "coffee-4")
+        DrawingProject(name: "Example project")
     ]
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
@@ -77,10 +74,9 @@ struct SelectDrawingView: View {
     }
 }
 
-private extension SelectDrawingView {
+private extension SelectProjectView {
     func createDrawing() {
-        print("Creating drawing")
-        let newDrawing = DrawingProject(name: "coffee-20")
+        let newDrawing = DrawingProject(name: "New project")
         projects.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             navigateToDrawing(drawing: newDrawing)
@@ -129,6 +125,6 @@ private extension SelectDrawingView {
 
 struct SelectDrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        SelectDrawingView()
+        SelectProjectView()
     }
 }

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */; };
-		FE06E62328FE1FF600B6F4CE /* SelectDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectDrawingView.swift */; };
+		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
@@ -29,7 +29,7 @@
 /* Begin PBXFileReference section */
 		FE06E61D28FE1FF600B6F4CE /* AiDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AiDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiDrawApp.swift; sourceTree = "<group>"; };
-		FE06E62228FE1FF600B6F4CE /* SelectDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDrawingView.swift; sourceTree = "<group>"; };
+		FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectView.swift; sourceTree = "<group>"; };
 		FE06E62428FE1FF700B6F4CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 		FE06E62F28FE206A00B6F4CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				FE06E62228FE1FF600B6F4CE /* SelectDrawingView.swift */,
+				FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */,
 				FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */,
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
@@ -223,7 +223,7 @@
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */,
 				FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */,
-				FE06E62328FE1FF600B6F4CE /* SelectDrawingView.swift in Sources */,
+				FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */,
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
@@ -347,6 +347,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = AiDraw/AiDraw.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -391,6 +392,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = AiDraw/AiDraw.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
