@@ -27,7 +27,6 @@ struct AiDrawApp: App {
                     }
                 }
             }.onChange(of: scenePhase) { phase in
-                print(phase)
                 if phase == .inactive {
                     ProjectStore.save(scrums: store.projects) { result in
                         if case .failure(let error) = result {

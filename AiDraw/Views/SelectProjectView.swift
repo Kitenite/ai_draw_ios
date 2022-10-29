@@ -119,7 +119,6 @@ private extension SelectProjectView {
         drawingSelected = false
         selectedDrawing = nil
     }
-
 }
 
 struct SelectDrawingView_Previews: PreviewProvider {
