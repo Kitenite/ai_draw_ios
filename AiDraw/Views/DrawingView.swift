@@ -10,7 +10,6 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
@@ -46,15 +45,8 @@ struct DrawingView: View {
                     .padding(20.0)
                     .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                     .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
-                    .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
                         leading: HStack {
-                            Button(action : {
-                                self.mode.wrappedValue.dismiss()
-                                saveProjectState()
-                            }){
-                                Image(systemName: "chevron.backward")
-                            }
                             Spacer(minLength: 10)
                             Button(action: downloadCurrentDrawingAndBackground) {
                                 Image(systemName: "square.and.arrow.down")

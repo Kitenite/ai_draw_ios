@@ -10,17 +10,12 @@ import SwiftUI
 @main
 struct AiDrawApp: App {
     @StateObject private var store = ProjectStore()
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some Scene {
         WindowGroup {
             NavigationStack {
-                SelectProjectView(projects: $store.projects) {
-                    ProjectStore.save(scrums: store.projects) { result in
-                        if case .failure(let error) = result {
-                            fatalError(error.localizedDescription)
-                        }
-                    }
-                }
+                SelectProjectView(projects: $store.projects)
             }
             .onAppear {
                 ProjectStore.load { result in
@@ -31,7 +26,16 @@ struct AiDrawApp: App {
                         store.projects = projects
                     }
                 }
-            }
+            }.onChange(of: scenePhase) { phase in
+                print(phase)
+                if phase == .inactive {
+                    ProjectStore.save(scrums: store.projects) { result in
+                        if case .failure(let error) = result {
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                }
+             }
         }
     }
 }
