@@ -13,5 +13,5 @@ struct DrawingProject: Identifiable, Codable {
     var name: String
     var drawing: PKDrawing?
     @CodableImage var backgroundImage: UIImage?
-    @CodableImage var displayImage: UIImage?
+    @CodableImage var displayImage: UIImage? = UIImage(named:"coffee-1")
 }

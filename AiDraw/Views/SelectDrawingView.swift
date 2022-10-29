@@ -28,16 +28,14 @@ struct SelectDrawingView: View {
                     ForEach(projects.indices, id: \.self) { index in
                         NavigationLink(destination: DrawingView(drawingProject: $projects[index]), tag: projects[index].id.uuidString, selection: $selection) {
                             VStack{
-                                Image(projects[index].name)
+                                Image(uiImage: projects[index].displayImage!)
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(minWidth: 0, maxWidth: .infinity)
-                                    .frame(width: 200, height: 200)
+                                    .frame(width: 150, height: 150)
                                     .cornerRadius(10)
-                                    .shadow(color: Color.primary.opacity(0.3), radius: 1)
                                     .overlay(
                                         projects[index].id.uuidString == selectedDrawing?.id.uuidString ?
-                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : nil)
+                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 0.5))
                                 Text(projects[index].name)
                             }.onTapGesture {
                                 navigateToDrawing(drawing: projects[index])
@@ -65,9 +63,6 @@ struct SelectDrawingView: View {
                             Text("Cancel")
                         }
                     } else {
-//                        Button(action: importPhoto) {
-//                            Image(systemName: "photo.on.rectangle.angled")
-//                        }
                         Button(action: createDrawing) {
                             Image(systemName: "plus")
                         }
