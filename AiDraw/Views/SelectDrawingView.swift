@@ -11,19 +11,22 @@ struct SelectDrawingView: View {
     
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
-    @State var projects = (1...3).map {
-        DrawingThumbnail(name: "coffee-\($0)")
-    }
+    @State var projects = [
+        DrawingProject(name: "coffee-1"),
+        DrawingProject(name: "coffee-2"),
+        DrawingProject(name: "coffee-3"),
+        DrawingProject(name: "coffee-4")
+    ]
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
-    @State private var selectedDrawing: DrawingThumbnail? = nil
+    @State private var selectedDrawing: DrawingProject? = nil
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        NavigationLink(destination: DrawingView(drawing: projects[index]), tag: projects[index].id.uuidString, selection: $selection) {
+                        NavigationLink(destination: DrawingView(drawingProject: $projects[index]), tag: projects[index].id.uuidString, selection: $selection) {
                             VStack{
                                 Image(projects[index].name)
                                     .resizable()
@@ -79,15 +82,10 @@ struct SelectDrawingView: View {
     }
 }
 
-struct DrawingThumbnail: Identifiable {
-    var id = UUID()
-    var name: String
-}
-
 private extension SelectDrawingView {
     func createDrawing() {
         print("Creating drawing")
-        let newDrawing = DrawingThumbnail(name: "coffee-20")
+        let newDrawing = DrawingProject(name: "coffee-20")
         projects.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             navigateToDrawing(drawing: newDrawing)
@@ -99,7 +97,7 @@ private extension SelectDrawingView {
         // Create drawing with default photo
     }
     
-    func navigateToDrawing(drawing: DrawingThumbnail) {
+    func navigateToDrawing(drawing: DrawingProject) {
         selection = drawing.id.uuidString
     }
     
@@ -110,7 +108,7 @@ private extension SelectDrawingView {
         unselectDrawing()
     }
     
-    func deleteDrawing(drawing: DrawingThumbnail){
+    func deleteDrawing(drawing: DrawingProject){
         projects = projects.filter({ $0.id.uuidString != drawing.id.uuidString })
     }
     
@@ -121,8 +119,8 @@ private extension SelectDrawingView {
         unselectDrawing()
     }
     
-    func duplicateDrawing(drawing: DrawingThumbnail) {
-        let newDrawing = DrawingThumbnail(name: drawing.name)
+    func duplicateDrawing(drawing: DrawingProject) {
+        let newDrawing = DrawingProject(name: drawing.name)
         projects.insert(newDrawing, at: 0)
         
     }

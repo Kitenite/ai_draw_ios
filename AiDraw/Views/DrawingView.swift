@@ -10,9 +10,9 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     // Drawing
-    var drawing: DrawingThumbnail
+    @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
     @State private var erasedDrawing: PKDrawing?
@@ -23,7 +23,6 @@ struct DrawingView: View {
     
     // Background images
     @State private var backgroundImages: [UIImage] = []
-    @State private var backgroundImage: UIImage?
     
     // State of the application
     @State private var isUploadingDrawing = false
@@ -32,13 +31,12 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
-
     
     var body: some View {
         NavigationStack {
             ZStack {
-                if (backgroundImage != nil) {
-                    Image(uiImage: backgroundImage!)
+                if (drawingProject.backgroundImage != nil) {
+                    Image(uiImage: drawingProject.backgroundImage!)
                         .resizable()
                         .scaledToFit()
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
@@ -47,9 +45,16 @@ struct DrawingView: View {
                 CanvasView(canvasView: $canvasView, onSaved: saveDrawing)
                     .padding(20.0)
                     .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-                    .navigationBarTitle(Text(drawing.name), displayMode: .inline)
+                    .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
+                    .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
                         leading: HStack {
+                            Button(action : {
+                                self.mode.wrappedValue.dismiss()
+                                saveProjectState()
+                            }){
+                                Image(systemName: "chevron.backward")
+                            }
                             Spacer(minLength: 10)
                             Button(action: downloadCurrentDrawingAndBackground) {
                                 Image(systemName: "square.and.arrow.down")
@@ -113,13 +118,17 @@ struct DrawingView: View {
 }
 
 private extension DrawingView {
-    
     func saveDrawing() {}
+    
+    func saveProjectState() {
+        drawingProject.drawing = canvasView.drawing
+        drawingProject.displayImage = getDrawingAsImageWithBackground()
+    }
     
     func getDrawingAsImageWithBackground() -> UIImage {
         let drawingImage = getDrawingAsImage()
-        if (backgroundImage != nil) {
-            return imageHelper.overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage, canvasSize: canvasView.frame.size)
+        if (drawingProject.backgroundImage != nil) {
+            return imageHelper.overlayDrawingOnBackground(backgroundImage: drawingProject.backgroundImage!, drawingImage: drawingImage, canvasSize: canvasView.frame.size)
         }
         return drawingImage
     }
@@ -162,7 +171,7 @@ private extension DrawingView {
     
     func addImageToBackgroundImages(newImage: UIImage) {
         backgroundImages.append(newImage)
-        backgroundImage = newImage
+        drawingProject.backgroundImage = newImage
     }
     
     func deleteDrawing() {
@@ -174,13 +183,11 @@ private extension DrawingView {
         if (erasedDrawing != nil) {
             canvasView.drawing = erasedDrawing!
         }
-
     }
 }
 
-
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(drawing: DrawingThumbnail(name: "coffee-1"))
+        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")))
     }
 }
