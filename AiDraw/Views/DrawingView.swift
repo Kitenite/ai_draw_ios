@@ -10,7 +10,9 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
+    @Environment(\.scenePhase) private var scenePhase
+
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
@@ -42,7 +44,7 @@ struct DrawingView: View {
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .padding(20.0)
                 }
-                CanvasView(canvasView: $canvasView, onSaved: saveDrawing)
+                CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
                     .padding(20.0)
                     .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                     .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
@@ -50,8 +52,10 @@ struct DrawingView: View {
                     .navigationBarItems(
                         leading: HStack {
                             Button(action : {
-                                self.mode.wrappedValue.dismiss()
                                 saveProjectState()
+                                DispatchQueue.main.async {
+                                    self.mode.wrappedValue.dismiss()
+                                }
                             }){
                                 Image(systemName: "chevron.backward")
                             }
@@ -113,12 +117,16 @@ struct DrawingView: View {
                         }
                     )
             }
+        }.onChange(of: scenePhase) { newScenePhase in
+            saveProjectState()
         }
     }
 }
 
 private extension DrawingView {
-    func saveDrawing() {}
+    func saveDrawing() {
+        drawingProject.drawing = canvasView.drawing
+    }
     
     func saveProjectState() {
         drawingProject.drawing = canvasView.drawing

@@ -12,7 +12,7 @@ struct DrawingProject: Identifiable, Codable {
     var id = UUID()
     var createdDate = Date()
     var name: String
-    var drawing: PKDrawing?
+    var drawing: PKDrawing = PKDrawing()
     @CodableImage var backgroundImage: UIImage?
     @CodableImage var displayImage: UIImage? = UIImage(named:"coffee-1")
 }

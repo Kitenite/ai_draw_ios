@@ -12,6 +12,7 @@ import PencilKit
 
 struct CanvasView {
     @Binding var canvasView: PKCanvasView
+    var drawing: PKDrawing
     let onSaved: () -> Void
     @State var toolPicker = PKToolPicker()
 }
@@ -26,6 +27,7 @@ extension CanvasView: UIViewRepresentable {
         canvasView.delegate = context.coordinator
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
+        canvasView.drawing = drawing
         showToolPicker()
         return canvasView
     }
@@ -61,8 +63,4 @@ extension Coordinator: PKCanvasViewDelegate {
           onSaved()
         }
     }
-}
-
-class Tool{
-    
 }

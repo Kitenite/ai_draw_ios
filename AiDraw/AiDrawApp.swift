@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct AiDrawApp: App {
     @StateObject private var store = ProjectStore()
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
