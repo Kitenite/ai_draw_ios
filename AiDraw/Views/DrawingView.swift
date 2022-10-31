@@ -15,6 +15,8 @@ struct DrawingView: View {
 
     // Drawing
     @Binding var drawingProject: DrawingProject
+    @Binding var selection: String?
+
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
     @State private var erasedDrawing: PKDrawing?
@@ -51,12 +53,7 @@ struct DrawingView: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(
                         leading: HStack {
-                            Button(action : {
-                                saveProjectState()
-                                DispatchQueue.main.async {
-                                    self.mode.wrappedValue.dismiss()
-                                }
-                            }){
+                            Button(action : dismissDrawingView){
                                 Image(systemName: "chevron.backward")
                             }
                             Spacer(minLength: 10)
@@ -133,6 +130,14 @@ private extension DrawingView {
         drawingProject.displayImage = getDrawingAsImageWithBackground()
     }
     
+    func dismissDrawingView() {
+        saveProjectState()
+        DispatchQueue.main.async {
+            selection = nil
+            self.mode.wrappedValue.dismiss()
+        }
+    }
+    
     func getDrawingAsImageWithBackground() -> UIImage {
         let drawingImage = getDrawingAsImage()
         if (drawingProject.backgroundImage != nil) {
@@ -196,6 +201,6 @@ private extension DrawingView {
 
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")))
+        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")), selection: .constant(nil))
     }
 }
