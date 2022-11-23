@@ -16,7 +16,7 @@ class ProjectStore: ObservableObject {
                                        in: .userDomainMask,
                                        appropriateFor: nil,
                                        create: false)
-            .appendingPathComponent("scrums.data")
+            .appendingPathComponent("drawingProjects.data")
     }
     
     static func load(completion: @escaping (Result<[DrawingProject], Error>)->Void) {
@@ -29,9 +29,9 @@ class ProjectStore: ObservableObject {
                     }
                     return
                 }
-                let dailyScrums = try JSONDecoder().decode([DrawingProject].self, from: file.availableData)
+                var drawingProjects = try JSONDecoder().decode([DrawingProject].self, from: file.availableData)
                 DispatchQueue.main.async {
-                    completion(.success(dailyScrums))
+                    completion(.success(drawingProjects))
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -41,10 +41,10 @@ class ProjectStore: ObservableObject {
         }
     }
     
-    static func save(scrums: [DrawingProject], completion: @escaping (Result<Int, Error>)->Void) {
+    static func save(drawingProjects: [DrawingProject], completion: @escaping (Result<Int, Error>)->Void) {
         DispatchQueue.global(qos: .background).async {
             do {
-                let data = try JSONEncoder().encode(scrums)
+                let data = try JSONEncoder().encode(drawingProjects)
                 let outfile = try fileURL()
                 try data.write(to: outfile)
             } catch {

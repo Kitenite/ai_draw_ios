@@ -35,7 +35,7 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
-    
+
     var body: some View {
         NavigationStack {
             ZStack {

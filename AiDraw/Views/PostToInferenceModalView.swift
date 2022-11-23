@@ -54,16 +54,9 @@ private extension PostToInferenceModalView {
     }
   }
   
-  func inferenceResultHandler(inferenceResponseString: String) {
-      let decoder = JSONDecoder()
-      do {
-          let jsonData = Data(inferenceResponseString.utf8)
-          let inferenceResponse: InferenceResponse = try decoder.decode(InferenceResponse.self, from: jsonData)
-          let output_location = inferenceResponse.output_img_url
-          inferenceHandler.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
-      } catch {
-          print(error.localizedDescription)
-      }
+  func inferenceResultHandler(inferenceResponse: InferenceResponse) {
+      let output_location = inferenceResponse.output_img_url
+      inferenceHandler.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
   }
   
   func shortPollResultHandler(shortPollResult: String) {
