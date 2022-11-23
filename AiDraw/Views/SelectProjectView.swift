@@ -48,6 +48,7 @@ struct SelectProjectView: View {
             .navigationBarItems(
                 trailing: HStack {
                     if drawingSelected {
+                        // Add textfield for updating selected project's name
                         Button(action: duplicateSelectedDrawing) {
                             Image(systemName: "doc.on.doc")
                         }

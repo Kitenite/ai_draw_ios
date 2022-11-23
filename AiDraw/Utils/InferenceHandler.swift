@@ -25,9 +25,15 @@ enum InferenceRequestTypes: String {
     case INPAINTING = "inpainting"
 }
 
+struct InferenceResponse: Decodable {
+    let input_img_url: String
+    let output_img_url: String
+    let payload:InferenceRequestInput
+}
+
 class InferenceHandler {
-    var INFERENCE_API = "https://59ke6otuy1.execute-api.us-east-1.amazonaws.com/dev/inference"
-    var SHORT_POLL_API = "https://59ke6otuy1.execute-api.us-east-1.amazonaws.com/dev/shortpoll"
+    var INFERENCE_API = "https://waw35mmbsj.execute-api.us-east-1.amazonaws.com/dev/inference"
+    var SHORT_POLL_API = "https://waw35mmbsj.execute-api.us-east-1.amazonaws.com/dev/shortpoll"
 
     func postImgToImgRequest(prompt: String, image: UIImage, inferenceResultHandler: @escaping (String) -> Void) {
         let imageData = image.jpegData(compressionQuality: 0)
