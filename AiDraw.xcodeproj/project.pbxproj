@@ -12,6 +12,9 @@
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
+		FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */; };
+		FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF80292E5E0500CC6055 /* Constants.swift */; };
+		FE62BF84292E603300CC6055 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE62BF83292E603300CC6055 /* Alamofire */; };
 		FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */; };
 		FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF991290CC11300276E2E /* ImageHelper.swift */; };
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
@@ -35,6 +38,8 @@
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FE06E63128FE267A00B6F4CE /* DrawingData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DrawingData.json; sourceTree = "<group>"; };
+		FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModels.swift; sourceTree = "<group>"; };
+		FE62BF80292E5E0500CC6055 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPopoverView.swift; sourceTree = "<group>"; };
 		FEACF991290CC11300276E2E /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
@@ -56,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE62BF84292E603300CC6055 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				FE06E63128FE267A00B6F4CE /* DrawingData.json */,
+				FE62BF80292E5E0500CC6055 /* Constants.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -141,6 +148,7 @@
 				FEDCAAD32902641A007D40A5 /* InferredImage.swift */,
 				FEACF993290CC3DF00276E2E /* DrawingProject.swift */,
 				FEACF995290CCB5800276E2E /* CodeableImage.swift */,
+				FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +169,9 @@
 			dependencies = (
 			);
 			name = AiDraw;
+			packageProductDependencies = (
+				FE62BF83292E603300CC6055 /* Alamofire */,
+			);
 			productName = AiDraw;
 			productReference = FE06E61D28FE1FF600B6F4CE /* AiDraw.app */;
 			productType = "com.apple.product-type.application";
@@ -189,6 +200,9 @@
 				Base,
 			);
 			mainGroup = FE06E61428FE1FF600B6F4CE;
+			packageReferences = (
+				FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = FE06E61E28FE1FF600B6F4CE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -217,8 +231,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */,
+				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FEDCAAD42902641A007D40A5 /* InferredImage.swift in Sources */,
+				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FEE46F71290A400500210C54 /* StatesSideBarView.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* InferenceHandler.swift in Sources */,
 				FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */,
@@ -458,6 +474,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FE62BF83292E603300CC6055 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FE06E61528FE1FF600B6F4CE /* Project object */;
 }

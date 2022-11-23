@@ -8,32 +8,7 @@
 import Foundation
 import UIKit
 
-struct ShortPollRequestInput: Codable {
-    let output_location: String
-}
-
-struct InferenceRequestInput: Codable {
-    let prompt: String
-    let request_type: String
-    var init_img_url: String?
-    var init_img: String?
-}
-
-enum InferenceRequestTypes: String {
-    case TEXT_TO_IMG = "text_to_image"
-    case IMG_TO_IMG = "image_to_image"
-    case INPAINTING = "inpainting"
-}
-
-struct InferenceResponse: Decodable {
-    let input_img_url: String
-    let output_img_url: String
-    let payload:InferenceRequestInput
-}
-
 class InferenceHandler {
-    var INFERENCE_API = "https://waw35mmbsj.execute-api.us-east-1.amazonaws.com/dev/inference"
-    var SHORT_POLL_API = "https://waw35mmbsj.execute-api.us-east-1.amazonaws.com/dev/shortpoll"
 
     func postImgToImgRequest(prompt: String, image: UIImage, inferenceResultHandler: @escaping (String) -> Void) {
         let imageData = image.jpegData(compressionQuality: 0)
@@ -48,21 +23,18 @@ class InferenceHandler {
             print("Error encoding input: \(input)")
         return
         }
-
-        postHTTPRequest(uploadData: uploadData, api: INFERENCE_API, handler: inferenceResultHandler)
+        postHTTPRequest(uploadData: uploadData, api: Constants.INFERENCE_API, handler: inferenceResultHandler)
     }
 
     func shortPollForImg(output_location: String, shortPollResultHandler: @escaping (String) -> Void) {
         let input = ShortPollRequestInput(
             output_location: output_location
         )
-
         guard let uploadData = try? JSONEncoder().encode(input) else {
             print("Error encoding input: \(input)")
             return
         }
-
-        postHTTPRequest(uploadData: uploadData, api: SHORT_POLL_API, handler: shortPollResultHandler)
+        postHTTPRequest(uploadData: uploadData, api: Constants.SHORT_POLL_API, handler: shortPollResultHandler)
     }
 
     private func postHTTPRequest(uploadData: Data, api: String, handler: @escaping (String) -> Void) {
