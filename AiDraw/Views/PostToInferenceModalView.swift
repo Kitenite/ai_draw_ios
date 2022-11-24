@@ -60,12 +60,15 @@ private extension PostToInferenceModalView {
   }
   
   func shortPollResultHandler(shortPollResult: String) {
-    let imageData: String = shortPollResult
-    let dataDecoded : Data = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)!
-    let decodedImage: UIImage? = UIImage(data: dataDecoded)
-    if (decodedImage != nil) {
-        addInferredImage(InferredImage(inferredImage: decodedImage!, sourceImage: sourceImage))
-    }
+      let imageData: String = shortPollResult
+      let dataDecoded: Data? = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)
+      if (dataDecoded != nil) {
+          let decodedImage: UIImage? = UIImage(data: dataDecoded!)
+          if (decodedImage != nil) {
+              addInferredImage(InferredImage(inferredImage: decodedImage!, sourceImage: sourceImage))
+          }
+      }
+      
   }
 }
 
