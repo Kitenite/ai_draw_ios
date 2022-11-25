@@ -35,6 +35,11 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
+    
+    // Alert
+    @State private var showAlert = false
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
 
     var body: some View {
         NavigationStack {
@@ -76,7 +81,7 @@ struct DrawingView: View {
                                 Button(action: uploadDrawingForInference) {
                                     Image(systemName: "brain")
                                 }.sheet(isPresented: $isUploadingDrawing) {
-                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
                                 }
                             }
                             
@@ -116,6 +121,11 @@ struct DrawingView: View {
             }
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text(alertTitle),
+                message: Text(alertMessage)
+            )
         }
     }
 }
@@ -171,6 +181,13 @@ private extension DrawingView {
         addImageToBackgroundImages(newImage: croppedImage)
         deleteDrawing()
         isRunningInference = false
+    }
+    
+    func inferenceFailed(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        isRunningInference = false
+        showAlert = true
     }
     
     func handleUploadedPhotoData(data: Data) {
