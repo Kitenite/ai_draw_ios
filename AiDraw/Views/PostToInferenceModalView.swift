@@ -15,7 +15,7 @@ struct PostToInferenceModalView: View {
     let inferenceFailed: (String, String) -> Void
     let startInferenceHandler: (String) -> Void
     @State var prompt: String
-    internal var inferenceHandler = InferenceHandler()
+    internal var inferenceHandler = InferenceHelper()
 
     var body: some View {
     VStack(spacing: 40) {

@@ -29,3 +29,12 @@ struct InferenceResponse: Decodable {
     let output_img_url: String
     let payload:InferenceRequestInput
 }
+
+struct ClusterStatusResponse: Decodable {
+    let clusterArn: String
+    let clusterName: String
+    let registeredContainerInstancesCount: Int
+    let runningTasksCount: Int
+    let pendingTasksCount: Int
+    let activeServicesCount: Int
+}

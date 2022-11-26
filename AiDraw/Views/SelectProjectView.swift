@@ -13,7 +13,7 @@ struct SelectProjectView: View {
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
-    internal var inferenceHandler = InferenceHandler()
+    internal var inferenceHandler = InferenceHelper()
 
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
@@ -92,7 +92,6 @@ private extension SelectProjectView {
     }
     
     func navigateToDrawing(drawing: DrawingProject) {
-        inferenceHandler.wakeService()
         DispatchQueue.main.async {
             selection = drawing.id.uuidString
         }

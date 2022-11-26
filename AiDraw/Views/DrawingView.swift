@@ -35,7 +35,7 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
-    internal var inferenceHandler = InferenceHandler()
+    internal var inferenceHelper = InferenceHelper()
 
     // Alert
     @State private var showAlert = false
@@ -76,6 +76,8 @@ struct DrawingView: View {
                             }
                         },
                         trailing: HStack {
+                            ClusterStatusView()
+                            
                             if (isRunningInference) {
                                 ProgressView()
                             } else {
@@ -85,7 +87,6 @@ struct DrawingView: View {
                                     PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
                                 }
                             }
-                            
                             // Upload photo button
                             PhotosPicker(
                                 selection: $selectedItem,
@@ -127,6 +128,8 @@ struct DrawingView: View {
                 title: Text(alertTitle),
                 message: Text(alertMessage)
             )
+        }.task {
+            inferenceHelper.wakeService()
         }
     }
 }
@@ -134,7 +137,7 @@ struct DrawingView: View {
 private extension DrawingView {
     func saveDrawing() {
         drawingProject.drawing = canvasView.drawing
-        inferenceHandler.wakeService()
+        inferenceHelper.wakeService()
     }
     
     func saveProjectState() {

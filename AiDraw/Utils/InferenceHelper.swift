@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-class InferenceHandler {
+class InferenceHelper {
     func postImgToImgRequest(prompt: String, image: UIImage, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
         let imageData = image.jpegData(compressionQuality: 0)
         let encodedImageData = imageData?.base64EncodedString()
@@ -41,10 +41,10 @@ class InferenceHandler {
             parameters: input,
             encoder: JSONParameterEncoder.default
         ) { $0.timeoutInterval = 300 }
-            .responseString { response in
-                if (response.value != nil) {
-                    shortPollResultHandler(response.value!)
-                }
+        .responseString { response in
+            if (response.value != nil) {
+                shortPollResultHandler(response.value!)
+            }
         }
     }
     
@@ -58,13 +58,16 @@ class InferenceHandler {
         }
     }
     
-    func getClusterStatus() {
+    func getClusterStatus(handler: @escaping (ClusterStatusResponse) -> Void) {
         print("Getting cluster status")
         AF.request(
             Constants.STATUS_API,
             method: .get
-        ).response { response in
-            print(response)
+        ).responseDecodable(of: ClusterStatusResponse.self) { response in
+            debugPrint("Response: \(response)")
+            if ((response.value) != nil) {
+                handler(response.value!)
+            }
         }
     }
 }
