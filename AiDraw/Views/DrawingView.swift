@@ -16,7 +16,7 @@ struct DrawingView: View {
     // Drawing
     @Binding var drawingProject: DrawingProject
     @Binding var selection: String?
-
+    
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
     @State private var erasedDrawing: PKDrawing?
@@ -35,7 +35,8 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
-    
+    internal var inferenceHandler = InferenceHandler()
+
     // Alert
     @State private var showAlert = false
     @State private var alertTitle = ""
@@ -133,6 +134,7 @@ struct DrawingView: View {
 private extension DrawingView {
     func saveDrawing() {
         drawingProject.drawing = canvasView.drawing
+        inferenceHandler.wakeService()
     }
     
     func saveProjectState() {

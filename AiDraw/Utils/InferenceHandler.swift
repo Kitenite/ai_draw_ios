@@ -57,4 +57,14 @@ class InferenceHandler {
             print(response)
         }
     }
+    
+    func getClusterStatus() {
+        print("Getting cluster status")
+        AF.request(
+            Constants.STATUS_API,
+            method: .get
+        ).response { response in
+            print(response)
+        }
+    }
 }

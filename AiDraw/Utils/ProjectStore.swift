@@ -29,7 +29,7 @@ class ProjectStore: ObservableObject {
                     }
                     return
                 }
-                var drawingProjects = try JSONDecoder().decode([DrawingProject].self, from: file.availableData)
+                let drawingProjects = try JSONDecoder().decode([DrawingProject].self, from: file.availableData)
                 DispatchQueue.main.async {
                     completion(.success(drawingProjects))
                 }
