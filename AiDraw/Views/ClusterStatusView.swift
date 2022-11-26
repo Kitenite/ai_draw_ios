@@ -9,10 +9,7 @@ import SwiftUI
 
 struct ClusterStatusView: View {
     @State internal var runningTasksCount: Int = 0
-    @State internal var pendingTasksCount: Int = 0
-    @State internal var registeredContainerInstancesCount: Int = 0
-    
-    let timer = Timer.publish(every: 10, on: .main, in: .common).autoconnect()
+    let timer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
     internal var inferenceHandler = InferenceHelper()
     
