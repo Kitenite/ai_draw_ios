@@ -41,6 +41,10 @@ struct DrawingView: View {
     @State private var showAlert = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
+    
+    // Cluster status
+    @State internal var runningTasksCount: Int = 0
+    let clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
     var body: some View {
         NavigationStack {
@@ -76,17 +80,28 @@ struct DrawingView: View {
                             }
                         },
                         trailing: HStack {
-                            ClusterStatusView()
-                            
-                            if (isRunningInference) {
-                                ProgressView()
-                            } else {
-                                Button(action: uploadDrawingForInference) {
-                                    Image(systemName: "brain")
-                                }.sheet(isPresented: $isUploadingDrawing) {
-                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                            HStack {
+                                if (runningTasksCount > 0) {
+                                    Text("Running services: \(runningTasksCount)")
+                                    if (isRunningInference) {
+                                        ProgressView()
+                                    } else {
+                                        Button(action: uploadDrawingForInference) {
+                                            Image(systemName: "brain")
+                                        }.sheet(isPresented: $isUploadingDrawing) {
+                                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                                        }
+                                    }
+                                } else {
+                                    Text("Starting service...")
                                 }
+                            }.task {
+                                inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                            }.onReceive(clusterStatusTimer) { time in
+                                inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
                             }
+                            
+                            
                             // Upload photo button
                             PhotosPicker(
                                 selection: $selectedItem,
@@ -218,6 +233,10 @@ private extension DrawingView {
         if (erasedDrawing != nil) {
             canvasView.drawing = erasedDrawing!
         }
+    }
+    
+    func clusterStatusHandler(clusterStatusResponse: ClusterStatusResponse) {
+        runningTasksCount = clusterStatusResponse.runningTasksCount
     }
 }
 
