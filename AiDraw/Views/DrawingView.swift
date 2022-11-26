@@ -80,6 +80,7 @@ struct DrawingView: View {
                             }
                         },
                         trailing: HStack {
+                            
                             HStack {
                                 if (runningTasksCount > 0) {
                                     Text("Running services: \(runningTasksCount)")
@@ -90,7 +91,7 @@ struct DrawingView: View {
                                             Image(systemName: "brain")
                                         }.sheet(isPresented: $isUploadingDrawing) {
                                             PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
-                                        }
+                                        }.foregroundColor(.green)
                                     }
                                 } else {
                                     Text("Starting service...")
@@ -100,8 +101,6 @@ struct DrawingView: View {
                             }.onReceive(clusterStatusTimer) { time in
                                 inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
                             }
-                            
-                            
                             // Upload photo button
                             PhotosPicker(
                                 selection: $selectedItem,
