@@ -12,6 +12,7 @@
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
+		FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = FE2622112932F2670042D35D /* SwiftUITooltip */; };
 		FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */; };
 		FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF80292E5E0500CC6055 /* Constants.swift */; };
 		FE62BF84292E603300CC6055 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE62BF83292E603300CC6055 /* Alamofire */; };
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */,
 				FE62BF84292E603300CC6055 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,6 +173,7 @@
 			name = AiDraw;
 			packageProductDependencies = (
 				FE62BF83292E603300CC6055 /* Alamofire */,
+				FE2622112932F2670042D35D /* SwiftUITooltip */,
 			);
 			productName = AiDraw;
 			productReference = FE06E61D28FE1FF600B6F4CE /* AiDraw.app */;
@@ -202,6 +205,7 @@
 			mainGroup = FE06E61428FE1FF600B6F4CE;
 			packageReferences = (
 				FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 			);
 			productRefGroup = FE06E61E28FE1FF600B6F4CE /* Products */;
 			projectDirPath = "";
@@ -486,6 +490,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/quassum/SwiftUI-Tooltip";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -497,6 +509,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FE2622112932F2670042D35D /* SwiftUITooltip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
+			productName = SwiftUITooltip;
+		};
 		FE62BF83292E603300CC6055 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */;

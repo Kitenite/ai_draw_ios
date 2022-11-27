@@ -42,6 +42,9 @@ struct DrawingView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     
+    // Tooltip
+    @State private var tooltipVisible = true
+    
     // Cluster status
     @State internal var runningTasksCount: Int = 0
     let clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
@@ -80,7 +83,6 @@ struct DrawingView: View {
                             }
                         },
                         trailing: HStack {
-                            
                             HStack {
                                 if (runningTasksCount > 0) {
                                     Text("Running services: \(runningTasksCount)")
@@ -95,6 +97,9 @@ struct DrawingView: View {
                                     }
                                 } else {
                                     Text("Starting service...")
+                                }
+                                Button(action: showInfoAlert) {
+                                    Image(systemName: "questionmark.circle")
                                 }
                             }.task {
                                 inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
@@ -179,7 +184,6 @@ private extension DrawingView {
         return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
     }
     
-    
     func downloadCurrentDrawingAndBackground() {
         let currentDrawingAndBackground = getDrawingAsImageWithBackground()
         imageHelper.downloadImage(image: currentDrawingAndBackground)
@@ -236,6 +240,18 @@ private extension DrawingView {
     
     func clusterStatusHandler(clusterStatusResponse: ClusterStatusResponse) {
         runningTasksCount = clusterStatusResponse.runningTasksCount
+    }
+    
+    func showInfoAlert() {
+        if (runningTasksCount == 0) {
+            alertTitle = "Service is starting"
+            alertMessage = "The service turned off because no users were active. It could take 5-10 minutes to turn it back on. You can still use the rest of the functionalities."
+            
+        } else {
+            alertTitle = "Service is running"
+            alertMessage = "Hit the brain button and provide a prompt to transform your image. The service will turn off after 15 minutes of inactivity."
+        }
+        showAlert = true
     }
 }
 
