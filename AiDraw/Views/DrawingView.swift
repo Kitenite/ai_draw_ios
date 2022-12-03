@@ -10,8 +10,8 @@ import PencilKit
 import PhotosUI
 
 struct DrawingSnapshot {
-    var drawing: PKDrawing?
-    var background: UIImage?
+    let drawing: PKDrawing
+    let background: UIImage?
 }
 
 struct DrawingView: View {
@@ -56,12 +56,12 @@ struct DrawingView: View {
         NavigationStack {
             VStack {
                 HStack {
-    //                        Button(action: restoreBackwardsSnapshot) {
-    //                            Image(systemName: "arrow.uturn.left")
-    //                        }
-    //                        Button(action: restoreForwardSnapshot) {
-    //                            Image(systemName: "arrow.uturn.right")
-    //                        }
+                    Button(action: restoreBackwardsSnapshot) {
+                        Image(systemName: "arrow.uturn.left")
+                    }.disabled(backwardsSnapshots.isEmpty)
+                    Button(action: restoreForwardSnapshot) {
+                        Image(systemName: "arrow.uturn.right")
+                    }.disabled(forwardSnapshots.isEmpty)
                     Button(action: clearDrawing) {
                         Image(systemName: "eraser")
                     }
@@ -70,19 +70,19 @@ struct DrawingView: View {
                     }
                     Spacer()
                     // Service state and button
-                    if (runningTasksCount > 0) {
-                        if (isRunningInference) {
-                            ProgressView()
-                        } else {
-                            Button(action: uploadDrawingForInference) {
-                                Image(systemName: "brain")
-                            }.sheet(isPresented: $isUploadingDrawing) {
-                                PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
-                            }.frame(alignment: .trailing)
-                        }
-                    } else {
+                    if (runningTasksCount <= 0) {
                         Text("Starting service...")
                     }
+                    if (isRunningInference) {
+                        ProgressView()
+                    } else {
+                        Button(action: uploadDrawingForInference) {
+                            Image(systemName: "brain")
+                        }.sheet(isPresented: $isUploadingDrawing) {
+                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                        }.disabled(runningTasksCount <= 0)
+                    }
+                  
                 }
                 .padding(.horizontal)
                 .task {
@@ -97,7 +97,7 @@ struct DrawingView: View {
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
                     }
-                    CanvasView(canvasView: $canvasView, drawing: $drawingProject.drawing, onSaved: saveDrawing)
+                    CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
                         .navigationBarBackButtonHidden(true)
@@ -118,9 +118,8 @@ struct DrawingView: View {
                                     Image(systemName: "photo.on.rectangle.angled")
                                 }.onChange(of: selectedItem) { newItem in
                                     Task {
-                                        // Retrieve selected asset in the form of Data
                                         if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                            handleUploadedPhotoData(data: data)
+                                            handleImportedPhoto(data: data)
                                             print(data)
                                         }
                                     }
@@ -164,18 +163,19 @@ struct DrawingView: View {
 
 private extension DrawingView {
     func saveDrawing() {
+        drawingProject.drawing = canvasView.drawing
         inferenceHelper.wakeService()
+        saveBackwardsSnapshot()
     }
     
     func saveProjectState() {
         drawingProject.displayImage = getDrawingAsImageWithBackground()
+        drawingProject.drawing = canvasView.drawing
     }
     
     func dismissDrawingView() {
         saveProjectState()
-        DispatchQueue.main.async {
-            self.mode.wrappedValue.dismiss()
-        }
+        self.mode.wrappedValue.dismiss()
     }
     
     func getDrawingAsImageWithBackground() -> UIImage {
@@ -187,7 +187,7 @@ private extension DrawingView {
     }
     
     func getDrawingAsImage() -> UIImage {
-        return drawingProject.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
+        return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
     }
     
     func downloadCurrentDrawingAndBackground() {
@@ -207,8 +207,8 @@ private extension DrawingView {
     
     func addInferredImage(newInferredImage: InferredImage) {
         let croppedImage = imageHelper.cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
-        addImageToBackgroundImages(newImage: croppedImage)
-//        deleteDrawing()
+        clearDrawing()
+        updateBackgroundImage(newImage: croppedImage)
         isRunningInference = false
     }
     
@@ -219,16 +219,16 @@ private extension DrawingView {
         showAlert = true
     }
     
-    func handleUploadedPhotoData(data: Data) {
-        let uploadedPhoto = UIImage(data: data)
-        if (uploadedPhoto != nil) {
-            let croppedImage = imageHelper.cropImageToRect(sourceImage: uploadedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
-            addImageToBackgroundImages(newImage: croppedImage)
+    func handleImportedPhoto(data: Data) {
+        let importedPhoto = UIImage(data: data)
+        if (importedPhoto != nil) {
+            let croppedImage = imageHelper.cropImageToRect(sourceImage: importedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+            saveBackwardsSnapshot()
+            updateBackgroundImage(newImage: croppedImage)
         }
     }
     
-    func addImageToBackgroundImages(newImage: UIImage) {
-//        backgroundImages.append(newImage)
+    func updateBackgroundImage(newImage: UIImage) {
         drawingProject.backgroundImage = newImage
         saveProjectState()
     }
@@ -250,15 +250,17 @@ private extension DrawingView {
     }
    
     func clearDrawing() {
-        drawingProject.drawing = PKDrawing()
+        saveBackwardsSnapshot()
+        canvasView.drawing = PKDrawing()
     }
     
     func clearBackground() {
+        saveBackwardsSnapshot()
         drawingProject.backgroundImage = nil
     }
     
     func createSnapshot() -> DrawingSnapshot {
-        let newSnapshot = DrawingSnapshot(drawing: drawingProject.drawing, background: drawingProject.backgroundImage)
+        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, background: drawingProject.backgroundImage)
         return newSnapshot
     }
     
@@ -270,6 +272,34 @@ private extension DrawingView {
     func saveForwardSnapshot() {
         let newSnapshot = createSnapshot()
         forwardSnapshots.append(newSnapshot)
+    }
+    
+    func restoreBackwardsSnapshot() {
+        saveForwardSnapshot()
+        if (!backwardsSnapshots.isEmpty ) {
+            let snapshot = backwardsSnapshots.popLast()
+            if (snapshot != nil) {
+                applySnapshot(snapshot: snapshot!)
+            }
+           
+        }
+    }
+    
+    func restoreForwardSnapshot() {
+        saveBackwardsSnapshot()
+        if (!forwardSnapshots.isEmpty ) {
+            let snapshot = forwardSnapshots.popLast()
+            if (snapshot != nil) {
+               applySnapshot(snapshot: snapshot!)
+            }
+           
+        }
+    }
+    
+    func applySnapshot(snapshot: DrawingSnapshot) {
+        canvasView.drawing = snapshot.drawing
+        drawingProject.backgroundImage = snapshot.background
+        saveProjectState()
     }
 }
 

@@ -12,7 +12,7 @@ import PencilKit
 
 struct CanvasView {
     @Binding var canvasView: PKCanvasView
-    @Binding var drawing: PKDrawing
+    var drawing: PKDrawing
     let onSaved: () -> Void
     @State var toolPicker = PKToolPicker()
 }

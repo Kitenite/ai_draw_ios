@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
-    @State private var selectedNavDrawing: DrawingProject = DrawingProject(name: "New Project")
+    @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
@@ -23,7 +23,9 @@ struct SelectProjectView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                NavigationLink(destination: DrawingView(drawingProject: $selectedNavDrawing), isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
+                if (!projects.isEmpty && navDrawingIndex < projects.count) {
+                    NavigationLink(destination: DrawingView(drawingProject:$projects[navDrawingIndex]), isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
+                }
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
                         VStack{
@@ -36,7 +38,7 @@ struct SelectProjectView: View {
                                     RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 0.5))
                             Text(projects[index].name)
                         }.onTapGesture {
-                            navigateToDrawing(drawing: projects[index])
+                            navigateToDrawing(index: index)
                         }
                         .onLongPressGesture {
                             drawingSelected = true
@@ -84,7 +86,7 @@ private extension SelectProjectView {
         let newDrawing = DrawingProject(name: "New project")
         projects.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            navigateToDrawing(drawing: newDrawing)
+            navigateToDrawing(index: 0)
         }
     }
     
@@ -93,9 +95,8 @@ private extension SelectProjectView {
         // Create drawing with default photo
     }
     
-    func navigateToDrawing(drawing: DrawingProject) {
-        print(navigationLinkIsActive)
-        selectedNavDrawing = drawing
+    func navigateToDrawing(index: Int) {
+        navDrawingIndex = index
         navigationLinkIsActive = true
     }
     
