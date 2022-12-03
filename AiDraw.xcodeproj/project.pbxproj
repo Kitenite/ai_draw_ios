@@ -13,6 +13,11 @@
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
 		FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = FE2622112932F2670042D35D /* SwiftUITooltip */; };
+		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
+		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
+		FE58DACE2936F34C001012B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */; };
+		FE58DAD12936F441001012B5 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE58DAD02936F441001012B5 /* AdSupport.framework */; };
+		FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */; };
 		FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */; };
 		FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF80292E5E0500CC6055 /* Constants.swift */; };
 		FE62BF84292E603300CC6055 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE62BF83292E603300CC6055 /* Alamofire */; };
@@ -39,6 +44,9 @@
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FE06E63128FE267A00B6F4CE /* DrawingData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DrawingData.json; sourceTree = "<group>"; };
+		FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FE58DAD02936F441001012B5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
+		FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsHelper.swift; sourceTree = "<group>"; };
 		FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModels.swift; sourceTree = "<group>"; };
 		FE62BF80292E5E0500CC6055 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPopoverView.swift; sourceTree = "<group>"; };
@@ -63,7 +71,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */,
+				FE58DAD12936F441001012B5 /* AdSupport.framework in Frameworks */,
+				FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */,
 				FE62BF84292E603300CC6055 /* Alamofire in Frameworks */,
+				FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,8 +84,10 @@
 		FE06E61428FE1FF600B6F4CE = {
 			isa = PBXGroup;
 			children = (
+				FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */,
 				FE06E61F28FE1FF600B6F4CE /* AiDraw */,
 				FE06E61E28FE1FF600B6F4CE /* Products */,
+				FE58DACF2936F440001012B5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -133,6 +146,14 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		FE58DACF2936F440001012B5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FE58DAD02936F441001012B5 /* AdSupport.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FEDCAACA29025EDE007D40A5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +161,7 @@
 				FEDCAACD29025F92007D40A5 /* InferenceHelper.swift */,
 				FEACF991290CC11300276E2E /* ImageHelper.swift */,
 				FEACF997290D717000276E2E /* ProjectStore.swift */,
+				FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -174,6 +196,8 @@
 			packageProductDependencies = (
 				FE62BF83292E603300CC6055 /* Alamofire */,
 				FE2622112932F2670042D35D /* SwiftUITooltip */,
+				FE58DAC92936F32B001012B5 /* FirebaseAnalytics */,
+				FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */,
 			);
 			productName = AiDraw;
 			productReference = FE06E61D28FE1FF600B6F4CE /* AiDraw.app */;
@@ -206,6 +230,7 @@
 			packageReferences = (
 				FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
+				FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = FE06E61E28FE1FF600B6F4CE /* Products */;
 			projectDirPath = "";
@@ -222,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */,
+				FE58DACE2936F34C001012B5 /* GoogleService-Info.plist in Resources */,
 				FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */,
 				FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */,
 			);
@@ -236,6 +262,7 @@
 			files = (
 				FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */,
 				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
+				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FEDCAAD42902641A007D40A5 /* InferredImage.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
@@ -498,6 +525,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
@@ -513,6 +548,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
 			productName = SwiftUITooltip;
+		};
+		FE58DAC92936F32B001012B5 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
 		};
 		FE62BF83292E603300CC6055 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

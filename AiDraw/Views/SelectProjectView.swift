@@ -13,8 +13,9 @@ struct SelectProjectView: View {
     @State private var selection: String? = nil
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
+    internal var analytics = AnalyticsHelper()
     internal var inferenceHandler = InferenceHelper()
-
+    
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     var body: some View {
@@ -72,6 +73,9 @@ struct SelectProjectView: View {
             }
         }
         .navigationViewStyle(.stack)
+        .task {
+            analytics.logHomeScreen()
+        }
     }
 }
 

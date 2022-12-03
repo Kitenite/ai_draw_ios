@@ -47,7 +47,7 @@ struct DrawingView: View {
     
     // Cluster status
     @State internal var runningTasksCount: Int = 0
-    let clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
+    @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
 
     var body: some View {
         NavigationStack {
