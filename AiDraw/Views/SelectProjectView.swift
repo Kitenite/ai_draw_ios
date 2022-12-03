@@ -18,6 +18,7 @@ struct SelectProjectView: View {
     
     let navigationBarTitle = "Choose a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -27,8 +28,7 @@ struct SelectProjectView: View {
                             VStack{
                                 Image(uiImage: projects[index].displayImage!)
                                     .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 150, height: 150)
+                                    .aspectRatio(1, contentMode: .fill)
                                     .cornerRadius(10)
                                     .overlay(
                                         projects[index].id.uuidString == selectedDrawing?.id.uuidString ?
@@ -132,7 +132,15 @@ private extension SelectProjectView {
 }
 
 struct SelectDrawingView_Previews: PreviewProvider {
+
     static var previews: some View {
-        SelectProjectView(projects: .constant([DrawingProject(name: "My project")]))
+        SelectProjectView(projects: .constant([
+            DrawingProject(name: "My project 1"),
+            DrawingProject(name: "My project 2"),
+            DrawingProject(name: "My project 3"),
+            DrawingProject(name: "My project 4"),
+            DrawingProject(name: "My project 5"),
+            DrawingProject(name: "My project 6")
+        ]))
     }
 }
