@@ -18,60 +18,53 @@ struct PostToInferenceModalView: View {
     internal var inferenceHandler = InferenceHelper()
 
     var body: some View {
-    VStack(spacing: 40) {
-        Text("Upload Drawing")
-          .padding(5)
-          .font(.title)
-        
-        VStack(alignment: .leading, spacing: 10) {
-            Text("Prompt")
+        VStack {
+            Text("Describe your image")
             TextField(
-              "A drawing of a house over a lake, surrounded by trees",
+              "Be as descripive as you can",
               text: $prompt
             )
-            .frame(width: 500)
             .textFieldStyle(.roundedBorder)
+            Image(uiImage: sourceImage)
+              .resizable()
+              .aspectRatio(1, contentMode: .fit)
+              .padding(5)
+            
+            Button(action: sendDrawing) {
+              Text("Enhance image with AI")
+            }
         }
-        
-        Image(uiImage: sourceImage)
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .padding(5)
-          .shadow(color: .gray, radius: 5, x: 5, y: 5)
-        
-        Button(action: sendDrawing) {
-          Text("Enhance image with AI")
-        }
+        .padding(.all)
     }
-    }
-    }
+}
 
-    private extension PostToInferenceModalView {
+
+    
+private extension PostToInferenceModalView {
     func sendDrawing() {
-    if (prompt != "") {
-      let enhancedPrompt: String = prompt+", trending on artstation"
-      inferenceHandler.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
-      startInferenceHandler(prompt)
-    }
+        if (prompt != "") {
+            let enhancedPrompt: String = prompt
+            inferenceHandler.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
+            startInferenceHandler(prompt)
+        }
     }
 
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
-      let output_location = inferenceResponse.output_img_url
-      inferenceHandler.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
+        let output_location = inferenceResponse.output_img_url
+        inferenceHandler.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
     }
 
     func shortPollResultHandler(shortPollResult: String) {
-      let imageData: String = shortPollResult
-      let dataDecoded: Data? = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)
-      if (dataDecoded != nil) {
-          let decodedImage: UIImage? = UIImage(data: dataDecoded!)
-          if (decodedImage != nil) {
-              addInferredImage(InferredImage(inferredImage: decodedImage!, sourceImage: sourceImage))
-          } else {
-              inferenceFailed("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
-          }
-      }
-      
+        let imageData: String = shortPollResult
+        let dataDecoded: Data? = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)
+        if (dataDecoded != nil) {
+            let decodedImage: UIImage? = UIImage(data: dataDecoded!)
+            if (decodedImage != nil) {
+                addInferredImage(InferredImage(inferredImage: decodedImage!, sourceImage: sourceImage))
+            } else {
+                inferenceFailed("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
+            }
+        }
     }
 }
 
@@ -91,3 +84,5 @@ struct PostToInferenceModalView_Previews: PreviewProvider {
         PostToInferenceModalView(sourceImage: mockSourceImage ?? UIImage(), addInferredImage: mockInferenceHandler, inferenceFailed: mockInferenceFailed, startInferenceHandler: mockInferenceHandler, prompt: "")
     }
 }
+
+

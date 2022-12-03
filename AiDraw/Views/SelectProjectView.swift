@@ -16,7 +16,7 @@ struct SelectProjectView: View {
     internal var analytics = AnalyticsHelper()
     internal var inferenceHandler = InferenceHelper()
     
-    let navigationBarTitle = "Choose a drawing"
+    let navigationBarTitle = "Create a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     
     var body: some View {

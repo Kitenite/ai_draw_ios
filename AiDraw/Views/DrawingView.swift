@@ -59,86 +59,91 @@ struct DrawingView: View {
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .padding(20.0)
                 }
-                CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
-                    .padding(20.0)
-                    .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-                    .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
-                    .navigationBarBackButtonHidden(true)
-                    .navigationBarItems(
-                        leading: HStack {
-                            Button(action : dismissDrawingView){
-                                Image(systemName: "chevron.backward")
+                VStack {
+                    HStack {
+                        Button(action: restoreDrawing) {
+                            Image(systemName: "arrow.uturn.left")
+                        }.disabled(erasedDrawing == nil)
+                        Button(action: restoreDrawing) {
+                            Image(systemName: "arrow.uturn.right")
+                        }.disabled(erasedDrawing == nil)
+                        Button(action: deleteDrawing) {
+                            Image(systemName: "trash")
+                        }.disabled(erasedDrawing == nil)
+                        
+                        Spacer()
+                        // Service state and button
+                        if (runningTasksCount > 0) {
+                            if (isRunningInference) {
+                                ProgressView()
+                            } else {
+                                Button(action: uploadDrawingForInference) {
+                                    Image(systemName: "brain")
+                                }.sheet(isPresented: $isUploadingDrawing) {
+                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                                }.frame(alignment: .trailing)
                             }
-                            Spacer(minLength: 10)
-                            Button(action: downloadCurrentDrawingAndBackground) {
-                                Image(systemName: "square.and.arrow.down")
-                            }
-                            if ((erasedDrawing) != nil) {
-                                Button(action: restoreDrawing) {
-                                    Image(systemName: "arrow.uturn.left")
+                        } else {
+                            Text("Starting service...")
+                        }
+                    }
+                    .padding(.horizontal)
+                    .task {
+                        inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                    }.onReceive(clusterStatusTimer) { time in
+                        inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                    }
+                    CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
+                        .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
+                        .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
+                        .navigationBarBackButtonHidden(true)
+                        .navigationBarItems(
+                            leading: HStack {
+                                Button(action : dismissDrawingView){
+                                    Image(systemName: "chevron.backward")
                                 }
-                            }
-                            Button(action: deleteDrawing) {
-                                Image(systemName: "trash")
-                            }
-                        },
-                        trailing: HStack {
-                            HStack {
-                                if (runningTasksCount > 0) {
-                                    Text("Running services: \(runningTasksCount)")
-                                    if (isRunningInference) {
-                                        ProgressView()
-                                    } else {
-                                        Button(action: uploadDrawingForInference) {
-                                            Image(systemName: "brain")
-                                        }.sheet(isPresented: $isUploadingDrawing) {
-                                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
-                                        }.foregroundColor(.green)
+                                Spacer(minLength: 10)
+                                Button(action: downloadCurrentDrawingAndBackground) {
+                                    Image(systemName: "square.and.arrow.down")
+                                }
+                                PhotosPicker(
+                                    selection: $selectedItem,
+                                    matching: .images,
+                                    photoLibrary: .shared()
+                                ) {
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                }.onChange(of: selectedItem) { newItem in
+                                    Task {
+                                        // Retrieve selected asset in the form of Data
+                                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                            handleUploadedPhotoData(data: data)
+                                            print(data)
+                                        }
                                     }
-                                } else {
-                                    Text("Starting service...")
+                                }
+                            },
+                            trailing: HStack {
+                                
+                                // History button
+                                if( backgroundImages.count > 0) {
+                                    Button {
+                                        isShowingSidebar = true
+                                    } label: {
+                                        Image(systemName: "square.3.stack.3d.top.filled")
+                                    }.popover(
+                                        isPresented: $isShowingSidebar,
+                                        arrowEdge: .top
+                                    ) {
+                                        HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
+                                    }
                                 }
                                 Button(action: showInfoAlert) {
                                     Image(systemName: "questionmark.circle")
                                 }
-                            }.task {
-                                inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
-                            }.onReceive(clusterStatusTimer) { time in
-                                inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
                             }
-                            // Upload photo button
-                            PhotosPicker(
-                                selection: $selectedItem,
-                                matching: .images,
-                                photoLibrary: .shared()
-                            ) {
-                                Image(systemName: "photo.on.rectangle.angled")
-                            }.onChange(of: selectedItem) { newItem in
-                                Task {
-                                    // Retrieve selected asset in the form of Data
-                                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                        handleUploadedPhotoData(data: data)
-                                        print(data)
-                                    }
-                                }
-                            }
-                            
-                            // History button
-                            if( backgroundImages.count > 0) {
-                                Button {
-                                    isShowingSidebar = true
-                                } label: {
-                                    Image(systemName: "square.3.stack.3d.top.filled")
-                                }.popover(
-                                    isPresented: $isShowingSidebar,
-                                    arrowEdge: .top
-                                ) {
-                                    HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
-                                }
-                            }
-
-                        }
-                    )
+                        )
+                    .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                }
             }
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
