@@ -54,50 +54,48 @@ struct DrawingView: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
-                if (drawingProject.backgroundImage != nil) {
-                    Image(uiImage: drawingProject.backgroundImage!)
-                        .resizable()
-                        .scaledToFit()
-                        .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-                        .padding(20.0)
-                }
-                VStack {
-                    HStack {
-//                        Button(action: restoreBackwardsSnapshot) {
-//                            Image(systemName: "arrow.uturn.left")
-//                        }
-//                        Button(action: restoreForwardSnapshot) {
-//                            Image(systemName: "arrow.uturn.right")
-//                        }
-                        Button(action: clearDrawing) {
-                            Image(systemName: "eraser")
-                        }
-                        Button(action: clearBackground) {
-                            Image(systemName: "trash")
-                        }
-                        
-                        Spacer()
-                        // Service state and button
-                        if (runningTasksCount > 0) {
-                            if (isRunningInference) {
-                                ProgressView()
-                            } else {
-                                Button(action: uploadDrawingForInference) {
-                                    Image(systemName: "brain")
-                                }.sheet(isPresented: $isUploadingDrawing) {
-                                    PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
-                                }.frame(alignment: .trailing)
-                            }
-                        } else {
-                            Text("Starting service...")
-                        }
+            VStack {
+                HStack {
+    //                        Button(action: restoreBackwardsSnapshot) {
+    //                            Image(systemName: "arrow.uturn.left")
+    //                        }
+    //                        Button(action: restoreForwardSnapshot) {
+    //                            Image(systemName: "arrow.uturn.right")
+    //                        }
+                    Button(action: clearDrawing) {
+                        Image(systemName: "eraser")
                     }
-                    .padding(.horizontal)
-                    .task {
-                        inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
-                    }.onReceive(clusterStatusTimer) { time in
-                        inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                    Button(action: clearBackground) {
+                        Image(systemName: "trash")
+                    }
+                    Spacer()
+                    // Service state and button
+                    if (runningTasksCount > 0) {
+                        if (isRunningInference) {
+                            ProgressView()
+                        } else {
+                            Button(action: uploadDrawingForInference) {
+                                Image(systemName: "brain")
+                            }.sheet(isPresented: $isUploadingDrawing) {
+                                PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
+                            }.frame(alignment: .trailing)
+                        }
+                    } else {
+                        Text("Starting service...")
+                    }
+                }
+                .padding(.horizontal)
+                .task {
+                    inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                }.onReceive(clusterStatusTimer) { time in
+                    inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
+                }
+                    
+                ZStack {
+                    if (drawingProject.backgroundImage != nil) {
+                        Image(uiImage: drawingProject.backgroundImage!)
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fit)
                     }
                     CanvasView(canvasView: $canvasView, drawing: $drawingProject.drawing, onSaved: saveDrawing)
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
@@ -166,12 +164,10 @@ struct DrawingView: View {
 
 private extension DrawingView {
     func saveDrawing() {
-        drawingProject.drawing = canvasView.drawing
         inferenceHelper.wakeService()
     }
     
     func saveProjectState() {
-        drawingProject.drawing = canvasView.drawing
         drawingProject.displayImage = getDrawingAsImageWithBackground()
     }
     
@@ -191,7 +187,7 @@ private extension DrawingView {
     }
     
     func getDrawingAsImage() -> UIImage {
-        return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
+        return drawingProject.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
     }
     
     func downloadCurrentDrawingAndBackground() {
@@ -262,7 +258,7 @@ private extension DrawingView {
     }
     
     func createSnapshot() -> DrawingSnapshot {
-        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, background: drawingProject.backgroundImage)
+        let newSnapshot = DrawingSnapshot(drawing: drawingProject.drawing, background: drawingProject.backgroundImage)
         return newSnapshot
     }
     
@@ -279,6 +275,6 @@ private extension DrawingView {
 
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")))
+        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1", backgroundImage: UIImage(named: "coffee-1"))))
     }
 }
