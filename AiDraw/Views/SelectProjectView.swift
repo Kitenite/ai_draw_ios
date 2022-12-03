@@ -10,7 +10,8 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
-    @State private var selection: String? = nil
+    @State private var selectedNavDrawing: DrawingProject = DrawingProject(name: "New Project")
+    @State private var navigationLinkIsActive: Bool = false
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
     internal var analytics = AnalyticsHelper()
@@ -22,25 +23,24 @@ struct SelectProjectView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
+                NavigationLink(destination: DrawingView(drawingProject: $selectedNavDrawing), isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        NavigationLink(destination: DrawingView(drawingProject: $projects[index]), tag: projects[index].id.uuidString, selection: $selection) {
-                            VStack{
-                                Image(uiImage: projects[index].displayImage!)
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fill)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        projects[index].id.uuidString == selectedDrawing?.id.uuidString ?
-                                        RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 0.5))
-                                Text(projects[index].name)
-                            }.onTapGesture {
-                                navigateToDrawing(drawing: projects[index])
-                            }
-                            .onLongPressGesture {
-                                drawingSelected = true
-                                selectedDrawing = projects[index]
-                            }
+                        VStack{
+                            Image(uiImage: projects[index].displayImage!)
+                                .resizable()
+                                .aspectRatio(1, contentMode: .fill)
+                                .cornerRadius(10)
+                                .overlay(
+                                    projects[index].id.uuidString == selectedDrawing?.id.uuidString ?
+                                    RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 0.5))
+                            Text(projects[index].name)
+                        }.onTapGesture {
+                            navigateToDrawing(drawing: projects[index])
+                        }
+                        .onLongPressGesture {
+                            drawingSelected = true
+                            selectedDrawing = projects[index]
                         }
                     }
                 }
@@ -65,7 +65,6 @@ struct SelectProjectView: View {
                             Image(systemName: "plus")
                         }
                     }
-                   
                 }
             )
             .onTapGesture {
@@ -74,6 +73,7 @@ struct SelectProjectView: View {
         }
         .navigationViewStyle(.stack)
         .task {
+            navigationLinkIsActive = false
             analytics.logHomeScreen()
         }
     }
@@ -94,7 +94,9 @@ private extension SelectProjectView {
     }
     
     func navigateToDrawing(drawing: DrawingProject) {
-        selection = drawing.id.uuidString
+        print(navigationLinkIsActive)
+        selectedNavDrawing = drawing
+        navigationLinkIsActive = true
     }
     
     func deleteSelectedDrawing() {
