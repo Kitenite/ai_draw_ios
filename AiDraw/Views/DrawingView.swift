@@ -9,24 +9,27 @@ import SwiftUI
 import PencilKit
 import PhotosUI
 
+struct DrawingSnapshot {
+    var drawing: PKDrawing?
+    var background: UIImage?
+}
+
 struct DrawingView: View {
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
 
     // Drawing
     @Binding var drawingProject: DrawingProject
-    @Binding var selection: String?
-    
     @State private var canvasView = PKCanvasView()
     @State private var prompt = ""
-    @State private var erasedDrawing: PKDrawing?
+    
+    // History
+    @State private var backwardsSnapshots: [DrawingSnapshot] = []
+    @State private var forwardSnapshots: [DrawingSnapshot] = []
 
     // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
-    
-    // Background images
-    @State private var backgroundImages: [UIImage] = []
     
     // State of the application
     @State private var isUploadingDrawing = false
@@ -61,15 +64,18 @@ struct DrawingView: View {
                 }
                 VStack {
                     HStack {
-                        Button(action: restoreDrawing) {
-                            Image(systemName: "arrow.uturn.left")
-                        }.disabled(erasedDrawing == nil)
-                        Button(action: restoreDrawing) {
-                            Image(systemName: "arrow.uturn.right")
-                        }.disabled(erasedDrawing == nil)
-                        Button(action: deleteDrawing) {
+//                        Button(action: restoreBackwardsSnapshot) {
+//                            Image(systemName: "arrow.uturn.left")
+//                        }
+//                        Button(action: restoreForwardSnapshot) {
+//                            Image(systemName: "arrow.uturn.right")
+//                        }
+                        Button(action: clearDrawing) {
+                            Image(systemName: "eraser")
+                        }
+                        Button(action: clearBackground) {
                             Image(systemName: "trash")
-                        }.disabled(erasedDrawing == nil)
+                        }
                         
                         Spacer()
                         // Service state and button
@@ -93,7 +99,7 @@ struct DrawingView: View {
                     }.onReceive(clusterStatusTimer) { time in
                         inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
                     }
-                    CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
+                    CanvasView(canvasView: $canvasView, drawing: $drawingProject.drawing, onSaved: saveDrawing)
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
                         .navigationBarBackButtonHidden(true)
@@ -125,18 +131,18 @@ struct DrawingView: View {
                             trailing: HStack {
                                 
                                 // History button
-                                if( backgroundImages.count > 0) {
-                                    Button {
-                                        isShowingSidebar = true
-                                    } label: {
-                                        Image(systemName: "square.3.stack.3d.top.filled")
-                                    }.popover(
-                                        isPresented: $isShowingSidebar,
-                                        arrowEdge: .top
-                                    ) {
-                                        HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
-                                    }
-                                }
+//                                if( backgroundImages.count > 0) {
+//                                    Button {
+//                                        isShowingSidebar = true
+//                                    } label: {
+//                                        Image(systemName: "square.3.stack.3d.top.filled")
+//                                    }.popover(
+//                                        isPresented: $isShowingSidebar,
+//                                        arrowEdge: .top
+//                                    ) {
+//                                        HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
+//                                    }
+//                                }
                                 Button(action: showInfoAlert) {
                                     Image(systemName: "questionmark.circle")
                                 }
@@ -172,7 +178,6 @@ private extension DrawingView {
     func dismissDrawingView() {
         saveProjectState()
         DispatchQueue.main.async {
-            selection = nil
             self.mode.wrappedValue.dismiss()
         }
     }
@@ -207,7 +212,7 @@ private extension DrawingView {
     func addInferredImage(newInferredImage: InferredImage) {
         let croppedImage = imageHelper.cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
         addImageToBackgroundImages(newImage: croppedImage)
-        deleteDrawing()
+//        deleteDrawing()
         isRunningInference = false
     }
     
@@ -227,20 +232,9 @@ private extension DrawingView {
     }
     
     func addImageToBackgroundImages(newImage: UIImage) {
-        backgroundImages.append(newImage)
+//        backgroundImages.append(newImage)
         drawingProject.backgroundImage = newImage
         saveProjectState()
-    }
-    
-    func deleteDrawing() {
-        erasedDrawing = canvasView.drawing
-        canvasView.drawing = PKDrawing()
-    }
-    
-    func restoreDrawing() {
-        if (erasedDrawing != nil) {
-            canvasView.drawing = erasedDrawing!
-        }
     }
     
     func clusterStatusHandler(clusterStatusResponse: ClusterStatusResponse) {
@@ -258,10 +252,33 @@ private extension DrawingView {
         }
         showAlert = true
     }
+   
+    func clearDrawing() {
+        drawingProject.drawing = PKDrawing()
+    }
+    
+    func clearBackground() {
+        drawingProject.backgroundImage = nil
+    }
+    
+    func createSnapshot() -> DrawingSnapshot {
+        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, background: drawingProject.backgroundImage)
+        return newSnapshot
+    }
+    
+    func saveBackwardsSnapshot() {
+        let newSnapshot = createSnapshot()
+        backwardsSnapshots.append(newSnapshot)
+    }
+    
+    func saveForwardSnapshot() {
+        let newSnapshot = createSnapshot()
+        forwardSnapshots.append(newSnapshot)
+    }
 }
 
 struct DrawingView_Previews: PreviewProvider {
     static var previews: some View {
-        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")), selection: .constant(nil))
+        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1")))
     }
 }

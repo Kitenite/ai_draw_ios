@@ -24,7 +24,7 @@ struct SelectProjectView: View {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        NavigationLink(destination: DrawingView(drawingProject: $projects[index], selection: $selection), tag: projects[index].id.uuidString, selection: $selection) {
+                        NavigationLink(destination: DrawingView(drawingProject: $projects[index]), tag: projects[index].id.uuidString, selection: $selection) {
                             VStack{
                                 Image(uiImage: projects[index].displayImage!)
                                     .resizable()
@@ -83,11 +83,9 @@ private extension SelectProjectView {
     func createDrawing() {
         let newDrawing = DrawingProject(name: "New project")
         projects.insert(newDrawing, at: 0)
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             navigateToDrawing(drawing: newDrawing)
         }
-       
     }
     
     func importPhoto() {
@@ -96,9 +94,7 @@ private extension SelectProjectView {
     }
     
     func navigateToDrawing(drawing: DrawingProject) {
-        DispatchQueue.main.async {
-            selection = drawing.id.uuidString
-        }
+        selection = drawing.id.uuidString
     }
     
     func deleteSelectedDrawing() {
