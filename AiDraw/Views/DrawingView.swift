@@ -51,10 +51,23 @@ struct DrawingView: View {
     // Cluster status
     @State internal var runningTasksCount: Int = 0
     @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
+    
+    // Progress bars
+    let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
+    let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 6000)
 
     var body: some View {
         NavigationStack {
             VStack {
+                ZStack {
+                    if (isRunningInference) {
+                        inferenceProgressBar
+                    }
+                    if (runningTasksCount <= 0) {
+                        clusterStatusProgressBar
+                    }
+                }
+                Spacer()
                 HStack {
                     Button(action: restoreBackwardsSnapshot) {
                         Image(systemName: "arrow.uturn.left")
@@ -73,16 +86,16 @@ struct DrawingView: View {
                     if (runningTasksCount <= 0) {
                         Text("Starting service...")
                     }
-                    if (isRunningInference) {
-                        ProgressView()
-                    } else {
+                    
+                    if (!isRunningInference) {
                         Button(action: uploadDrawingForInference) {
                             Image(systemName: "brain")
                         }.sheet(isPresented: $isUploadingDrawing) {
                             PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
                         }.disabled(runningTasksCount <= 0)
+                    } else {
+                        ProgressView()
                     }
-                  
                 }
                 .padding(.horizontal)
                 .task {
@@ -90,7 +103,7 @@ struct DrawingView: View {
                 }.onReceive(clusterStatusTimer) { time in
                     inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
                 }
-                    
+                
                 ZStack {
                     if (drawingProject.backgroundImage != nil) {
                         Image(uiImage: drawingProject.backgroundImage!)
@@ -126,7 +139,6 @@ struct DrawingView: View {
                                 }
                             },
                             trailing: HStack {
-                                
                                 // History button
 //                                if( backgroundImages.count > 0) {
 //                                    Button {
@@ -147,6 +159,7 @@ struct DrawingView: View {
                         )
                     .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
+                Spacer()
             }
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
@@ -165,7 +178,6 @@ private extension DrawingView {
     func saveDrawing() {
         drawingProject.drawing = canvasView.drawing
         inferenceHelper.wakeService()
-        saveBackwardsSnapshot()
     }
     
     func saveProjectState() {
@@ -203,6 +215,7 @@ private extension DrawingView {
         isUploadingDrawing = false
         isRunningInference = true
         prompt = newPrompt
+        inferenceProgressBar.startTimer()
      }
     
     func addInferredImage(newInferredImage: InferredImage) {
@@ -210,6 +223,7 @@ private extension DrawingView {
         clearDrawing()
         updateBackgroundImage(newImage: croppedImage)
         isRunningInference = false
+        inferenceProgressBar.stopTimer()
     }
     
     func inferenceFailed(title: String, message: String) {
@@ -235,13 +249,21 @@ private extension DrawingView {
     
     func clusterStatusHandler(clusterStatusResponse: ClusterStatusResponse) {
         runningTasksCount = clusterStatusResponse.runningTasksCount
+        if (runningTasksCount > 0) {
+            clusterStatusTimer.upstream.connect().cancel()
+            clusterStatusProgressBar.stopTimer()
+        } else {
+            
+            if (!clusterStatusProgressBar.isTimerActive && !inferenceProgressBar.isTimerActive) {
+                clusterStatusProgressBar.startTimer()
+            }
+        }
     }
     
     func showInfoAlert() {
         if (runningTasksCount == 0) {
             alertTitle = "Service is starting"
             alertMessage = "The service turned off because no users were active. It could take 5-10 minutes to turn it back on. You can still use the rest of the functionalities."
-            
         } else {
             alertTitle = "Service is running"
             alertMessage = "Hit the brain button and provide a prompt to transform your image. The service will turn off after 15 minutes of inactivity."
@@ -276,12 +298,11 @@ private extension DrawingView {
     
     func restoreBackwardsSnapshot() {
         saveForwardSnapshot()
-        if (!backwardsSnapshots.isEmpty ) {
+        if (!backwardsSnapshots.isEmpty) {
             let snapshot = backwardsSnapshots.popLast()
             if (snapshot != nil) {
                 applySnapshot(snapshot: snapshot!)
             }
-           
         }
     }
     
@@ -292,10 +313,8 @@ private extension DrawingView {
             if (snapshot != nil) {
                applySnapshot(snapshot: snapshot!)
             }
-           
         }
     }
-    
     func applySnapshot(snapshot: DrawingSnapshot) {
         canvasView.drawing = snapshot.drawing
         drawingProject.backgroundImage = snapshot.background
