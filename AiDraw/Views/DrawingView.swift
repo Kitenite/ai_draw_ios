@@ -54,7 +54,7 @@ struct DrawingView: View {
     
     // Progress bars
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
-    let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 6000)
+    let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 4500)
 
     var body: some View {
         NavigationStack {
