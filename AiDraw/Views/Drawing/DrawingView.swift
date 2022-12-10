@@ -9,8 +9,6 @@ import SwiftUI
 import PencilKit
 import PhotosUI
 
-
-
 struct DrawingView: View {
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
@@ -79,7 +77,7 @@ struct DrawingView: View {
                         Button(action: uploadDrawingForInference) {
                             Text("Use AI")
                         }.sheet(isPresented: $isUploadingDrawing) {
-                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImageHandler: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: drawingProject.prompt)
+                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
                         }
                     } else {
                         ProgressView()

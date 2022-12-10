@@ -10,13 +10,16 @@ import SwiftUI
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
     
+    // Inputs
     let sourceImage: UIImage
     @State var prompt: String
 
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
-    let inferenceFailed: (String, String) -> Void
+    let inferenceFailedHandler: (String, String) -> Void
     let startInferenceHandler: (String) -> Void
+    
+    // Helpers
     internal var serviceHelper = ServiceHelper()
     
     // Art style picker
@@ -30,12 +33,9 @@ struct PostToInferenceModalView: View {
         ArtStyle(key: "neo-baroque", prefix: "A painting of ", suffix: ", neo-baroque"),
         ArtStyle(key: "orientalism", prefix: "A painting of ", suffix: ", orientalism"),
     ]
-    
-    let styleKeys = styles.map { $0.key }
-    let styleDict = styles.reduce(into: [String: ArtStyle]()) {
-        $0[$1.key] = $1
-    }
     @State private var selectedStyleKey: String = styles[0].key
+    let styleKeys = styles.map { $0.key }
+    let styleDict = styles.reduce(into: [String: ArtStyle]()) {$0[$1.key] = $1}
 
     var body: some View {
         VStack {
@@ -94,7 +94,7 @@ private extension PostToInferenceModalView {
             if (decodedImage != nil) {
                 addInferredImageHandler(decodedImage!)
             } else {
-                inferenceFailed("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
+                inferenceFailedHandler("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
             }
         }
     }
@@ -102,11 +102,11 @@ private extension PostToInferenceModalView {
 
 func mockInferenceHandler(prompt: String) {}
 func mockInferenceHandler(image: UIImage) {}
-func mockInferenceFailed(title: String, description: String) {}
+func mockInferenceFailedHandler(title: String, description: String) {}
 struct PostToInferenceModalView_Previews: PreviewProvider {
     static var previews: some View {
         let mockSourceImage = UIImage(named: "coffee-1")
-        PostToInferenceModalView(sourceImage: mockSourceImage ?? UIImage(), addInferredImage: mockInferenceHandler, inferenceFailed: mockInferenceFailed, startInferenceHandler: mockInferenceHandler, prompt: "")
+        PostToInferenceModalView(sourceImage: mockSourceImage ?? UIImage(), prompt: "", addInferredImageHandler: mockInferenceHandler, inferenceFailedHandler: mockInferenceFailedHandler, startInferenceHandler: mockInferenceHandler)
     }
 }
 
