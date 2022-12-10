@@ -10,10 +10,14 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
+    
+    // Navigation between projects
     @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
+    
+    // Helpers
     internal var analytics = AnalyticsHelper()
     internal var serviceHelper = ServiceHelper()
     
