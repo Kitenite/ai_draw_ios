@@ -9,13 +9,33 @@ import SwiftUI
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
-
+    
     let sourceImage: UIImage
-    let addInferredImage: (UIImage) -> Void
+    @State var prompt: String
+
+    // Handlers
+    let addInferredImageHandler: (UIImage) -> Void
     let inferenceFailed: (String, String) -> Void
     let startInferenceHandler: (String) -> Void
-    @State var prompt: String
     internal var serviceHelper = ServiceHelper()
+    
+    // Art style picker
+    static let styles: [ArtStyle] = [
+        ArtStyle(key: "none", prefix: "", suffix: ""),
+        ArtStyle(key: "cubism", prefix: "A painting of ", suffix: ", cubism"),
+        ArtStyle(key: "surrealism", prefix: "A painting of ", suffix: ", surrealism"),
+        ArtStyle(key: "art deco", prefix: "A painting of ", suffix: ", art deco"),
+        ArtStyle(key: "classical", prefix: "A painting of ", suffix: ", classical"),
+        ArtStyle(key: "magic realism", prefix: "A painting of ", suffix: ", magic realism"),
+        ArtStyle(key: "neo-baroque", prefix: "A painting of ", suffix: ", neo-baroque"),
+        ArtStyle(key: "orientalism", prefix: "A painting of ", suffix: ", orientalism"),
+    ]
+    
+    let styleKeys = styles.map { $0.key }
+    let styleDict = styles.reduce(into: [String: ArtStyle]()) {
+        $0[$1.key] = $1
+    }
+    @State private var selectedStyleKey: String = styles[0].key
 
     var body: some View {
         VStack {
@@ -30,6 +50,17 @@ struct PostToInferenceModalView: View {
               .aspectRatio(1, contentMode: .fit)
               .padding(5)
             
+            HStack(spacing: 0) {
+                Text("Select a style:")
+                Picker("Select an art style", selection: $selectedStyleKey) {
+                    ForEach(styleKeys, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.menu )
+                
+            }
+            
             Button(action: sendDrawing) {
               Text("Use AI")
             }
@@ -43,7 +74,8 @@ struct PostToInferenceModalView: View {
 private extension PostToInferenceModalView {
     func sendDrawing() {
         if (prompt != "") {
-            let enhancedPrompt: String = prompt
+            let style = styleDict[selectedStyleKey]!
+            let enhancedPrompt: String = style.prefix + prompt + style.suffix
             serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
             startInferenceHandler(prompt)
         }
@@ -60,7 +92,7 @@ private extension PostToInferenceModalView {
         if (dataDecoded != nil) {
             let decodedImage: UIImage? = UIImage(data: dataDecoded!)
             if (decodedImage != nil) {
-                addInferredImage(decodedImage!)
+                addInferredImageHandler(decodedImage!)
             } else {
                 inferenceFailed("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
             }

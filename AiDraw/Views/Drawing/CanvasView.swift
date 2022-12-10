@@ -28,7 +28,6 @@ extension CanvasView: UIViewRepresentable {
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
         canvasView.drawing = drawing
-        canvasView.overrideUserInterfaceStyle = .light
         showToolPicker()
         return canvasView
     }
@@ -42,7 +41,6 @@ extension CanvasView: UIViewRepresentable {
 
 private extension CanvasView {
     func showToolPicker() {
-        toolPicker.colorUserInterfaceStyle = .light
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()

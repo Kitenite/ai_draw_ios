@@ -90,7 +90,7 @@ struct SelectProjectView: View {
 
 private extension SelectProjectView {
     func createDrawing() {
-        let newDrawing = DrawingProject(name: "New drawing")
+        let newDrawing = DrawingProject(name: "Drawing #\(projects.count + 1)")
         projects.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             navigateToDrawing(index: 0)

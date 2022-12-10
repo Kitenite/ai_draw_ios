@@ -79,7 +79,7 @@ struct DrawingView: View {
                         Button(action: uploadDrawingForInference) {
                             Text("Use AI")
                         }.sheet(isPresented: $isUploadingDrawing) {
-                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: drawingProject.prompt)
+                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImageHandler: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: drawingProject.prompt)
                         }
                     } else {
                         ProgressView()
@@ -245,8 +245,7 @@ private extension DrawingView {
         var message = "Send it your drawing and description for enhancement"
         if (runningTasksCount == 0) {
             title = "AI is waking up"
-            message = "AI went to sleep from inactivity. It'll take 5 minutes to wake it. Use this time to draw your image first"
-            
+            message = "AI went to sleep from inactivity.\nIt'll take 5 minutes to wake it.\nUse this time to create your drawing."
         }
         alertManager.presentAlert(title: title, message: message, dismissButton: nil)
     }
