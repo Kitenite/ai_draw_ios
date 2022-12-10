@@ -33,7 +33,7 @@ struct DrawingView: View {
     internal var serviceHelper = ServiceHelper()
 
     // Alert
-    @EnvironmentObject var alertManager: AlertManager
+    @EnvironmentObject private var alertManager: AlertManager
     
     // Cluster status
     @State internal var runningTasksCount: Int = 0

@@ -10,7 +10,8 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
-    
+    let navigationBarTitle = "Create a drawing"
+
     // Navigation between projects
     @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
@@ -21,14 +22,15 @@ struct SelectProjectView: View {
     internal var analytics = AnalyticsHelper()
     internal var serviceHelper = ServiceHelper()
     
-    let navigationBarTitle = "Create a drawing"
+    // Layout for displaying drawings. Count means collumn count
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 if (!projects.isEmpty && navDrawingIndex < projects.count) {
-                    NavigationLink(destination: DrawingView(drawingProject:$projects[navDrawingIndex]), isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
+                    NavigationLink(destination: DrawingView(drawingProject:$projects[navDrawingIndex]),
+                                   isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
                 }
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
@@ -88,7 +90,7 @@ struct SelectProjectView: View {
 
 private extension SelectProjectView {
     func createDrawing() {
-        let newDrawing = DrawingProject(name: "New project")
+        let newDrawing = DrawingProject(name: "New drawing")
         projects.insert(newDrawing, at: 0)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             navigateToDrawing(index: 0)
