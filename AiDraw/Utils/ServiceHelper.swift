@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Alamofire
 
-class InferenceHelper {
+class ServiceHelper {
     func postImgToImgRequest(prompt: String, image: UIImage, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
         let imageData = image.jpegData(compressionQuality: 0)
         let encodedImageData = imageData?.base64EncodedString()
@@ -24,7 +24,7 @@ class InferenceHelper {
             parameters: input,
             encoder: JSONParameterEncoder.default
         ).responseDecodable(of: InferenceResponse.self) { response in
-            debugPrint("Response: \(response)")
+            debugPrint("Post inference response: \(response)")
             if ((response.value) != nil) {
                 inferenceResultHandler(response.value!)
             }
@@ -54,7 +54,8 @@ class InferenceHelper {
             Constants.WAKE_API,
             method: .get
         ).response { response in
-            print(response)
+            debugPrint("Waking service response: \(response)")
+
         }
     }
     

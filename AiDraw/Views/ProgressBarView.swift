@@ -18,7 +18,9 @@ struct ProgressBarView: View {
         ZStack{
             ProgressView(title, value: currentValue, total: totalValue)
         }.onReceive(timer) { _ in
-            currentValue = currentValue + 1
+            if (currentValue < totalValue) {
+                currentValue = currentValue + 1
+            }
         }
     }
 }

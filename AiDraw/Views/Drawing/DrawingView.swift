@@ -9,10 +9,7 @@ import SwiftUI
 import PencilKit
 import PhotosUI
 
-struct DrawingSnapshot {
-    let drawing: PKDrawing
-    let background: UIImage?
-}
+
 
 struct DrawingView: View {
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
@@ -21,11 +18,6 @@ struct DrawingView: View {
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
-    @State private var prompt = ""
-    
-    // History
-    @State private var backwardsSnapshots: [DrawingSnapshot] = []
-    @State private var forwardSnapshots: [DrawingSnapshot] = []
 
     // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
@@ -38,19 +30,15 @@ struct DrawingView: View {
 
     // Helpers
     internal var imageHelper = ImageHelper()
-    internal var inferenceHelper = InferenceHelper()
+    internal var serviceHelper = ServiceHelper()
 
     // Alert
-    @State private var showAlert = false
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    
-    // Tooltip
-    @State private var tooltipVisible = true
+    @EnvironmentObject var alertManager: AlertManager
     
     // Cluster status
     @State internal var runningTasksCount: Int = 0
     @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
+    @State var clusterWakeTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     // Progress bars
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
@@ -71,10 +59,10 @@ struct DrawingView: View {
                 HStack {
                     Button(action: restoreBackwardsSnapshot) {
                         Image(systemName: "arrow.uturn.left")
-                    }.disabled(backwardsSnapshots.isEmpty)
+                    }.disabled(drawingProject.backwardsSnapshots.isEmpty)
                     Button(action: restoreForwardSnapshot) {
                         Image(systemName: "arrow.uturn.right")
-                    }.disabled(forwardSnapshots.isEmpty)
+                    }.disabled(drawingProject.forwardSnapshots.isEmpty)
                     Button(action: clearDrawing) {
                         Image(systemName: "eraser")
                     }
@@ -84,26 +72,20 @@ struct DrawingView: View {
                     Spacer()
                     // Service state and button
                     if (runningTasksCount <= 0) {
-                        Text("Starting service...")
+                        Text("Waking AI...")
                     }
                     
-                    if (!isRunningInference) {
+                    if (!isRunningInference && runningTasksCount > 0) {
                         Button(action: uploadDrawingForInference) {
-                            Image(systemName: "brain")
+                            Text("Use AI")
                         }.sheet(isPresented: $isUploadingDrawing) {
-                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: prompt)
-                        }.disabled(runningTasksCount <= 0)
+                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), addInferredImage: addInferredImage, inferenceFailed: inferenceFailed, startInferenceHandler: startInferenceHandler, prompt: drawingProject.prompt)
+                        }
                     } else {
                         ProgressView()
                     }
                 }
                 .padding(.horizontal)
-                .task {
-                    inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
-                }.onReceive(clusterStatusTimer) { time in
-                    inferenceHelper.getClusterStatus(handler: clusterStatusHandler)
-                }
-                
                 ZStack {
                     if (drawingProject.backgroundImage != nil) {
                         Image(uiImage: drawingProject.backgroundImage!)
@@ -133,13 +115,12 @@ struct DrawingView: View {
                                     Task {
                                         if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                             handleImportedPhoto(data: data)
-                                            print(data)
                                         }
                                     }
                                 }
                             },
                             trailing: HStack {
-                                // History button
+                                // Deprecated but keeping for example of popover
 //                                if( backgroundImages.count > 0) {
 //                                    Button {
 //                                        isShowingSidebar = true
@@ -157,19 +138,21 @@ struct DrawingView: View {
                                 }
                             }
                         )
-                    .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                        .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
             }
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
-        }.alert(isPresented: $showAlert) {
-            Alert(
-                title: Text(alertTitle),
-                message: Text(alertMessage)
-            )
         }.task {
-            inferenceHelper.wakeService()
+            serviceHelper.wakeService()
+            serviceHelper.getClusterStatus(handler: clusterStatusHandler)
+        }.onReceive(clusterStatusTimer) { time in
+            serviceHelper.getClusterStatus(handler: clusterStatusHandler)
+        }.onReceive(clusterWakeTimer) { time in
+            serviceHelper.wakeService()
+        }.alert(isPresented: $alertManager.isPresented) {
+            alertManager.alert
         }
     }
 }
@@ -177,7 +160,6 @@ struct DrawingView: View {
 private extension DrawingView {
     func saveDrawing() {
         drawingProject.drawing = canvasView.drawing
-        inferenceHelper.wakeService()
     }
     
     func saveProjectState() {
@@ -214,12 +196,12 @@ private extension DrawingView {
     func startInferenceHandler(newPrompt: String) {
         isUploadingDrawing = false
         isRunningInference = true
-        prompt = newPrompt
+        drawingProject.prompt = newPrompt
         inferenceProgressBar.startTimer()
      }
     
-    func addInferredImage(newInferredImage: InferredImage) {
-        let croppedImage = imageHelper.cropImageToRect(sourceImage: newInferredImage.inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
+    func addInferredImage(inferredImage: UIImage) {
+        let croppedImage = imageHelper.cropImageToRect(sourceImage: inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
         clearDrawing()
         updateBackgroundImage(newImage: croppedImage)
         isRunningInference = false
@@ -227,10 +209,8 @@ private extension DrawingView {
     }
     
     func inferenceFailed(title: String, message: String) {
-        alertTitle = title
-        alertMessage = message
+        alertManager.presentAlert(title: title, message: message, dismissButton: nil)
         isRunningInference = false
-        showAlert = true
     }
     
     func handleImportedPhoto(data: Data) {
@@ -261,14 +241,14 @@ private extension DrawingView {
     }
     
     func showInfoAlert() {
+        var title = "AI is ready"
+        var message = "Send it your drawing and description for enhancement"
         if (runningTasksCount == 0) {
-            alertTitle = "Service is starting"
-            alertMessage = "The service turned off because no users were active. It could take 5-10 minutes to turn it back on. You can still use the rest of the functionalities."
-        } else {
-            alertTitle = "Service is running"
-            alertMessage = "Hit the brain button and provide a prompt to transform your image. The service will turn off after 15 minutes of inactivity."
+            title = "AI is waking up"
+            message = "AI went to sleep from inactivity. It'll take 5 minutes to wake it. Use this time to draw your image first"
+            
         }
-        showAlert = true
+        alertManager.presentAlert(title: title, message: message, dismissButton: nil)
     }
    
     func clearDrawing() {
@@ -278,28 +258,28 @@ private extension DrawingView {
     
     func clearBackground() {
         saveBackwardsSnapshot()
-        drawingProject.backgroundImage = nil
+        drawingProject.backgroundImage = UIImage(color: .white)
     }
     
     func createSnapshot() -> DrawingSnapshot {
-        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, background: drawingProject.backgroundImage)
+        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, backgroundImage: drawingProject.backgroundImage)
         return newSnapshot
     }
     
     func saveBackwardsSnapshot() {
         let newSnapshot = createSnapshot()
-        backwardsSnapshots.append(newSnapshot)
+        drawingProject.backwardsSnapshots.append(newSnapshot)
     }
     
     func saveForwardSnapshot() {
         let newSnapshot = createSnapshot()
-        forwardSnapshots.append(newSnapshot)
+        drawingProject.forwardSnapshots.append(newSnapshot)
     }
     
     func restoreBackwardsSnapshot() {
         saveForwardSnapshot()
-        if (!backwardsSnapshots.isEmpty) {
-            let snapshot = backwardsSnapshots.popLast()
+        if (!drawingProject.backwardsSnapshots.isEmpty) {
+            let snapshot = drawingProject.backwardsSnapshots.popLast()
             if (snapshot != nil) {
                 applySnapshot(snapshot: snapshot!)
             }
@@ -308,8 +288,8 @@ private extension DrawingView {
     
     func restoreForwardSnapshot() {
         saveBackwardsSnapshot()
-        if (!forwardSnapshots.isEmpty ) {
-            let snapshot = forwardSnapshots.popLast()
+        if (!drawingProject.forwardSnapshots.isEmpty ) {
+            let snapshot = drawingProject.forwardSnapshots.popLast()
             if (snapshot != nil) {
                applySnapshot(snapshot: snapshot!)
             }
@@ -317,7 +297,7 @@ private extension DrawingView {
     }
     func applySnapshot(snapshot: DrawingSnapshot) {
         canvasView.drawing = snapshot.drawing
-        drawingProject.backgroundImage = snapshot.background
+        drawingProject.backgroundImage = snapshot.backgroundImage
         saveProjectState()
     }
 }

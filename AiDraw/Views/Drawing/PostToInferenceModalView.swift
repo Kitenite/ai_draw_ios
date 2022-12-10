@@ -11,17 +11,17 @@ struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
 
     let sourceImage: UIImage
-    let addInferredImage: (InferredImage) -> Void
+    let addInferredImage: (UIImage) -> Void
     let inferenceFailed: (String, String) -> Void
     let startInferenceHandler: (String) -> Void
     @State var prompt: String
-    internal var inferenceHandler = InferenceHelper()
+    internal var serviceHelper = ServiceHelper()
 
     var body: some View {
         VStack {
-            Text("Describe your image")
+            Text("Describe your drawing")
             TextField(
-              "Be as descripive as you can",
+              "Be as descriptive as you can",
               text: $prompt
             )
             .textFieldStyle(.roundedBorder)
@@ -31,7 +31,7 @@ struct PostToInferenceModalView: View {
               .padding(5)
             
             Button(action: sendDrawing) {
-              Text("Enhance image with AI")
+              Text("Use AI")
             }
         }
         .padding(.all)
@@ -44,14 +44,14 @@ private extension PostToInferenceModalView {
     func sendDrawing() {
         if (prompt != "") {
             let enhancedPrompt: String = prompt
-            inferenceHandler.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
+            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
             startInferenceHandler(prompt)
         }
     }
 
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
         let output_location = inferenceResponse.output_img_url
-        inferenceHandler.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
+        serviceHelper.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
     }
 
     func shortPollResultHandler(shortPollResult: String) {
@@ -60,7 +60,7 @@ private extension PostToInferenceModalView {
         if (dataDecoded != nil) {
             let decodedImage: UIImage? = UIImage(data: dataDecoded!)
             if (decodedImage != nil) {
-                addInferredImage(InferredImage(inferredImage: decodedImage!, sourceImage: sourceImage))
+                addInferredImage(decodedImage!)
             } else {
                 inferenceFailed("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
             }
@@ -68,15 +68,8 @@ private extension PostToInferenceModalView {
     }
 }
 
-extension String {
-    func toJSON() -> Any? {
-        guard let data = self.data(using: .utf8, allowLossyConversion: false) else { return nil }
-        return try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-    }
-}
-
 func mockInferenceHandler(prompt: String) {}
-func mockInferenceHandler(image: InferredImage) {}
+func mockInferenceHandler(image: UIImage) {}
 func mockInferenceFailed(title: String, description: String) {}
 struct PostToInferenceModalView_Previews: PreviewProvider {
     static var previews: some View {

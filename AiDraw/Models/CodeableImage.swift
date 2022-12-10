@@ -10,7 +10,6 @@ import SwiftUI
 
 @propertyWrapper
 public struct CodableImage: Codable {
-    
     var image: UIImage?
     
     public enum CodingKeys: String, CodingKey {
@@ -34,9 +33,7 @@ public struct CodableImage: Codable {
             guard let image = UIImage(data: data) else {
                 throw DecodingError.dataCorruptedError(forKey: CodingKeys.image, in: container, debugDescription: "Decoding image failed")
             }
-            
             self.image = image
-        
         }
         
     }

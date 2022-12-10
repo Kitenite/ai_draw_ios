@@ -15,7 +15,7 @@ struct SelectProjectView: View {
     @State private var drawingSelected: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
     internal var analytics = AnalyticsHelper()
-    internal var inferenceHandler = InferenceHelper()
+    internal var serviceHelper = ServiceHelper()
     
     let navigationBarTitle = "Create a drawing"
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
@@ -77,6 +77,7 @@ struct SelectProjectView: View {
         .task {
             navigationLinkIsActive = false
             analytics.logHomeScreen()
+            serviceHelper.wakeService()
         }
     }
 }

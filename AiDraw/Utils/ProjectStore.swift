@@ -48,6 +48,7 @@ class ProjectStore: ObservableObject {
                 let outfile = try fileURL()
                 try data.write(to: outfile)
             } catch {
+                print("Error saving to local storage")
             }
         }
     }
