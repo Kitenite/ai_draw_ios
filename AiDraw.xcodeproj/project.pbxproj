@@ -12,7 +12,6 @@
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
 		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
-		FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */ = {isa = PBXBuildFile; productRef = FE2622112932F2670042D35D /* SwiftUITooltip */; };
 		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
 		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
 		FE58DACE2936F34C001012B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */; };
@@ -21,11 +20,12 @@
 		FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */; };
 		FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF80292E5E0500CC6055 /* Constants.swift */; };
 		FE62BF84292E603300CC6055 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE62BF83292E603300CC6055 /* Alamofire */; };
-		FE6C393C29453DFA00E05F52 /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C393B29453DFA00E05F52 /* TutorialView.swift */; };
+		FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C393B29453DFA00E05F52 /* OnboardingView.swift */; };
 		FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FE791C37294041A400E39A48 /* FirebaseMessaging */; };
 		FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3B2944FAF200E39A48 /* Extensions.swift */; };
 		FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3D2945016A00E39A48 /* AlertManager.swift */; };
 		FE791C402945185800E39A48 /* ArtStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3F2945185800E39A48 /* ArtStyles.swift */; };
+		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
 		FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */; };
 		FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF991290CC11300276E2E /* ImageHelper.swift */; };
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
@@ -53,10 +53,11 @@
 		FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsHelper.swift; sourceTree = "<group>"; };
 		FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModels.swift; sourceTree = "<group>"; };
 		FE62BF80292E5E0500CC6055 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		FE6C393B29453DFA00E05F52 /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
+		FE6C393B29453DFA00E05F52 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		FE791C3B2944FAF200E39A48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FE791C3D2945016A00E39A48 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		FE791C3F2945185800E39A48 /* ArtStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStyles.swift; sourceTree = "<group>"; };
+		FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
 		FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPopoverView.swift; sourceTree = "<group>"; };
 		FEACF991290CC11300276E2E /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
@@ -78,7 +79,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */,
-				FE2622122932F2670042D35D /* SwiftUITooltip in Frameworks */,
 				FE58DAD12936F441001012B5 /* AdSupport.framework in Frameworks */,
 				FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */,
 				FE62BF84292E603300CC6055 /* Alamofire in Frameworks */,
@@ -163,7 +163,8 @@
 		FE6C393A29453DDE00E05F52 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
-				FE6C393B29453DFA00E05F52 /* TutorialView.swift */,
+				FE6C393B29453DFA00E05F52 /* OnboardingView.swift */,
+				FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */,
 			);
 			path = Tutorial;
 			sourceTree = "<group>";
@@ -222,7 +223,6 @@
 			name = AiDraw;
 			packageProductDependencies = (
 				FE62BF83292E603300CC6055 /* Alamofire */,
-				FE2622112932F2670042D35D /* SwiftUITooltip */,
 				FE58DAC92936F32B001012B5 /* FirebaseAnalytics */,
 				FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */,
 				FE791C37294041A400E39A48 /* FirebaseMessaging */,
@@ -295,6 +295,7 @@
 				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
+				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
 				FEE8C92B293C1FA0009E328E /* ProgressBarView.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
 				FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */,
@@ -302,7 +303,7 @@
 				FE791C402945185800E39A48 /* ArtStyles.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
-				FE6C393C29453DFA00E05F52 /* TutorialView.swift in Sources */,
+				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
 				FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */,
 				FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */,
 				FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */,
@@ -573,11 +574,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FE2622112932F2670042D35D /* SwiftUITooltip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */;
-			productName = SwiftUITooltip;
-		};
 		FE58DAC92936F32B001012B5 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

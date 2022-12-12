@@ -31,6 +31,7 @@ struct DrawingView: View {
     internal var serviceHelper = ServiceHelper()
 
     // Alert
+    @State private var showOnboarding = true
     @EnvironmentObject private var alertManager: AlertManager
     
     // Cluster status
@@ -118,19 +119,6 @@ struct DrawingView: View {
                                 }
                             },
                             trailing: HStack {
-                                // Deprecated but keeping for example of popover
-//                                if( backgroundImages.count > 0) {
-//                                    Button {
-//                                        isShowingSidebar = true
-//                                    } label: {
-//                                        Image(systemName: "square.3.stack.3d.top.filled")
-//                                    }.popover(
-//                                        isPresented: $isShowingSidebar,
-//                                        arrowEdge: .top
-//                                    ) {
-//                                        HistoryPopoverView(backgroundImages: backgroundImages, downloadImage: imageHelper.downloadImage )
-//                                    }
-//                                }
                                 Button(action: showInfoAlert) {
                                     Image(systemName: "questionmark.circle")
                                 }
@@ -151,7 +139,9 @@ struct DrawingView: View {
             serviceHelper.wakeService()
         }.alert(isPresented: $alertManager.isPresented) {
             alertManager.alert
-        }
+        }.fullScreenCover(isPresented: $showOnboarding, content: {
+            OnboardingView(showOnboarding: $showOnboarding)
+        })
     }
 }
 
