@@ -119,7 +119,7 @@ struct DrawingView: View {
                                 }
                             },
                             trailing: HStack {
-                                Button(action: showInfoAlert) {
+                                Button(action: {showOnboarding = true}) {
                                     Image(systemName: "questionmark.circle")
                                 }
                             }
