@@ -1,11 +1,10 @@
 //
-//  AiDrawApp.swift
+//  AppDelegate.swift
 //  AiDraw
 //
-//  Created by Kiet Ho on 10/17/22.
+//  Created by Kiet Ho on 12/13/22.
 //
 
-import SwiftUI
 import FirebaseCore
 import Firebase
 import UserNotifications
@@ -15,7 +14,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
-
         Messaging.messaging().delegate = self
 
         if #available(iOS 10.0, *) {
@@ -86,37 +84,5 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         print(userInfo)
         completionHandler()
-    }
-}
-
-@main
-struct AiDrawApp: App {
-    @StateObject private var store = ProjectStore()
-    @Environment(\.scenePhase) private var scenePhase
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var alertManager = AlertManager()
-    
-    var body: some Scene {
-        WindowGroup {
-            NavigationStack {
-                SelectProjectView(projects: $store.projects)
-            }
-            .onAppear {
-                ProjectStore.load { result in
-                    switch result {
-                    case .failure(let error):
-                        fatalError(error.localizedDescription)
-                    case .success(let projects):
-                        store.projects = projects
-                    }
-                }
-            }.onChange(of: scenePhase) { phase in
-                ProjectStore.save(drawingProjects: store.projects) { result in
-                    if case .failure(let error) = result {
-                        fatalError(error.localizedDescription)
-                    }
-                }
-             }.environmentObject(alertManager)
-        }
     }
 }

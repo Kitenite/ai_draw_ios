@@ -11,7 +11,6 @@
 		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
-		FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */ = {isa = PBXBuildFile; fileRef = FE06E63128FE267A00B6F4CE /* DrawingData.json */; };
 		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
 		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
 		FE58DACE2936F34C001012B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */; };
@@ -31,6 +30,8 @@
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
 		FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF995290CCB5800276E2E /* CodeableImage.swift */; };
 		FEACF998290D717000276E2E /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF997290D717000276E2E /* ProjectStore.swift */; };
+		FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC02949848E0074BBCA /* AppDelegate.swift */; };
+		FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */; };
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
 		FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC829025918007D40A5 /* CanvasView.swift */; };
 		FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */; };
@@ -47,7 +48,6 @@
 		FE06E62428FE1FF700B6F4CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FE06E63128FE267A00B6F4CE /* DrawingData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DrawingData.json; sourceTree = "<group>"; };
 		FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE58DAD02936F441001012B5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
 		FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsHelper.swift; sourceTree = "<group>"; };
@@ -63,6 +63,8 @@
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
 		FEACF995290CCB5800276E2E /* CodeableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeableImage.swift; sourceTree = "<group>"; };
 		FEACF997290D717000276E2E /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		FEDA3DC02949848E0074BBCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationHelper.swift; sourceTree = "<group>"; };
 		FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		FEDCAAC829025918007D40A5 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
@@ -110,11 +112,11 @@
 		FE06E61F28FE1FF600B6F4CE /* AiDraw */ = {
 			isa = PBXGroup;
 			children = (
+				FEDA3DC2294984FD0074BBCA /* Core */,
 				FEDCAAD229026405007D40A5 /* Models */,
 				FEDCAACA29025EDE007D40A5 /* Utils */,
 				FE06E63028FE261A00B6F4CE /* Resources */,
 				FE06E62F28FE206A00B6F4CE /* Views */,
-				FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */,
 				FE06E62428FE1FF700B6F4CE /* Assets.xcassets */,
 				FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */,
 				FEDCAACF29026300007D40A5 /* Info.plist */,
@@ -146,7 +148,6 @@
 		FE06E63028FE261A00B6F4CE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FE06E63128FE267A00B6F4CE /* DrawingData.json */,
 				FE62BF80292E5E0500CC6055 /* Constants.swift */,
 			);
 			path = Resources;
@@ -180,6 +181,15 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
+		FEDA3DC2294984FD0074BBCA /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */,
+				FEDA3DC02949848E0074BBCA /* AppDelegate.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		FEDCAACA29025EDE007D40A5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +200,7 @@
 				FEACF997290D717000276E2E /* ProjectStore.swift */,
 				FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */,
 				FE791C3B2944FAF200E39A48 /* Extensions.swift */,
+				FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -274,7 +285,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE06E63228FE267A00B6F4CE /* DrawingData.json in Resources */,
 				FE58DACE2936F34C001012B5 /* GoogleService-Info.plist in Resources */,
 				FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */,
 				FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */,
@@ -302,6 +312,7 @@
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FE791C402945185800E39A48 /* ArtStyles.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
+				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
 				FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */,
@@ -310,6 +321,7 @@
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
+				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
