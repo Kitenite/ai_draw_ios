@@ -23,7 +23,7 @@ struct OnboardingView: View {
                 
                 OnboardingTabView(
                     title: "AI may be asleep",
-                    description: "Disclaimer: Since this is an early build, the AI may take 5 minutes to wake up to save costs. This won't be the case when the app is public.",
+                    description: "Disclaimer: Since this is an early build, the AI may take 5 minutes to wake up to save costs. We will send you a message when it's ready.",
                     image: "onboard-sleep",
                     showOnboarding: $showOnboarding
                 )
