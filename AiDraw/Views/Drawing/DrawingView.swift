@@ -10,9 +10,13 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
+    
+    // Environment variables
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
-
+    // Undo and redo drawing
+    @Environment(\.undoManager) private var undoManager
+    
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
@@ -58,10 +62,10 @@ struct DrawingView: View {
                 HStack {
                     Button(action: restoreBackwardsSnapshot) {
                         Image(systemName: "arrow.uturn.left")
-                    }.disabled(drawingProject.backwardsSnapshots.isEmpty)
+                    }
                     Button(action: restoreForwardSnapshot) {
                         Image(systemName: "arrow.uturn.right")
-                    }.disabled(drawingProject.forwardSnapshots.isEmpty)
+                    }
                     Button(action: clearDrawing) {
                         Image(systemName: "eraser")
                     }
@@ -146,9 +150,7 @@ struct DrawingView: View {
 }
 
 private extension DrawingView {
-    func saveDrawing() {
-        drawingProject.drawing = canvasView.drawing
-    }
+    func saveDrawing() {}
     
     func saveProjectState() {
         drawingProject.displayImage = getDrawingAsImageWithBackground()
@@ -239,7 +241,7 @@ private extension DrawingView {
     }
    
     func clearDrawing() {
-        saveBackwardsSnapshot()
+        saveBackwardsSnapshot(withDrawing: true)
         canvasView.drawing = PKDrawing()
     }
     
@@ -248,43 +250,51 @@ private extension DrawingView {
         drawingProject.backgroundImage = UIImage(color: .white)
     }
     
-    func createSnapshot() -> DrawingSnapshot {
-        let newSnapshot = DrawingSnapshot(drawing: canvasView.drawing, backgroundImage: drawingProject.backgroundImage)
+    func createSnapshot(withDrawing:Bool = false) -> DrawingSnapshot {
+        var newSnapshot = DrawingSnapshot(backgroundImage: drawingProject.backgroundImage)
+        if withDrawing {
+            newSnapshot.drawing = canvasView.drawing
+        }
         return newSnapshot
     }
     
-    func saveBackwardsSnapshot() {
-        let newSnapshot = createSnapshot()
+    func saveBackwardsSnapshot(withDrawing:Bool = false) {
+        let newSnapshot = createSnapshot(withDrawing: withDrawing)
         drawingProject.backwardsSnapshots.append(newSnapshot)
     }
     
-    func saveForwardSnapshot() {
-        let newSnapshot = createSnapshot()
+    func saveForwardSnapshot(withDrawing:Bool = false) {
+        let newSnapshot = createSnapshot(withDrawing: withDrawing)
         drawingProject.forwardSnapshots.append(newSnapshot)
     }
     
     func restoreBackwardsSnapshot() {
-        saveForwardSnapshot()
+        undoManager?.undo()
         if (!drawingProject.backwardsSnapshots.isEmpty) {
             let snapshot = drawingProject.backwardsSnapshots.popLast()
             if (snapshot != nil) {
+                saveForwardSnapshot()
                 applySnapshot(snapshot: snapshot!)
             }
         }
     }
     
     func restoreForwardSnapshot() {
-        saveBackwardsSnapshot()
+        undoManager?.redo()
         if (!drawingProject.forwardSnapshots.isEmpty ) {
             let snapshot = drawingProject.forwardSnapshots.popLast()
             if (snapshot != nil) {
-               applySnapshot(snapshot: snapshot!)
+                saveBackwardsSnapshot()
+                applySnapshot(snapshot: snapshot!)
             }
         }
     }
+    
     func applySnapshot(snapshot: DrawingSnapshot) {
-        canvasView.drawing = snapshot.drawing
         drawingProject.backgroundImage = snapshot.backgroundImage
+        if (snapshot.drawing != nil) {
+            canvasView.drawing = snapshot.drawing!
+        }
         saveProjectState()
     }
 }

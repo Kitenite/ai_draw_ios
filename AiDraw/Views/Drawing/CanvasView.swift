@@ -24,11 +24,11 @@ extension CanvasView: UIViewRepresentable {
         #if targetEnvironment(simulator)
           canvasView.drawingPolicy = .anyInput
         #endif
-        canvasView.delegate = context.coordinator
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
         canvasView.drawing = drawing
         showToolPicker()
+        canvasView.delegate = context.coordinator
         return canvasView
     }
 
