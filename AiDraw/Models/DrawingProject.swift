@@ -9,7 +9,7 @@ import Foundation
 import PencilKit
 
 struct DrawingSnapshot: Codable {
-    var drawing: PKDrawing?
+    var drawing: PKDrawing
     @CodableImage var backgroundImage: UIImage?
 }
 

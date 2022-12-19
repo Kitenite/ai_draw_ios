@@ -20,7 +20,7 @@ struct DrawingView: View {
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
-
+    
     // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -28,12 +28,11 @@ struct DrawingView: View {
     // State of the application
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
-    @State private var isShowingSidebar = false
-
+    
     // Helpers
     internal var imageHelper = ImageHelper()
     internal var serviceHelper = ServiceHelper()
-
+    
     // Alert
     @State private var showOnboarding = true
     @EnvironmentObject private var alertManager: AlertManager
@@ -46,7 +45,7 @@ struct DrawingView: View {
     // Progress bars
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
     let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 4500)
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -60,10 +59,10 @@ struct DrawingView: View {
                 }
                 Spacer()
                 HStack {
-                    Button(action: restoreBackwardsSnapshot) {
+                    Button(action: undoDrawing) {
                         Image(systemName: "arrow.uturn.left")
                     }
-                    Button(action: restoreForwardSnapshot) {
+                    Button(action: redoDrawing) {
                         Image(systemName: "arrow.uturn.right")
                     }
                     Button(action: clearDrawing) {
@@ -97,41 +96,41 @@ struct DrawingView: View {
                     }
                     CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
-                        .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
-                        .navigationBarBackButtonHidden(true)
-                        .navigationBarItems(
-                            leading: HStack {
-                                Button(action : dismissDrawingView){
-                                    Image(systemName: "chevron.backward")
-                                }
-                                Spacer(minLength: 10)
-                                Button(action: downloadCurrentDrawingAndBackground) {
-                                    Image(systemName: "square.and.arrow.down")
-                                }
-                                PhotosPicker(
-                                    selection: $selectedItem,
-                                    matching: .images,
-                                    photoLibrary: .shared()
-                                ) {
-                                    Image(systemName: "photo.on.rectangle.angled")
-                                }.onChange(of: selectedItem) { newItem in
-                                    Task {
-                                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                            handleImportedPhoto(data: data)
-                                        }
-                                    }
-                                }
-                            },
-                            trailing: HStack {
-                                Button(action: {showOnboarding = true}) {
-                                    Image(systemName: "questionmark.circle")
-                                }
-                            }
-                        )
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
             }
+            .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(
+                leading: HStack {
+                    Button(action : dismissDrawingView){
+                        Image(systemName: "chevron.backward")
+                    }
+                    Spacer(minLength: 10)
+                    Button(action: downloadCurrentDrawingAndBackground) {
+                        Image(systemName: "square.and.arrow.down")
+                    }
+                    PhotosPicker(
+                        selection: $selectedItem,
+                        matching: .images,
+                        photoLibrary: .shared()
+                    ) {
+                        Image(systemName: "photo.on.rectangle.angled")
+                    }.onChange(of: selectedItem) { newItem in
+                        Task {
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                handleImportedPhoto(data: data)
+                            }
+                        }
+                    }
+                },
+                trailing: HStack {
+                    Button(action: {showOnboarding = true}) {
+                        Image(systemName: "questionmark.circle")
+                    }
+                }
+            )
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
         }.task {
@@ -150,7 +149,9 @@ struct DrawingView: View {
 }
 
 private extension DrawingView {
-    func saveDrawing() {}
+    func saveDrawing() {
+        saveBackwardsSnapshot()
+    }
     
     func saveProjectState() {
         drawingProject.displayImage = getDrawingAsImageWithBackground()
@@ -188,7 +189,7 @@ private extension DrawingView {
         isRunningInference = true
         drawingProject.prompt = newPrompt
         inferenceProgressBar.startTimer()
-     }
+    }
     
     func addInferredImage(inferredImage: UIImage) {
         let croppedImage = imageHelper.cropImageToRect(sourceImage: inferredImage, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
@@ -230,18 +231,8 @@ private extension DrawingView {
         }
     }
     
-    func showInfoAlert() {
-        var title = "AI is ready"
-        var message = "Send it your drawing and description for enhancement"
-        if (runningTasksCount == 0) {
-            title = "AI is waking up"
-            message = "AI went to sleep from inactivity.\nIt'll take 5 minutes to wake it.\nUse this time to create your drawing."
-        }
-        alertManager.presentAlert(title: title, message: message, dismissButton: nil)
-    }
-   
     func clearDrawing() {
-        saveBackwardsSnapshot(withDrawing: true)
+        saveBackwardsSnapshot()
         canvasView.drawing = PKDrawing()
     }
     
@@ -250,52 +241,48 @@ private extension DrawingView {
         drawingProject.backgroundImage = UIImage(color: .white)
     }
     
-    func createSnapshot(withDrawing:Bool = false) -> DrawingSnapshot {
-        var newSnapshot = DrawingSnapshot(backgroundImage: drawingProject.backgroundImage)
-        if withDrawing {
-            newSnapshot.drawing = canvasView.drawing
-        }
-        return newSnapshot
+    func createSnapshot() -> DrawingSnapshot {
+        return DrawingSnapshot(drawing: canvasView.drawing, backgroundImage: drawingProject.backgroundImage)
     }
     
-    func saveBackwardsSnapshot(withDrawing:Bool = false) {
-        let newSnapshot = createSnapshot(withDrawing: withDrawing)
+    func saveBackwardsSnapshot() {
+        let newSnapshot = createSnapshot()
         drawingProject.backwardsSnapshots.append(newSnapshot)
     }
     
-    func saveForwardSnapshot(withDrawing:Bool = false) {
-        let newSnapshot = createSnapshot(withDrawing: withDrawing)
+    func saveForwardSnapshot() {
+        let newSnapshot = createSnapshot()
         drawingProject.forwardSnapshots.append(newSnapshot)
     }
     
-    func restoreBackwardsSnapshot() {
-        undoManager?.undo()
-        if (!drawingProject.backwardsSnapshots.isEmpty) {
-            let snapshot = drawingProject.backwardsSnapshots.popLast()
-            if (snapshot != nil) {
-                saveForwardSnapshot()
-                applySnapshot(snapshot: snapshot!)
+    func undoDrawing() {
+        let snapshot = drawingProject.backwardsSnapshots.popLast()
+        if (snapshot != nil) {
+            saveForwardSnapshot()
+            drawingProject.backgroundImage = snapshot!.backgroundImage
+            if (canvasView.drawing != snapshot!.drawing) {
+                canvasView.drawing = snapshot!.drawing
+            } else {
+                undoManager?.undo()
             }
+        } else {
+            undoManager?.undo()
         }
     }
     
-    func restoreForwardSnapshot() {
-        undoManager?.redo()
-        if (!drawingProject.forwardSnapshots.isEmpty ) {
-            let snapshot = drawingProject.forwardSnapshots.popLast()
-            if (snapshot != nil) {
-                saveBackwardsSnapshot()
-                applySnapshot(snapshot: snapshot!)
+    func redoDrawing() {
+        let snapshot = drawingProject.forwardSnapshots.popLast()
+        if (snapshot != nil) {
+            saveBackwardsSnapshot()
+            drawingProject.backgroundImage = snapshot!.backgroundImage
+            if (canvasView.drawing != snapshot!.drawing) {
+                canvasView.drawing = snapshot!.drawing
+            } else {
+                undoManager?.redo()
             }
+        } else {
+            undoManager?.redo()
         }
-    }
-    
-    func applySnapshot(snapshot: DrawingSnapshot) {
-        drawingProject.backgroundImage = snapshot.backgroundImage
-        if (snapshot.drawing != nil) {
-            canvasView.drawing = snapshot.drawing!
-        }
-        saveProjectState()
     }
 }
 

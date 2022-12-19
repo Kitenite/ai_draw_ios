@@ -11,7 +11,7 @@ struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
     let navigationBarTitle = "Create a drawing"
-
+    
     // Navigation between projects
     @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
@@ -34,22 +34,14 @@ struct SelectProjectView: View {
                 }
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        VStack{
-                            Image(uiImage: projects[index].displayImage!)
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fill)
-                                .cornerRadius(10)
-                                .overlay(
-                                    projects[index].id.uuidString == selectedDrawing?.id.uuidString ?
-                                    RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 5) : RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 0.5))
-                            Text(projects[index].name)
-                        }.onTapGesture {
-                            navigateToDrawing(index: index)
-                        }
-                        .onLongPressGesture {
-                            drawingSelected = true
-                            selectedDrawing = projects[index]
-                        }
+                        PreviewProjectView(image: projects[index].displayImage!, selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString, title: projects[index].name)
+                            .onTapGesture {
+                                navigateToDrawing(index: index)
+                            }
+                            .onLongPressGesture {
+                                drawingSelected = true
+                                selectedDrawing = projects[index]
+                            }
                     }
                 }
                 .padding(.all, 20)
@@ -97,11 +89,6 @@ private extension SelectProjectView {
         }
     }
     
-    func importPhoto() {
-        print("Importing photo")
-        // Create drawing with default photo
-    }
-    
     func navigateToDrawing(index: Int) {
         navDrawingIndex = index
         navigationLinkIsActive = true
@@ -138,7 +125,7 @@ private extension SelectProjectView {
 }
 
 struct SelectDrawingView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
         SelectProjectView(projects: .constant([
             DrawingProject(name: "My project 1"),
