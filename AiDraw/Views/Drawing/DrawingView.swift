@@ -14,8 +14,8 @@ struct DrawingView: View {
     // Environment variables
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
-    // Undo and redo drawing
     @Environment(\.undoManager) private var undoManager
+    @EnvironmentObject private var alertManager: AlertManager
     
     // Drawing
     @Binding var drawingProject: DrawingProject
@@ -28,14 +28,12 @@ struct DrawingView: View {
     // State of the application
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
-    
+    @State private var isShowingOnboarding = true
+
     // Helpers
     internal var imageHelper = ImageHelper()
     internal var serviceHelper = ServiceHelper()
     
-    // Alert
-    @State private var showOnboarding = true
-    @EnvironmentObject private var alertManager: AlertManager
     
     // Cluster status
     @State internal var runningTasksCount: Int = 0
@@ -126,7 +124,7 @@ struct DrawingView: View {
                     }
                 },
                 trailing: HStack {
-                    Button(action: {showOnboarding = true}) {
+                    Button(action: {isShowingOnboarding = true}) {
                         Image(systemName: "questionmark.circle")
                     }
                 }
@@ -142,8 +140,8 @@ struct DrawingView: View {
             serviceHelper.wakeService()
         }.alert(isPresented: $alertManager.isPresented) {
             alertManager.alert
-        }.fullScreenCover(isPresented: $showOnboarding, content: {
-            OnboardingView(showOnboarding: $showOnboarding)
+        }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
+            OnboardingView(showOnboarding: $isShowingOnboarding)
         })
     }
 }
@@ -287,7 +285,9 @@ private extension DrawingView {
 }
 
 struct DrawingView_Previews: PreviewProvider {
+    static let mockAlertManager = AlertManager()
     static var previews: some View {
-        DrawingView(drawingProject: .constant(DrawingProject(name: "coffee-1", backgroundImage: UIImage(named: "coffee-1"))))
+        DrawingView(drawingProject: .constant(DrawingProject(name: "Coffee", backgroundImage: UIImage(named: "coffee-1"))))
+            .environmentObject(mockAlertManager)
     }
 }
