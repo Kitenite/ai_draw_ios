@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PencilKit
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
@@ -13,7 +14,7 @@ struct PostToInferenceModalView: View {
     // Inputs
     let sourceImage: UIImage
     @State var prompt: String
-
+    
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
     let inferenceFailedHandler: (String, String) -> Void
@@ -21,6 +22,11 @@ struct PostToInferenceModalView: View {
     
     // Helpers
     internal var serviceHelper = ServiceHelper()
+    
+    // Masking for inpainting
+    @State private var maskCanvasView = PKCanvasView()
+    @State private var maskDrawing = PKDrawing()
+    @State private var isMasking = false
     
     // Art style picker
     static let styles: [ArtStyle] = [
@@ -36,20 +42,29 @@ struct PostToInferenceModalView: View {
     @State private var selectedStyleKey: String = styles[0].key
     let styleKeys = styles.map { $0.key }
     let styleDict = styles.reduce(into: [String: ArtStyle]()) {$0[$1.key] = $1}
-
+    
     var body: some View {
         VStack {
             Text("Describe your drawing")
             TextField(
-              "Be as descriptive as you can",
-              text: $prompt
+                "Be as descriptive as you can",
+                text: $prompt
             )
             .textFieldStyle(.roundedBorder)
-            Image(uiImage: sourceImage)
-              .resizable()
-              .aspectRatio(1, contentMode: .fit)
-              .padding(5)
             
+            ZStack {
+                Image(uiImage: sourceImage)
+                    .resizable()
+                    .aspectRatio(1, contentMode: .fit)
+                CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
+                    .aspectRatio(1, contentMode: .fit)
+                    .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    .hidden(!isMasking)
+            }
+            .padding(5)
+
+            Toggle("Use mask", isOn: $isMasking)
+
             HStack(spacing: 0) {
                 Text("Select a style:")
                 Picker("Select an art style", selection: $selectedStyleKey) {
@@ -62,7 +77,7 @@ struct PostToInferenceModalView: View {
             }
             
             Button(action: sendDrawing) {
-              Text("Use AI")
+                Text("Use AI")
             }
         }
         .padding(.all)
@@ -70,8 +85,10 @@ struct PostToInferenceModalView: View {
 }
 
 
-    
+
 private extension PostToInferenceModalView {
+    func saveMask() {}
+
     func sendDrawing() {
         if (prompt != "") {
             let style = styleDict[selectedStyleKey]!
@@ -80,12 +97,12 @@ private extension PostToInferenceModalView {
             startInferenceHandler(prompt)
         }
     }
-
+    
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
         let output_location = inferenceResponse.output_img_url
         serviceHelper.shortPollForImg(output_location: output_location, shortPollResultHandler: shortPollResultHandler)
     }
-
+    
     func shortPollResultHandler(shortPollResult: String) {
         let imageData: String = shortPollResult
         let dataDecoded: Data? = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)

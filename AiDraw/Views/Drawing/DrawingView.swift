@@ -20,7 +20,7 @@ struct DrawingView: View {
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
-    
+
     // Image picker
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -33,7 +33,6 @@ struct DrawingView: View {
     // Helpers
     internal var imageHelper = ImageHelper()
     internal var serviceHelper = ServiceHelper()
-    
     
     // Cluster status
     @State internal var runningTasksCount: Int = 0
@@ -69,8 +68,9 @@ struct DrawingView: View {
                     Button(action: clearBackground) {
                         Image(systemName: "trash")
                     }
+
                     Spacer()
-                    // Service state and button
+                    
                     if (runningTasksCount <= 0) {
                         Text("Waking AI...")
                     }
@@ -150,7 +150,7 @@ private extension DrawingView {
     func saveDrawing() {
         saveBackwardsSnapshot()
     }
-    
+        
     func saveProjectState() {
         drawingProject.displayImage = getDrawingAsImageWithBackground()
         drawingProject.drawing = canvasView.drawing

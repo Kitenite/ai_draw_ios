@@ -14,6 +14,7 @@ struct CanvasView {
     @Binding var canvasView: PKCanvasView
     var drawing: PKDrawing
     let onSaved: () -> Void
+    var isMask: Bool = false
     @State var toolPicker = PKToolPicker()
 }
 
@@ -27,7 +28,11 @@ extension CanvasView: UIViewRepresentable {
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
         canvasView.drawing = drawing
-        showToolPicker()
+        if (!isMask) {
+            showToolPicker()
+        } else {
+            canvasView.tool = PKInkingTool( PKInkingTool.InkType.marker, color: .lightGray, width: 30)
+        }
         canvasView.delegate = context.coordinator
         return canvasView
     }
@@ -45,6 +50,8 @@ private extension CanvasView {
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
     }
+    
+    
 }
 
 class Coordinator: NSObject {
