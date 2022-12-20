@@ -26,13 +26,19 @@ extension CanvasView: UIViewRepresentable {
         #if targetEnvironment(simulator)
           canvasView.drawingPolicy = .anyInput
         #endif
+        
+        // Force light mode for consistency
+        canvasView.overrideUserInterfaceStyle = .light
+        toolPicker.colorUserInterfaceStyle = .light
+        
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
         canvasView.drawing = drawing
         if (!isMask) {
             showToolPicker()
         } else {
-            canvasView.tool = PKInkingTool( PKInkingTool.InkType.marker, color: .lightGray, width: 30)
+            canvasView.drawingPolicy = .anyInput
+            canvasView.tool = PKInkingTool(PKInkingTool.InkType.marker, color: .lightGray, width: 50)
         }
         canvasView.delegate = context.coordinator
         return canvasView
@@ -51,8 +57,6 @@ private extension CanvasView {
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
     }
-    
-    
 }
 
 class Coordinator: NSObject {
@@ -75,18 +79,20 @@ extension Coordinator: PKCanvasViewDelegate {
 
 extension PKCanvasView {
     func getDrawingAsImage(backgroundImage: UIImage? = nil) -> UIImage {
-        var drawingImage = self.drawing.image(from: self.bounds, scale: UIScreen.main.scale)
-        if (backgroundImage != nil) {
-            drawingImage = ImageHelper().overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage, canvasSize: self.frame.size)
+        var drawingImage: UIImage? = nil
+        self.traitCollection.performAsCurrent {
+            drawingImage = self.drawing.image(from: self.bounds, scale: UIScreen.main.scale)
         }
-        return drawingImage
+        if (backgroundImage != nil) {
+            drawingImage = ImageHelper().overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage!, canvasSize: self.frame.size)
+        }
+        return drawingImage!
     }
     
     func getMaskAsImage() -> UIImage {
         if !self.drawing.strokes.isEmpty {
-             // set color whichever needed
-            self.drawing.strokes[0].ink.color = UIColor.white
+            self.drawing.strokes[0].ink.color = .white
         }
-        return self.getDrawingAsImage(backgroundImage: UIImage(color: .black))
+        return getDrawingAsImage(backgroundImage: UIImage(color: .black))
     }
 }

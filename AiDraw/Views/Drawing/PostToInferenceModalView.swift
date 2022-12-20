@@ -14,6 +14,7 @@ struct PostToInferenceModalView: View {
     // Inputs
     let sourceImage: UIImage
     @State var prompt: String
+    @State internal var inpaintPrompt: String = ""
     
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
@@ -22,6 +23,7 @@ struct PostToInferenceModalView: View {
     
     // Helpers
     internal var serviceHelper = ServiceHelper()
+    @FocusState private var promptTextFieldIsFocused: Bool
     
     // Masking for inpainting
     @State private var maskCanvasView = PKCanvasView()
@@ -45,16 +47,10 @@ struct PostToInferenceModalView: View {
     
     var body: some View {
         VStack {
-            Text("Describe your drawing")
-            TextField(
-                "Be as descriptive as you can",
-                text: $prompt
-            )
-            .textFieldStyle(.roundedBorder)
+            Toggle("Apply mask", isOn: $isMasking)
             
             ZStack {
                 Image(uiImage: sourceImage)
-                    .resizable()
                     .aspectRatio(1, contentMode: .fit)
                 
                 CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
@@ -62,18 +58,32 @@ struct PostToInferenceModalView: View {
                     .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     .hidden(!isMasking)
             }
-            .padding(5)
-
-            Toggle("Use mask", isOn: $isMasking)
-
-            HStack(spacing: 0) {
-                Text("Select a style:")
-                Picker("Select an art style", selection: $selectedStyleKey) {
-                    ForEach(styleKeys, id: \.self) {
-                        Text($0)
+            
+            if (isMasking) {
+                Text("Draw your mask and describe what you want to fill in")
+                TextField(
+                    "Only the masked part will be filled in by AI",
+                    text: $inpaintPrompt
+                )
+                .textFieldStyle(.roundedBorder)
+                
+            } else {
+                Text("Describe your drawing")
+                TextField(
+                    "Be as descriptive as you can",
+                    text: $prompt
+                )
+                .textFieldStyle(.roundedBorder)
+                
+                HStack(spacing: 0) {
+                    Text("Select a style:")
+                    Picker("Select an art style", selection: $selectedStyleKey) {
+                        ForEach(styleKeys, id: \.self) {
+                            Text($0)
+                        }
                     }
+                    .pickerStyle(.menu )
                 }
-                .pickerStyle(.menu )
             }
             
             Button(action: sendDrawing) {
@@ -86,17 +96,17 @@ struct PostToInferenceModalView: View {
 
 private extension PostToInferenceModalView {
     func saveMask() {}
-
+    
     func sendDrawing() {
-        // Send mask
-        if (isMasking) {
-            let maskImage = maskCanvasView.getMaskAsImage()
-        }
-        
         if (prompt != "") {
-            let style = styleDict[selectedStyleKey]!
-            let enhancedPrompt: String = style.prefix + prompt + style.suffix
-            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
+            if (isMasking) {
+                let maskImage = maskCanvasView.getMaskAsImage()
+                serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, inferenceResultHandler: inferenceResultHandler)
+            } else {
+                let style = styleDict[selectedStyleKey]!
+                let enhancedPrompt: String = style.prefix + prompt + style.suffix
+                serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
+            }
             startInferenceHandler(prompt)
         }
     }

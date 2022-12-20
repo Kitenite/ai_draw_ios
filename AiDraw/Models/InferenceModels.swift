@@ -14,8 +14,8 @@ struct ShortPollRequestInput: Codable {
 struct InferenceRequestInput: Codable {
     let prompt: String
     let request_type: String
-    var init_img_url: String?
     var init_img: String?
+    var mask: String?
 }
 
 enum InferenceRequestTypes: String {

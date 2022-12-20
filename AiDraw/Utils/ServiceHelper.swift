@@ -10,14 +10,21 @@ import UIKit
 import Alamofire
 
 class ServiceHelper {
-    func postImgToImgRequest(prompt: String, image: UIImage, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
-        let imageData = image.jpegData(compressionQuality: 0)
-        let encodedImageData = imageData?.base64EncodedString()
+    func postImgToImgRequest(prompt: String, image: UIImage, mask: UIImage? = nil, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
+        let imageData: String? = image.jpegData(compressionQuality: 0)?.base64EncodedString()
+        var maskData: String? = nil
+        
+        if (mask != nil) {
+            maskData = mask!.jpegData(compressionQuality: 0)?.base64EncodedString()
+        }
+        
         let input = InferenceRequestInput(
             prompt: prompt,
             request_type: InferenceRequestTypes.IMG_TO_IMG.rawValue,
-            init_img: encodedImageData
+            init_img: imageData,
+            mask: maskData
         )
+        
         AF.request(
             Constants.INFERENCE_API,
             method: .post,
