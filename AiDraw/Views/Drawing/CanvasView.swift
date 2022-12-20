@@ -16,6 +16,7 @@ struct CanvasView {
     let onSaved: () -> Void
     var isMask: Bool = false
     @State var toolPicker = PKToolPicker()
+    
 }
 
 // MARK: - UIViewRepresentable
@@ -69,5 +70,23 @@ extension Coordinator: PKCanvasViewDelegate {
         if !canvasView.drawing.bounds.isEmpty {
           onSaved()
         }
+    }
+}
+
+extension PKCanvasView {
+    func getDrawingAsImage(backgroundImage: UIImage? = nil) -> UIImage {
+        var drawingImage = self.drawing.image(from: self.bounds, scale: UIScreen.main.scale)
+        if (backgroundImage != nil) {
+            drawingImage = ImageHelper().overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage, canvasSize: self.frame.size)
+        }
+        return drawingImage
+    }
+    
+    func getMaskAsImage() -> UIImage {
+        if !self.drawing.strokes.isEmpty {
+             // set color whichever needed
+            self.drawing.strokes[0].ink.color = UIColor.white
+        }
+        return self.getDrawingAsImage(backgroundImage: UIImage(color: .black))
     }
 }

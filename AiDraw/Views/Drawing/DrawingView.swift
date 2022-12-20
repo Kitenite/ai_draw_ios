@@ -79,7 +79,7 @@ struct DrawingView: View {
                         Button(action: uploadDrawingForInference) {
                             Text("Use AI")
                         }.sheet(isPresented: $isUploadingDrawing) {
-                            PostToInferenceModalView(sourceImage: getDrawingAsImageWithBackground(), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
+                            PostToInferenceModalView(sourceImage: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
                         }
                     } else {
                         ProgressView()
@@ -152,7 +152,7 @@ private extension DrawingView {
     }
         
     func saveProjectState() {
-        drawingProject.displayImage = getDrawingAsImageWithBackground()
+        drawingProject.displayImage = canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage)
         drawingProject.drawing = canvasView.drawing
     }
     
@@ -161,20 +161,8 @@ private extension DrawingView {
         self.mode.wrappedValue.dismiss()
     }
     
-    func getDrawingAsImageWithBackground() -> UIImage {
-        let drawingImage = getDrawingAsImage()
-        if (drawingProject.backgroundImage != nil) {
-            return imageHelper.overlayDrawingOnBackground(backgroundImage: drawingProject.backgroundImage!, drawingImage: drawingImage, canvasSize: canvasView.frame.size)
-        }
-        return drawingImage
-    }
-    
-    func getDrawingAsImage() -> UIImage {
-        return canvasView.drawing.image(from: canvasView.bounds, scale: UIScreen.main.scale)
-    }
-    
     func downloadCurrentDrawingAndBackground() {
-        let currentDrawingAndBackground = getDrawingAsImageWithBackground()
+        let currentDrawingAndBackground = canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage)
         imageHelper.downloadImage(image: currentDrawingAndBackground)
     }
     

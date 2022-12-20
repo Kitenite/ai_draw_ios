@@ -56,6 +56,7 @@ struct PostToInferenceModalView: View {
                 Image(uiImage: sourceImage)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
+                
                 CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
                     .aspectRatio(1, contentMode: .fit)
                     .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
@@ -73,7 +74,6 @@ struct PostToInferenceModalView: View {
                     }
                 }
                 .pickerStyle(.menu )
-                
             }
             
             Button(action: sendDrawing) {
@@ -84,12 +84,15 @@ struct PostToInferenceModalView: View {
     }
 }
 
-
-
 private extension PostToInferenceModalView {
     func saveMask() {}
 
     func sendDrawing() {
+        // Send mask
+        if (isMasking) {
+            let maskImage = maskCanvasView.getMaskAsImage()
+        }
+        
         if (prompt != "") {
             let style = styleDict[selectedStyleKey]!
             let enhancedPrompt: String = style.prefix + prompt + style.suffix
