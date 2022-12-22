@@ -43,6 +43,9 @@ struct DrawingView: View {
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
     let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 4500)
     
+    // Early initialize prompt styles singleton so it is populated when user submits
+    let promptStylesManager = PromptStylesManager.shared
+    
     var body: some View {
         NavigationStack {
             VStack {

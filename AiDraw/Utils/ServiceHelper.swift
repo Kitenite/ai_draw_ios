@@ -78,4 +78,17 @@ class ServiceHelper {
             }
         }
     }
+    
+    func getPromptStyles(handler: @escaping (PromptStyles) -> Void) {
+        print("Getting prompt styles")
+        AF.request(
+            Constants.PROMPT_STYLES_API,
+            method: .get
+        ).responseDecodable(of: PromptStyles.self) { response in
+            debugPrint("Response: \(response)")
+            if (response.value != nil) {
+                handler(response.value!)
+            }
+        }
+    }
 }

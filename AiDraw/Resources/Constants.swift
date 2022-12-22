@@ -13,5 +13,6 @@ struct Constants {
     static let SHORT_POLL_API = "\(API_ROOT)/shortpoll"
     static let WAKE_API = "\(API_ROOT)/wake"
     static let STATUS_API = "\(API_ROOT)/status"
+    static let PROMPT_STYLES_API = "\(API_ROOT)/prompt-styles"
     static let WAKE_TOPIC = "WAKE"
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC2BB25529539F2900ABEB6D /* PromptStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB25429539F2900ABEB6D /* PromptStyles.swift */; };
+		CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */; };
 		FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */; };
 		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
@@ -23,7 +25,6 @@
 		FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FE791C37294041A400E39A48 /* FirebaseMessaging */; };
 		FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3B2944FAF200E39A48 /* Extensions.swift */; };
 		FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3D2945016A00E39A48 /* AlertManager.swift */; };
-		FE791C402945185800E39A48 /* ArtStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3F2945185800E39A48 /* ArtStyles.swift */; };
 		FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */; };
 		FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */; };
 		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
@@ -44,6 +45,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CC2BB25429539F2900ABEB6D /* PromptStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptStyles.swift; sourceTree = "<group>"; };
+		CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptStylesManager.swift; sourceTree = "<group>"; };
 		FE06E61D28FE1FF600B6F4CE /* AiDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AiDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiDrawApp.swift; sourceTree = "<group>"; };
 		FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectView.swift; sourceTree = "<group>"; };
@@ -58,7 +61,6 @@
 		FE6C393B29453DFA00E05F52 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		FE791C3B2944FAF200E39A48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FE791C3D2945016A00E39A48 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
-		FE791C3F2945185800E39A48 /* ArtStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtStyles.swift; sourceTree = "<group>"; };
 		FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewProjectView.swift; path = AiDraw/Views/PreviewProjectView.swift; sourceTree = SOURCE_ROOT; };
 		FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */,
 				FEACF991290CC11300276E2E /* ImageHelper.swift */,
 				FE791C3D2945016A00E39A48 /* AlertManager.swift */,
+				CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */,
 				FEACF997290D717000276E2E /* ProjectStore.swift */,
 				FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */,
 				FE791C3B2944FAF200E39A48 /* Extensions.swift */,
@@ -217,7 +220,7 @@
 				FEACF993290CC3DF00276E2E /* DrawingProject.swift */,
 				FEACF995290CCB5800276E2E /* CodeableImage.swift */,
 				FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */,
-				FE791C3F2945185800E39A48 /* ArtStyles.swift */,
+				CC2BB25429539F2900ABEB6D /* PromptStyles.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 				FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */,
 				FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */,
 				FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */,
+				CC2BB25529539F2900ABEB6D /* PromptStyles.swift in Sources */,
 				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
 				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
@@ -317,9 +321,9 @@
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* PreviewProjectView.swift in Sources */,
 				FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */,
-				FE791C402945185800E39A48 /* ArtStyles.swift in Sources */,
 				FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
+				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
