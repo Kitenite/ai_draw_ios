@@ -46,7 +46,6 @@ struct PostToInferenceModalView: View {
                 
                 ZStack {
                     Image(uiImage: sourceImage)
-                        .resizable()
                         .aspectRatio(1, contentMode: .fit)
                     
                     CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
@@ -123,7 +122,7 @@ struct PostToInferenceModalView: View {
                 
                 Button(action: sendDrawing) {
                     Text("Use AI")
-                }.disabled(prompt == "")
+                }.disabled(prompt == "" && inpaintPrompt == "")
             }
         }
         .padding(.all)
@@ -135,16 +134,14 @@ private extension PostToInferenceModalView {
     func saveMask() {}
     
     func sendDrawing() {
-        if (prompt != "") {
-            if (isMasking) {
-                let maskImage = maskCanvasView.getMaskAsImage()
-                serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, inferenceResultHandler: inferenceResultHandler)
-            } else {
-                let enhancedPrompt: String = buildPrompt()
-                serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
-            }
-            startInferenceHandler(prompt)
+        if (isMasking) {
+            let maskImage = maskCanvasView.getMaskAsImage()
+            serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, inferenceResultHandler: inferenceResultHandler)
+        } else {
+            let enhancedPrompt: String = buildPrompt()
+            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
         }
+        startInferenceHandler(prompt)
     }
     
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
