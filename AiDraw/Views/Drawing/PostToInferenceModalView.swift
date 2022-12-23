@@ -125,8 +125,8 @@ struct PostToInferenceModalView: View {
                 }.disabled(prompt == "" && inpaintPrompt == "")
             }
         }
-        .padding(.all)
-        .scrollDisabled(isTextFieldFocused ? !isTextFieldFocused : true)
+        .padding()
+        .scrollDisabled(isTextFieldFocused ? (!isTextFieldFocused && isMasking): true)
     }
 }
 
@@ -203,7 +203,7 @@ func mockInferenceHandler(image: UIImage) {}
 func mockInferenceFailedHandler(title: String, description: String) {}
 struct PostToInferenceModalView_Previews: PreviewProvider {
     static var previews: some View {
-        let mockSourceImage = UIImage(named: "coffee-1")
+        let mockSourceImage = UIImage(color: .blue)
         PostToInferenceModalView(sourceImage: mockSourceImage ?? UIImage(), prompt: "", addInferredImageHandler: mockInferenceHandler, inferenceFailedHandler: mockInferenceFailedHandler, startInferenceHandler: mockInferenceHandler)
     }
 }
