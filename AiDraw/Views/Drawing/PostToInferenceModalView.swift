@@ -10,6 +10,7 @@ import PencilKit
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
+    @FocusState private var isTextFieldFocused: Bool
     
     // Inputs
     let sourceImage: UIImage
@@ -39,88 +40,94 @@ struct PostToInferenceModalView: View {
     @State private var selectedSubstyleKey2: String = "None"
     
     var body: some View {
-        VStack {
-            Toggle("Apply mask", isOn: $isMasking)
-            
-            ZStack {
-                Image(uiImage: sourceImage)
-                    .aspectRatio(1, contentMode: .fit)
+        ScrollView {
+            VStack {
+                Toggle("Apply mask", isOn: $isMasking)
                 
-                CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
-                    .aspectRatio(1, contentMode: .fit)
-                    .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    .hidden(!isMasking)
-            }
-            
-            if (isMasking) {
-                Text("Draw your mask and describe what you want to fill in")
-                TextField(
-                    "Only the masked part will be filled in by AI",
-                    text: $inpaintPrompt
-                )
-                .textFieldStyle(.roundedBorder)
+                ZStack {
+                    Image(uiImage: sourceImage)
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                    
+                    CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
+                        .aspectRatio(1, contentMode: .fit)
+                        .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                        .hidden(!isMasking)
+                }
                 
-            } else {
-                Text("Describe your drawing")
-                TextField(
-                    "Be as descriptive as you can",
-                    text: $prompt
-                )
-                .textFieldStyle(.roundedBorder)
-                
-                HStack(spacing: 0) {
-                    VStack() {
-                        Text("Art Type:")
-                        Picker("Select an art style", selection: $selectedArtTypeKey) {
-                            ForEach(promptStylesManager.getArtTypeKeys(), id: \.self) {
-                                Text($0)
-                            }
-                        }
-                    }
-                    .pickerStyle(.menu )
-                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 0) {
-                        VStack() {
-                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 0) + ":")
-                            Picker("Select an art style", selection: $selectedSubstyleKey0) {
-                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 0), id: \.self) {
+                if (isMasking) {
+                    Text("Experimental: You may have to try a few times. Draw your mask and describe what you want to fill in")
+                    TextField(
+                        "Only the masked part will be filled in by AI",
+                        text: $inpaintPrompt
+                    )
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isTextFieldFocused)
+                    
+                } else {
+                    Text("Describe your drawing")
+                    TextField(
+                        "Be as descriptive as you can",
+                        text: $prompt
+                    )
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isTextFieldFocused)
+                    
+                    VStack {
+                        HStack {
+                            Text("Art Type:")
+                            Picker("Select an art style", selection: $selectedArtTypeKey) {
+                                ForEach(promptStylesManager.getArtTypeKeys(), id: \.self) {
                                     Text($0)
                                 }
+                            }.pickerStyle(.menu )
+                        }
+                        
+                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 0) {
+                            HStack {
+                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 0) + ":")
+                                Picker("Select an art style", selection: $selectedSubstyleKey0) {
+                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 0), id: \.self) {
+                                        Text($0)
+                                    }
+                                }.pickerStyle(.menu)
+                            }
+                            
+                        }
+                        
+                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 1) {
+                            HStack {
+                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 1) + ":")
+                                Picker("Select an art style", selection: $selectedSubstyleKey1) {
+                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 1), id: \.self) {
+                                        Text($0)
+                                    }
+                                }.pickerStyle(.menu )
+                            }
+                            
+                        }
+                        
+                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 2) {
+                            HStack {
+                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 2) + ":")
+                                Picker("Select an art style", selection: $selectedSubstyleKey2) {
+                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 2), id: \.self) {
+                                        Text($0)
+                                    }
+                                }.pickerStyle(.menu )
                             }
                         }
-                        .pickerStyle(.menu )
+                        
                     }
                 }
-                HStack(spacing: 0) {
-                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 1) {
-                        VStack() {
-                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 1) + ":")
-                            Picker("Select an art style", selection: $selectedSubstyleKey1) {
-                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 1), id: \.self) {
-                                    Text($0)
-                                }
-                            }
-                        }
-                        .pickerStyle(.menu )
-                    }
-                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 2) {
-                        VStack() {
-                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 2) + ":")
-                            Picker("Select an art style", selection: $selectedSubstyleKey2) {
-                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 2), id: \.self) {
-                                    Text($0)
-                                }
-                            }
-                        }
-                        .pickerStyle(.menu )
-                    }
-                }
-            }
-            
-            Button(action: sendDrawing) {
-                Text("Use AI")
+                
+                Button(action: sendDrawing) {
+                    Text("Use AI")
+                }.disabled(prompt == "")
             }
         }
         .padding(.all)
+        .scrollDisabled(isTextFieldFocused ? !isTextFieldFocused : true)
     }
 }
 
@@ -161,21 +168,21 @@ private extension PostToInferenceModalView {
     func buildPrompt() -> String {
         var enhancedPrompt = "of " + prompt
         enhancedPrompt = addPrefix(prefix: promptStylesManager.getArtTypePrefix(artType: selectedArtTypeKey),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addPrefix(prefix: promptStylesManager.getPromptArtStylePrefix(artType: selectedArtTypeKey, substyleIndex: 0, substyleValue: selectedSubstyleKey0),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addPrefix(prefix: promptStylesManager.getPromptArtStylePrefix(artType: selectedArtTypeKey, substyleIndex: 1, substyleValue: selectedSubstyleKey1),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addPrefix(prefix: promptStylesManager.getPromptArtStylePrefix(artType: selectedArtTypeKey, substyleIndex: 2, substyleValue: selectedSubstyleKey2),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addSuffix(suffix: promptStylesManager.getArtTypeSuffix(artType: selectedArtTypeKey),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addSuffix(suffix: promptStylesManager.getPromptArtStyleSuffix(artType: selectedArtTypeKey, substyleIndex: 0, substyleValue: selectedSubstyleKey0),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addSuffix(suffix: promptStylesManager.getPromptArtStyleSuffix(artType: selectedArtTypeKey, substyleIndex: 1, substyleValue: selectedSubstyleKey1),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         enhancedPrompt = addSuffix(suffix: promptStylesManager.getPromptArtStyleSuffix(artType: selectedArtTypeKey, substyleIndex: 2, substyleValue: selectedSubstyleKey2),
-                           prompt: enhancedPrompt)
+                                   prompt: enhancedPrompt)
         return enhancedPrompt
     }
     
