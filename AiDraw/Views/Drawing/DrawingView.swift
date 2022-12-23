@@ -29,6 +29,7 @@ struct DrawingView: View {
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
     @State private var isShowingOnboarding = true
+    @State private var isShowingIntersitialAd = false
 
     // Helpers
     internal var imageHelper = ImageHelper()
@@ -58,7 +59,7 @@ struct DrawingView: View {
                     }
                 }
 
-                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.BANNER_AD_ID)
+                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.TEST_BANNER_AD_ID)
                 Spacer()
 
                 HStack {
@@ -105,7 +106,6 @@ struct DrawingView: View {
                 }
                 Spacer()
                 SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.BANNER_AD_ID)
-
             }
             .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
             .navigationBarBackButtonHidden(true)
@@ -151,7 +151,7 @@ struct DrawingView: View {
             alertManager.alert
         }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
             OnboardingView(showOnboarding: $isShowingOnboarding)
-        })
+        }).presentInterstitialAd(isPresented: $isShowingIntersitialAd, adUnitId: Constants.TEST_INTERSTITIAL_AD_ID)
     }
 }
 
