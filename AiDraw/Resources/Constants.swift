@@ -15,4 +15,5 @@ struct Constants {
     static let STATUS_API = "\(API_ROOT)/status"
     static let PROMPT_STYLES_API = "\(API_ROOT)/prompt-styles"
     static let WAKE_TOPIC = "WAKE"
+    static let BANNER_AD_ID = "ca-app-pub-1255434922571560/3146758738"
 }

@@ -7,6 +7,7 @@
 
 import FirebaseCore
 import Firebase
+import GoogleMobileAds
 import UserNotifications
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -14,6 +15,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         Messaging.messaging().delegate = self
 
         if #available(iOS 10.0, *) {

@@ -57,7 +57,10 @@ struct DrawingView: View {
                         clusterStatusProgressBar
                     }
                 }
+
+                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.BANNER_AD_ID)
                 Spacer()
+
                 HStack {
                     Button(action: undoDrawing) {
                         Image(systemName: "arrow.uturn.left")
@@ -89,6 +92,7 @@ struct DrawingView: View {
                     }
                 }
                 .padding(.horizontal)
+                
                 ZStack {
                     if (drawingProject.backgroundImage != nil) {
                         Image(uiImage: drawingProject.backgroundImage!)
@@ -100,6 +104,8 @@ struct DrawingView: View {
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
+                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.BANNER_AD_ID)
+
             }
             .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
             .navigationBarBackButtonHidden(true)

@@ -25,10 +25,14 @@
 		FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FE791C37294041A400E39A48 /* FirebaseMessaging */; };
 		FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3B2944FAF200E39A48 /* Extensions.swift */; };
 		FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3D2945016A00E39A48 /* AlertManager.swift */; };
+		FE7DAB1029555E9C0037AD7E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FE7DAB0F29555E9C0037AD7E /* GoogleMobileAds */; };
+		FE7DAB122955621C0037AD7E /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB112955621C0037AD7E /* BannerAdView.swift */; };
+		FE7DAB15295567AE0037AD7E /* InterstitialAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */; };
+		FE7DAB17295567E80037AD7E /* FullScreenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */; };
+		FE7DAB19295568030037AD7E /* RewardedAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB18295568030037AD7E /* RewardedAd.swift */; };
 		FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */; };
 		FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */; };
 		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
-		FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */; };
 		FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF991290CC11300276E2E /* ImageHelper.swift */; };
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
 		FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF995290CCB5800276E2E /* CodeableImage.swift */; };
@@ -61,10 +65,13 @@
 		FE6C393B29453DFA00E05F52 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		FE791C3B2944FAF200E39A48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FE791C3D2945016A00E39A48 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		FE7DAB112955621C0037AD7E /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
+		FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
+		FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenModifier.swift; sourceTree = "<group>"; };
+		FE7DAB18295568030037AD7E /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
 		FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewProjectView.swift; path = AiDraw/Views/PreviewProjectView.swift; sourceTree = SOURCE_ROOT; };
 		FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
-		FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryPopoverView.swift; sourceTree = "<group>"; };
 		FEACF991290CC11300276E2E /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
 		FEACF995290CCB5800276E2E /* CodeableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeableImage.swift; sourceTree = "<group>"; };
@@ -86,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE7DAB1029555E9C0037AD7E /* GoogleMobileAds in Frameworks */,
 				FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */,
 				FE58DAD12936F441001012B5 /* AdSupport.framework in Frameworks */,
 				FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */,
@@ -142,6 +150,7 @@
 		FE06E62F28FE206A00B6F4CE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FE7DAB132955643E0037AD7E /* Ads */,
 				FE791C392944F24300E39A48 /* Drawing */,
 				FE6C393A29453DDE00E05F52 /* Tutorial */,
 				FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */,
@@ -184,9 +193,19 @@
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
 				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
-				FEACF98F290CBE6200276E2E /* HistoryPopoverView.swift */,
 			);
 			path = Drawing;
+			sourceTree = "<group>";
+		};
+		FE7DAB132955643E0037AD7E /* Ads */ = {
+			isa = PBXGroup;
+			children = (
+				FE7DAB112955621C0037AD7E /* BannerAdView.swift */,
+				FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */,
+				FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */,
+				FE7DAB18295568030037AD7E /* RewardedAd.swift */,
+			);
+			path = Ads;
 			sourceTree = "<group>";
 		};
 		FEDA3DC2294984FD0074BBCA /* Core */ = {
@@ -246,6 +265,7 @@
 				FE58DAC92936F32B001012B5 /* FirebaseAnalytics */,
 				FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */,
 				FE791C37294041A400E39A48 /* FirebaseMessaging */,
+				FE7DAB0F29555E9C0037AD7E /* GoogleMobileAds */,
 			);
 			productName = AiDraw;
 			productReference = FE06E61D28FE1FF600B6F4CE /* AiDraw.app */;
@@ -279,6 +299,7 @@
 				FE62BF82292E603300CC6055 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				FE2622102932F2670042D35D /* XCRemoteSwiftPackageReference "SwiftUI-Tooltip" */,
 				FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				FE7DAB0E29555E9B0037AD7E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = FE06E61E28FE1FF600B6F4CE /* Products */;
 			projectDirPath = "";
@@ -307,23 +328,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE7DAB15295567AE0037AD7E /* InterstitialAd.swift in Sources */,
 				FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */,
 				FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */,
 				FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */,
 				CC2BB25529539F2900ABEB6D /* PromptStyles.swift in Sources */,
 				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
 				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
+				FE7DAB122955621C0037AD7E /* BannerAdView.swift in Sources */,
+				FE7DAB19295568030037AD7E /* RewardedAd.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
-				FEACF990290CBE6200276E2E /* HistoryPopoverView.swift in Sources */,
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* PreviewProjectView.swift in Sources */,
 				FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */,
 				FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
+				FE7DAB17295567E80037AD7E /* FullScreenModifier.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
@@ -595,6 +619,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		FE7DAB0E29555E9B0037AD7E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -617,6 +649,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FE58DAC82936F32B001012B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		FE7DAB0F29555E9C0037AD7E /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FE7DAB0E29555E9B0037AD7E /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
