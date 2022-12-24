@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class ServiceHelper {
-    func postImgToImgRequest(prompt: String, image: UIImage, mask: UIImage? = nil, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
+    func postImgToImgRequest(prompt: String, image: UIImage, mask: UIImage? = nil, advancedOptions: AdvancedOptions, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
         let imageData: String? = image.jpegData(compressionQuality: 0)?.base64EncodedString()
         var maskData: String? = nil
         
@@ -22,7 +22,13 @@ class ServiceHelper {
             prompt: prompt,
             request_type: InferenceRequestTypes.IMG_TO_IMG.rawValue,
             init_img: imageData,
-            mask: maskData
+            mask: maskData,
+            seed: advancedOptions.seed,
+            sampler_index: advancedOptions.sampler_index,
+            cfg_scale: advancedOptions.cfg_scale,
+            restore_faces: advancedOptions.restore_faces,
+            negative_prompt: advancedOptions.negative_prompt,
+            denoising_strength: advancedOptions.denoising_strength
         )
         
         AF.request(
