@@ -40,9 +40,7 @@ public struct BannerAdVIew: View {
     func setFrame() {
         let safeAreaInsets = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.safeAreaInsets ?? .zero
         let frame = UIScreen.main.bounds.inset(by: safeAreaInsets)
-        
         let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(frame.width)
-        
         self.width = adSize.size.width
         self.height = adSize.size.height
     }
@@ -70,7 +68,6 @@ class BannerAdViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         loadBannerAd()
     }
     

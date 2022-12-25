@@ -10,7 +10,6 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
-    
     // Environment variables
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
