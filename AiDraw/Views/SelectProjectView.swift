@@ -28,10 +28,6 @@ struct SelectProjectView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                if (!projects.isEmpty && navDrawingIndex < projects.count) {
-                    NavigationLink(destination: DrawingView(drawingProject:$projects[navDrawingIndex]),
-                                   isActive: $navigationLinkIsActive) {EmptyView()}.hidden()
-                }
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
                         PreviewProjectView(image: projects[index].displayImage!, selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString, title: projects[index].name)
@@ -69,6 +65,11 @@ struct SelectProjectView: View {
             )
             .onTapGesture {
                 unselectDrawing()
+            }
+        }
+        .navigationDestination(isPresented: $navigationLinkIsActive) {
+            if (!projects.isEmpty && navDrawingIndex < projects.count) {
+                DrawingView(drawingProject:$projects[navDrawingIndex])
             }
         }
         .navigationViewStyle(.stack)
