@@ -48,7 +48,8 @@ struct PostToInferenceModalView: View {
             VStack {
                 HStack {
                     Toggle("Apply mask", isOn: $isMasking)
-                        .frame(maxWidth: 200)
+                        
+                    Spacer()
                     Button("Advanced options") {
                         isAdvancedOptionsPresented = true
                     }
@@ -56,7 +57,9 @@ struct PostToInferenceModalView: View {
                     .sheet(isPresented: $isAdvancedOptionsPresented) {
                         AdvancedOptionsModalView(advancedOptions: $advancedOptions)
                     }
-                }
+                }.padding()
+                
+                Divider()
                 
                 ZStack {
                     Image(uiImage: sourceImage)
@@ -64,7 +67,7 @@ struct PostToInferenceModalView: View {
                     
                     CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
                         .aspectRatio(1, contentMode: .fit)
-                        .border(Color.red, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                        .border(Color.green, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                         .hidden(!isMasking)
                 }
                 
@@ -133,13 +136,11 @@ struct PostToInferenceModalView: View {
                         
                     }
                 }
-                
                 Button(action: sendDrawing) {
                     Text("Use AI")
                 }.disabled(prompt == "" && inpaintPrompt == "")
-            }
+            }.padding()
         }
-        .padding(.all)
         .scrollDisabled(isTextFieldFocused ? (!isTextFieldFocused && isMasking): true)
     }
 }
