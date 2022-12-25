@@ -31,6 +31,10 @@ struct PostToInferenceModalView: View {
     @State private var maskDrawing = PKDrawing()
     @State private var isMasking = false
     
+    // Advanced options
+    @State private var advancedOptions = AdvancedOptions()
+    @State private var isAdvancedOptionsPresented = false
+    
     // Prompt styles
     var promptStylesManager = PromptStylesManager.shared
     
@@ -42,7 +46,17 @@ struct PostToInferenceModalView: View {
     var body: some View {
         ScrollView {
             VStack {
-                Toggle("Apply mask", isOn: $isMasking)
+                HStack {
+                    Toggle("Apply mask", isOn: $isMasking)
+                        .frame(maxWidth: 200)
+                    Button("Advanced options") {
+                        isAdvancedOptionsPresented = true
+                    }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .sheet(isPresented: $isAdvancedOptionsPresented) {
+                        AdvancedOptionsModalView(advancedOptions: $advancedOptions)
+                    }
+                }
                 
                 ZStack {
                     Image(uiImage: sourceImage)
@@ -136,10 +150,10 @@ private extension PostToInferenceModalView {
     func sendDrawing() {
         if (isMasking) {
             let maskImage = maskCanvasView.getMaskAsImage()
-            serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, inferenceResultHandler: inferenceResultHandler)
+            serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
         } else {
             let enhancedPrompt: String = buildPrompt()
-            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, inferenceResultHandler: inferenceResultHandler)
+            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
         }
         startInferenceHandler(prompt)
     }

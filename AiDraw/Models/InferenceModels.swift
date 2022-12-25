@@ -16,6 +16,12 @@ struct InferenceRequestInput: Codable {
     let request_type: String
     var init_img: String?
     var mask: String?
+    var seed: Int?
+    var sampler_index: String?
+    var cfg_scale: Float?
+    var restore_faces: Bool?
+    var negative_prompt: String?
+    var denoising_strength: Float?
 }
 
 enum InferenceRequestTypes: String {

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		CC2BB25529539F2900ABEB6D /* PromptStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB25429539F2900ABEB6D /* PromptStyles.swift */; };
 		CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */; };
+		CC2BB259295636DD00ABEB6D /* AdvancedOptionsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB258295636DD00ABEB6D /* AdvancedOptionsModalView.swift */; };
+		CC2BB25B295647FE00ABEB6D /* AdvancedOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2BB25A295647FD00ABEB6D /* AdvancedOptions.swift */; };
 		FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */; };
 		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
@@ -48,6 +50,8 @@
 /* Begin PBXFileReference section */
 		CC2BB25429539F2900ABEB6D /* PromptStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptStyles.swift; sourceTree = "<group>"; };
 		CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptStylesManager.swift; sourceTree = "<group>"; };
+		CC2BB258295636DD00ABEB6D /* AdvancedOptionsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedOptionsModalView.swift; sourceTree = "<group>"; };
+		CC2BB25A295647FD00ABEB6D /* AdvancedOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedOptions.swift; sourceTree = "<group>"; };
 		FE06E61D28FE1FF600B6F4CE /* AiDraw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AiDraw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE06E62028FE1FF600B6F4CE /* AiDrawApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AiDrawApp.swift; sourceTree = "<group>"; };
 		FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectProjectView.swift; sourceTree = "<group>"; };
@@ -188,6 +192,7 @@
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
 				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
+				CC2BB258295636DD00ABEB6D /* AdvancedOptionsModalView.swift */,
 			);
 			path = Drawing;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				FEACF995290CCB5800276E2E /* CodeableImage.swift */,
 				FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */,
 				CC2BB25429539F2900ABEB6D /* PromptStyles.swift */,
+				CC2BB25A295647FD00ABEB6D /* AdvancedOptions.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -334,7 +340,10 @@
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* PreviewProjectView.swift in Sources */,
+				CC2BB259295636DD00ABEB6D /* AdvancedOptionsModalView.swift in Sources */,
 				FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */,
+				FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */,
+				CC2BB25B295647FE00ABEB6D /* AdvancedOptions.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
