@@ -10,12 +10,12 @@ import PencilKit
 import PhotosUI
 
 struct DrawingView: View {
-    
     // Environment variables
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.undoManager) private var undoManager
     @EnvironmentObject private var alertManager: AlertManager
+    @EnvironmentObject var adsViewModel: AdsViewModel
     
     // Drawing
     @Binding var drawingProject: DrawingProject
@@ -29,7 +29,6 @@ struct DrawingView: View {
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
     @State private var isShowingOnboarding = true
-    @State private var isShowingIntersitialAd = false
 
     // Helpers
     internal var imageHelper = ImageHelper()
@@ -58,10 +57,8 @@ struct DrawingView: View {
                         clusterStatusProgressBar
                     }
                 }
-
-                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.TEST_BANNER_AD_ID)
+                BannerAdVIew(adPosition: .top, adUnitId: Constants.TEST_BANNER_AD_ID)
                 Spacer()
-
                 HStack {
                     Button(action: undoDrawing) {
                         Image(systemName: "arrow.uturn.left")
@@ -105,7 +102,7 @@ struct DrawingView: View {
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
-                SwiftUIBannerAd(adPosition: .top, adUnitId: Constants.BANNER_AD_ID)
+                BannerAdVIew(adPosition: .bottom, adUnitId: Constants.BANNER_AD_ID)
             }
             .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
             .navigationBarBackButtonHidden(true)
@@ -151,7 +148,7 @@ struct DrawingView: View {
             alertManager.alert
         }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
             OnboardingView(showOnboarding: $isShowingOnboarding)
-        }).presentInterstitialAd(isPresented: $isShowingIntersitialAd, adUnitId: Constants.TEST_INTERSTITIAL_AD_ID)
+        })
     }
 }
 
@@ -184,6 +181,13 @@ private extension DrawingView {
         isRunningInference = true
         drawingProject.prompt = newPrompt
         inferenceProgressBar.startTimer()
+        showInterstiltialAd()
+    }
+    
+    func showInterstiltialAd() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            adsViewModel.showInterstitial = true
+        }
     }
     
     func addInferredImage(inferredImage: UIImage) {

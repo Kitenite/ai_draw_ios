@@ -5,13 +5,16 @@
 //  Created by Kiet Ho on 10/17/22.
 //
 import SwiftUI
+import GoogleMobileAds
 
 @main
 struct AiDrawApp: App {
     @StateObject private var store = ProjectStore()
+    @StateObject var alertManager = AlertManager()
     @Environment(\.scenePhase) private var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var alertManager = AlertManager()
+    
+    let adsViewModel = AdsViewModel.shared
     
     var body: some Scene {
         WindowGroup {
@@ -33,10 +36,12 @@ struct AiDrawApp: App {
                         fatalError(error.localizedDescription)
                     }
                 }
-            }.environmentObject(alertManager)
-                .task {
-                    PushNotificationHelper.subscribeToTopic(topic: Constants.WAKE_TOPIC)
-                }
+            }
+            .environmentObject(alertManager)
+            .environmentObject(adsViewModel)
+            .task {
+                PushNotificationHelper.subscribeToTopic(topic: Constants.WAKE_TOPIC)
+            }
         }
     }
 }
