@@ -10,7 +10,7 @@ import GoogleMobileAds
 import SwiftUI
 import UIKit
 
-public struct SwiftUIBannerAd: View {
+public struct BannerAdVIew: View {
     @State var height: CGFloat = 0
     @State var width: CGFloat = 0
     @State var adPosition: AdPosition
@@ -27,16 +27,14 @@ public struct SwiftUIBannerAd: View {
     }
     
     public var body: some View {
-        VStack {
-            BannerAd(adUnitId: adUnitId)
-                .frame(width: width, height: height, alignment: .center)
-                .onAppear {
-                    setFrame()
-                }
-                .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
-                    setFrame()
-                }
-        }
+        BannerAd(adUnitId: adUnitId)
+            .frame(width: width, height: height, alignment: .center)
+            .onAppear {
+                setFrame()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+                setFrame()
+            }
     }
     
     func setFrame() {
@@ -50,7 +48,7 @@ public struct SwiftUIBannerAd: View {
     }
 }
 
-class BannerAdVC: UIViewController {
+class BannerAdViewController: UIViewController {
     let adUnitId: String
     
     init(adUnitId: String) {
@@ -63,19 +61,19 @@ class BannerAdVC: UIViewController {
     }
     
     var bannerView: GADBannerView = GADBannerView()
-
+    
     override func viewDidLoad() {
         bannerView.adUnitID = adUnitId
         bannerView.rootViewController = self
         view.addSubview(bannerView)
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         loadBannerAd()
     }
-
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate { _ in
@@ -85,13 +83,13 @@ class BannerAdVC: UIViewController {
             self.loadBannerAd()
         }
     }
-
+    
     func loadBannerAd() {
         let frame = view.frame.inset(by: view.safeAreaInsets)
         let viewWidth = frame.size.width
-
+        
         bannerView.adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(viewWidth)
-
+        
         bannerView.load(GADRequest())
     }
 }
@@ -103,12 +101,11 @@ struct BannerAd: UIViewControllerRepresentable {
         self.adUnitId = adUnitId
     }
     
-    
-    func makeUIViewController(context: Context) -> BannerAdVC {
-        return BannerAdVC(adUnitId: adUnitId)
+    func makeUIViewController(context: Context) -> BannerAdViewController {
+        return BannerAdViewController(adUnitId: adUnitId)
     }
-
-    func updateUIViewController(_ uiViewController: BannerAdVC, context: Context) {
+    
+    func updateUIViewController(_ uiViewController: BannerAdViewController, context: Context) {
         
     }
 }

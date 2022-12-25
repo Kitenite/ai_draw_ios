@@ -27,9 +27,7 @@
 		FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3D2945016A00E39A48 /* AlertManager.swift */; };
 		FE7DAB1029555E9C0037AD7E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FE7DAB0F29555E9C0037AD7E /* GoogleMobileAds */; };
 		FE7DAB122955621C0037AD7E /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB112955621C0037AD7E /* BannerAdView.swift */; };
-		FE7DAB15295567AE0037AD7E /* InterstitialAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */; };
-		FE7DAB17295567E80037AD7E /* FullScreenModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */; };
-		FE7DAB19295568030037AD7E /* RewardedAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB18295568030037AD7E /* RewardedAd.swift */; };
+		FE7DAB1B2958CFBD0037AD7E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB1A2958CFBD0037AD7E /* AdsManager.swift */; };
 		FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */; };
 		FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */; };
 		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
@@ -66,9 +64,7 @@
 		FE791C3B2944FAF200E39A48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FE791C3D2945016A00E39A48 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		FE7DAB112955621C0037AD7E /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
-		FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAd.swift; sourceTree = "<group>"; };
-		FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenModifier.swift; sourceTree = "<group>"; };
-		FE7DAB18295568030037AD7E /* RewardedAd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardedAd.swift; sourceTree = "<group>"; };
+		FE7DAB1A2958CFBD0037AD7E /* AdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsManager.swift; sourceTree = "<group>"; };
 		FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PreviewProjectView.swift; path = AiDraw/Views/PreviewProjectView.swift; sourceTree = SOURCE_ROOT; };
 		FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
@@ -201,9 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				FE7DAB112955621C0037AD7E /* BannerAdView.swift */,
-				FE7DAB14295567AE0037AD7E /* InterstitialAd.swift */,
-				FE7DAB16295567E80037AD7E /* FullScreenModifier.swift */,
-				FE7DAB18295568030037AD7E /* RewardedAd.swift */,
+				FE7DAB1A2958CFBD0037AD7E /* AdsManager.swift */,
 			);
 			path = Ads;
 			sourceTree = "<group>";
@@ -328,7 +322,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE7DAB15295567AE0037AD7E /* InterstitialAd.swift in Sources */,
 				FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */,
 				FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */,
 				FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */,
@@ -336,7 +329,6 @@
 				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
 				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
 				FE7DAB122955621C0037AD7E /* BannerAdView.swift in Sources */,
-				FE7DAB19295568030037AD7E /* RewardedAd.swift in Sources */,
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
@@ -347,7 +339,6 @@
 				FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
-				FE7DAB17295567E80037AD7E /* FullScreenModifier.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
@@ -357,6 +348,7 @@
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
+				FE7DAB1B2958CFBD0037AD7E /* AdsManager.swift in Sources */,
 				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
