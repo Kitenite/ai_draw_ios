@@ -125,7 +125,7 @@ struct PostToInferenceModalView: View {
                 }.disabled(prompt == "" && inpaintPrompt == "")
             }
         }
-        .padding()
+        .padding(.all)
         .scrollDisabled(isTextFieldFocused ? (!isTextFieldFocused && isMasking): true)
     }
 }

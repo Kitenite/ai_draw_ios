@@ -66,7 +66,7 @@ class ServiceHelper {
         }
     }
     
-    func getClusterStatus(handler: @escaping (ClusterStatusResponse) -> Void) {
+    func getClusterStatus(handler: @escaping (ClusterStatusResponse) -> ()) {
         print("Getting cluster status")
         AF.request(
             Constants.STATUS_API,

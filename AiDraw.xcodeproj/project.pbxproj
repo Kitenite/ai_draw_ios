@@ -28,7 +28,6 @@
 		FE7DAB1029555E9C0037AD7E /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = FE7DAB0F29555E9C0037AD7E /* GoogleMobileAds */; };
 		FE7DAB122955621C0037AD7E /* BannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB112955621C0037AD7E /* BannerAdView.swift */; };
 		FE7DAB1B2958CFBD0037AD7E /* AdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB1A2958CFBD0037AD7E /* AdsManager.swift */; };
-		FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A0294F8EDE00A84F3E /* PreviewProjectView.swift */; };
 		FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */; };
 		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
 		FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF991290CC11300276E2E /* ImageHelper.swift */; };
@@ -273,7 +272,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1410;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					FE06E61C28FE1FF600B6F4CE = {
 						CreatedOnToolsVersion = 14.0.1;
@@ -336,7 +335,6 @@
 				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* PreviewProjectView.swift in Sources */,
 				FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */,
-				FE84B2A1294F8EDE00A84F3E /* PreviewProjectView.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
