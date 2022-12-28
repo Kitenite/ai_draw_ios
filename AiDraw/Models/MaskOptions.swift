@@ -10,8 +10,9 @@ import SwiftUI
 import PencilKit
 
 struct MaskOptions {
+    var prompt: String = ""
     var sourceImage: UIImage = UIImage()
-    var canvasView = PKCanvasView()
+    var canvasView: PKCanvasView = PKCanvasView()
     var maskImage: UIImage?
     var invertMask: Bool = false
 }

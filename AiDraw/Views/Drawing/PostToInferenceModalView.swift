@@ -9,7 +9,6 @@ import SwiftUI
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
-    @FocusState private var isTextFieldFocused: Bool
     
     // Inputs
     let sourceImage: UIImage
@@ -27,7 +26,7 @@ struct PostToInferenceModalView: View {
     // Mask options
     @State private var maskOptions = MaskOptions()
     @State private var isMaskModalPresented = false
-
+    
     // Advanced options
     @State private var advancedOptions = AdvancedOptions()
     @State private var isAdvancedOptionsPresented = false
@@ -82,13 +81,29 @@ struct PostToInferenceModalView: View {
                     }
                 }
                 
-                Text("Describe your drawing")
-                TextField(
-                    "Be as descriptive as you can",
-                    text: $prompt
-                )
-                .textFieldStyle(.roundedBorder)
-                .focused($isTextFieldFocused)
+                
+                
+                if (maskOptions.maskImage != nil) {
+                    Text("Describe the \(maskOptions.invertMask ? "unmasked" : "masked") part")
+                    TextField(
+                        "The \(maskOptions.invertMask ? "UNMASKED" : "MASKED") part will be filled in",
+                        text: $maskOptions.prompt,
+                        axis: .vertical
+                    )
+                    .lineLimit(1...5)
+                    .textFieldStyle(.roundedBorder)
+                    .textFieldStyle(.roundedBorder)
+                } else {
+                    Text("Describe your drawing")
+                    TextField(
+                        "Be as descriptive as you can",
+                        text: $prompt,
+                        axis: .vertical
+                    )
+                    .lineLimit(1...5)
+                    .textFieldStyle(.roundedBorder)
+                    
+                }
                 
                 VStack {
                     HStack {
@@ -118,9 +133,8 @@ struct PostToInferenceModalView: View {
                                 ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 1), id: \.self) {
                                     Text($0)
                                 }
-                            }.pickerStyle(.menu )
+                            }.pickerStyle(.menu)
                         }
-                        
                     }
                     
                     if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 2) {
@@ -133,12 +147,11 @@ struct PostToInferenceModalView: View {
                             }.pickerStyle(.menu )
                         }
                     }
-                    
                 }
                 
                 Button(action: sendDrawing) {
                     Text("Use AI")
-                }.disabled(prompt == "")
+                }.disabled(prompt == "" && maskOptions.prompt == "")
             }.padding()
         }
     }
@@ -147,7 +160,7 @@ struct PostToInferenceModalView: View {
 private extension PostToInferenceModalView {
     func sendDrawing() {
         let enhancedPrompt: String = buildPrompt()
-        serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, mask: maskOptions.maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
+        serviceHelper.postImgToImgRequest(prompt: maskOptions.maskImage == nil ? enhancedPrompt : maskOptions.prompt, image: sourceImage, mask: maskOptions.maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
         startInferenceHandler(prompt)
     }
     
