@@ -89,10 +89,18 @@ extension PKCanvasView {
         return drawingImage!
     }
     
-    func getMaskAsImage() -> UIImage {
-        if !self.drawing.strokes.isEmpty {
-            self.drawing.strokes[0].ink.color = .white
+    func getMaskAsImage(invert: Bool = false) -> UIImage {
+        var strokeColor: UIColor = .white
+        var backgroundColor: UIColor = .black
+
+        if (invert) {
+            strokeColor = .black
+            backgroundColor = .white
         }
-        return getDrawingAsImage(backgroundImage: UIImage(color: .black))
+        
+        if !self.drawing.strokes.isEmpty {
+            self.drawing.strokes[0].ink.color = strokeColor
+        }
+        return getDrawingAsImage(backgroundImage: UIImage(color: backgroundColor))
     }
 }

@@ -14,8 +14,8 @@ import AdSupport
 class AdsManager: NSObject, ObservableObject {
     
     final class Interstitial: NSObject, GADFullScreenContentDelegate, ObservableObject {
-
         private var interstitial: GADInterstitialAd?
+        private let adID = Constants.INTERSTITIAL_AD_ID
         
         override init() {
             super.init()
@@ -26,7 +26,7 @@ class AdsManager: NSObject, ObservableObject {
             let request = GADRequest()
             request.scene = UIApplication.shared.connectedScenes.first as? UIWindowScene
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                GADInterstitialAd.load(withAdUnitID: Constants.TEST_INTERSTITIAL_AD_ID, request: request, completionHandler: { [self] ad, error in
+                GADInterstitialAd.load(withAdUnitID: self.adID, request: request, completionHandler: { [self] ad, error in
                     if let error = error {
                         print("Failed to load interstitial ad with error: \(error.localizedDescription)")
                         return

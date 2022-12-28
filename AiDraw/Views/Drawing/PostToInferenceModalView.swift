@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PencilKit
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
@@ -15,7 +14,6 @@ struct PostToInferenceModalView: View {
     // Inputs
     let sourceImage: UIImage
     @State var prompt: String
-    @State internal var inpaintPrompt: String = ""
     
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
@@ -26,11 +24,10 @@ struct PostToInferenceModalView: View {
     internal var serviceHelper = ServiceHelper()
     @FocusState private var promptTextFieldIsFocused: Bool
     
-    // Masking for inpainting
-    @State private var maskCanvasView = PKCanvasView()
-    @State private var maskDrawing = PKDrawing()
-    @State private var isMasking = false
-    
+    // Mask options
+    @State private var maskOptions = MaskOptions()
+    @State private var isMaskModalPresented = false
+
     // Advanced options
     @State private var advancedOptions = AdvancedOptions()
     @State private var isAdvancedOptionsPresented = false
@@ -47,8 +44,20 @@ struct PostToInferenceModalView: View {
         ScrollView {
             VStack {
                 HStack {
-                    Toggle("Apply mask", isOn: $isMasking)
-                        
+                    if ((maskOptions.maskImage) == nil) {
+                        Button("Add mask") {
+                            maskOptions.sourceImage = sourceImage
+                            isMaskModalPresented = true
+                        }
+                        .sheet(isPresented: $isMaskModalPresented) {
+                            CreateMaskModalView(maskOptions: $maskOptions)
+                        }
+                    } else {
+                        Button("Remove mask") {
+                            maskOptions = MaskOptions()
+                        }
+                    }
+                    
                     Spacer()
                     Button("Advanced options") {
                         isAdvancedOptionsPresented = true
@@ -57,105 +66,88 @@ struct PostToInferenceModalView: View {
                     .sheet(isPresented: $isAdvancedOptionsPresented) {
                         AdvancedOptionsModalView(advancedOptions: $advancedOptions)
                     }
-                }.padding()
-                
+                }
                 Divider()
-                
                 ZStack {
                     Image(uiImage: sourceImage)
+                        .resizable()
                         .aspectRatio(1, contentMode: .fit)
+                        .border(Color.gray, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                     
-                    CanvasView(canvasView: $maskCanvasView, drawing: maskDrawing, onSaved: saveMask, isMask: true)
-                        .aspectRatio(1, contentMode: .fit)
-                        .border(Color.green, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                        .hidden(!isMasking)
+                    if (maskOptions.maskImage != nil) {
+                        Image(uiImage: maskOptions.maskImage!)
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                            .opacity(0.2)
+                    }
                 }
                 
-                if (isMasking) {
-                    Text("Experimental: You may have to try a few times. Draw your mask and describe what you want to fill in")
-                    TextField(
-                        "Only the masked part will be filled in by AI",
-                        text: $inpaintPrompt
-                    )
-                    .textFieldStyle(.roundedBorder)
-                    .focused($isTextFieldFocused)
+                Text("Describe your drawing")
+                TextField(
+                    "Be as descriptive as you can",
+                    text: $prompt
+                )
+                .textFieldStyle(.roundedBorder)
+                .focused($isTextFieldFocused)
+                
+                VStack {
+                    HStack {
+                        Text("Art Type:")
+                        Picker("Select an art style", selection: $selectedArtTypeKey) {
+                            ForEach(promptStylesManager.getArtTypeKeys(), id: \.self) {
+                                Text($0)
+                            }
+                        }.pickerStyle(.menu )
+                    }
                     
-                } else {
-                    Text("Describe your drawing")
-                    TextField(
-                        "Be as descriptive as you can",
-                        text: $prompt
-                    )
-                    .textFieldStyle(.roundedBorder)
-                    .focused($isTextFieldFocused)
-                    
-                    VStack {
+                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 0) {
                         HStack {
-                            Text("Art Type:")
-                            Picker("Select an art style", selection: $selectedArtTypeKey) {
-                                ForEach(promptStylesManager.getArtTypeKeys(), id: \.self) {
+                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 0) + ":")
+                            Picker("Select an art style", selection: $selectedSubstyleKey0) {
+                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 0), id: \.self) {
+                                    Text($0)
+                                }
+                            }.pickerStyle(.menu)
+                        }
+                    }
+                    
+                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 1) {
+                        HStack {
+                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 1) + ":")
+                            Picker("Select an art style", selection: $selectedSubstyleKey1) {
+                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 1), id: \.self) {
                                     Text($0)
                                 }
                             }.pickerStyle(.menu )
                         }
                         
-                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 0) {
-                            HStack {
-                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 0) + ":")
-                                Picker("Select an art style", selection: $selectedSubstyleKey0) {
-                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 0), id: \.self) {
-                                        Text($0)
-                                    }
-                                }.pickerStyle(.menu)
-                            }
-                            
-                        }
-                        
-                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 1) {
-                            HStack {
-                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 1) + ":")
-                                Picker("Select an art style", selection: $selectedSubstyleKey1) {
-                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 1), id: \.self) {
-                                        Text($0)
-                                    }
-                                }.pickerStyle(.menu )
-                            }
-                            
-                        }
-                        
-                        if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 2) {
-                            HStack {
-                                Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 2) + ":")
-                                Picker("Select an art style", selection: $selectedSubstyleKey2) {
-                                    ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 2), id: \.self) {
-                                        Text($0)
-                                    }
-                                }.pickerStyle(.menu )
-                            }
-                        }
-                        
                     }
+                    
+                    if (promptStylesManager.getSubstylesByArtType(artType: selectedArtTypeKey).count > 2) {
+                        HStack {
+                            Text(promptStylesManager.getSubstyleKey(artType: selectedArtTypeKey, index: 2) + ":")
+                            Picker("Select an art style", selection: $selectedSubstyleKey2) {
+                                ForEach(promptStylesManager.getSubstyleValueKeys(artType: selectedArtTypeKey, index: 2), id: \.self) {
+                                    Text($0)
+                                }
+                            }.pickerStyle(.menu )
+                        }
+                    }
+                    
                 }
+                
                 Button(action: sendDrawing) {
                     Text("Use AI")
-                }.disabled(prompt == "" && inpaintPrompt == "")
+                }.disabled(prompt == "")
             }.padding()
         }
-        .scrollDisabled(isTextFieldFocused ? (!isTextFieldFocused && isMasking): true)
     }
 }
 
 private extension PostToInferenceModalView {
-    func saveMask() {}
-    
     func sendDrawing() {
-        if (isMasking) {
-            let maskImage = maskCanvasView.getMaskAsImage()
-            serviceHelper.postImgToImgRequest(prompt: inpaintPrompt, image: sourceImage, mask: maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
-        } else {
-            let enhancedPrompt: String = buildPrompt()
-            serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
-        }
+        let enhancedPrompt: String = buildPrompt()
+        serviceHelper.postImgToImgRequest(prompt: enhancedPrompt, image: sourceImage, mask: maskOptions.maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
         startInferenceHandler(prompt)
     }
     

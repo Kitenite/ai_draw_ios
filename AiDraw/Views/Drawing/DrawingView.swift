@@ -57,7 +57,7 @@ struct DrawingView: View {
                         clusterStatusProgressBar
                     }
                 }
-                BannerAdVIew(adPosition: .top, adUnitId: Constants.TEST_BANNER_AD_ID)
+                BannerAdVIew(adPosition: .top, adUnitId: nil)
                 Spacer()
                 HStack {
                     Button(action: undoDrawing) {
@@ -102,7 +102,7 @@ struct DrawingView: View {
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
-                BannerAdVIew(adPosition: .bottom, adUnitId: Constants.BANNER_AD_ID)
+                BannerAdVIew(adPosition: .bottom, adUnitId: nil)
             }
             .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
             .navigationBarBackButtonHidden(true)

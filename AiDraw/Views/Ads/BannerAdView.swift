@@ -16,9 +16,9 @@ public struct BannerAdVIew: View {
     @State var adPosition: AdPosition
     let adUnitId: String
     
-    public init(adPosition: AdPosition, adUnitId: String) {
+    public init(adPosition: AdPosition, adUnitId: String?) {
         self.adPosition = adPosition
-        self.adUnitId = adUnitId
+        self.adUnitId = adUnitId ?? Constants.BANNER_AD_ID
     }
     
     public enum AdPosition {
