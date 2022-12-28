@@ -10,6 +10,7 @@ import SwiftUI
 struct AdvancedOptionsModalView: View {
     @Environment(\.dismiss) private var dismiss
     
+    @State private var isHelpPresented = false
     // Inputs
     @Binding var advancedOptions: AdvancedOptions
     
@@ -20,9 +21,16 @@ struct AdvancedOptionsModalView: View {
         ScrollView {
             VStack(alignment: .leading) {
                 Group {
-                    VStack() {
+                    HStack() {
                         Button(action: goBackWithoutSaving) {
                             Text("Cancel")
+                        }
+                        Spacer()
+                        Button(action: showHelp) {
+                            Image(systemName: "questionmark.circle")
+                        }
+                        .sheet(isPresented: $isHelpPresented) {
+                            AdvancedOptionsHelpView()
                         }
                     }
                     Divider()
@@ -86,6 +94,10 @@ struct AdvancedOptionsModalView: View {
 }
 
 private extension AdvancedOptionsModalView {
+    func showHelp() -> Void {
+        isHelpPresented = true
+    }
+    
     func saveUnmodifiedAdvancedOptions() -> Void {
         unmodifiedAdvancedOptions = advancedOptions
     }
