@@ -69,7 +69,7 @@ class PromptStylesManager {
     
     // TODO: retry logic
     private init() {
-        let serviceHelper = ServiceHelper()
+        let serviceHelper = ServiceHelper.shared
         serviceHelper.getPromptStyles { result in
             self.sharedPromptStyles = result
             self.buildSubstyleDict(promptStylesInput: result)

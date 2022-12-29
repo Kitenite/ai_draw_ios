@@ -26,6 +26,7 @@
 		FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE62BF80292E5E0500CC6055 /* Constants.swift */; };
 		FE62BF84292E603300CC6055 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = FE62BF83292E603300CC6055 /* Alamofire */; };
 		FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE6C393B29453DFA00E05F52 /* OnboardingView.swift */; };
+		FE754531295BF272001D81DF /* InferenceTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE754530295BF272001D81DF /* InferenceTextField.swift */; };
 		FE791C38294041A400E39A48 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = FE791C37294041A400E39A48 /* FirebaseMessaging */; };
 		FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3B2944FAF200E39A48 /* Extensions.swift */; };
 		FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE791C3D2945016A00E39A48 /* AlertManager.swift */; };
@@ -43,7 +44,6 @@
 		FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */; };
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
 		FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC829025918007D40A5 /* CanvasView.swift */; };
-		FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */; };
 		FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */; };
 		FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */; };
 		FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */; };
@@ -69,6 +69,7 @@
 		FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModels.swift; sourceTree = "<group>"; };
 		FE62BF80292E5E0500CC6055 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FE6C393B29453DFA00E05F52 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		FE754530295BF272001D81DF /* InferenceTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceTextField.swift; sourceTree = "<group>"; };
 		FE791C3B2944FAF200E39A48 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FE791C3D2945016A00E39A48 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		FE7DAB112955621C0037AD7E /* BannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerAdView.swift; sourceTree = "<group>"; };
@@ -85,7 +86,6 @@
 		FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationHelper.swift; sourceTree = "<group>"; };
 		FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		FEDCAAC829025918007D40A5 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
-		FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHelper.swift; sourceTree = "<group>"; };
 		FEDCAACF29026300007D40A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostToInferenceModalView.swift; sourceTree = "<group>"; };
@@ -209,6 +209,7 @@
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
 				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
 				FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */,
+				FE754530295BF272001D81DF /* InferenceTextField.swift */,
 			);
 			path = Drawing;
 			sourceTree = "<group>";
@@ -234,13 +235,12 @@
 		FEDCAACA29025EDE007D40A5 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				FEDCAACB29025EF4007D40A5 /* ImageSaver.swift */,
 				FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */,
 				FEACF991290CC11300276E2E /* ImageHelper.swift */,
+				FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */,
 				FE791C3D2945016A00E39A48 /* AlertManager.swift */,
 				CC2BB2562953D9B400ABEB6D /* PromptStylesManager.swift */,
 				FEACF997290D717000276E2E /* ProjectStore.swift */,
-				FE58DAD22936F535001012B5 /* AnalyticsHelper.swift */,
 				FE791C3B2944FAF200E39A48 /* Extensions.swift */,
 				FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */,
 			);
@@ -355,8 +355,8 @@
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
+				FE754531295BF272001D81DF /* InferenceTextField.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
-				FEDCAACC29025EF4007D40A5 /* ImageSaver.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* PreviewProjectView.swift in Sources */,
 				CC2BB259295636DD00ABEB6D /* AdvancedOptionsModalView.swift in Sources */,
 				FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */,
@@ -505,12 +505,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"AiDraw/Preview Content\"";
 				DEVELOPMENT_TEAM = 3L5P5S227G;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AiDraw/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ai Pencil";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = AiDraw;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -528,7 +530,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madebykiet.AiDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -559,6 +561,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AiDraw/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ai Pencil";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = AiDraw;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -576,7 +579,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madebykiet.AiDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 
 class ServiceHelper {
+    static let shared = ServiceHelper()
+    
     func postImgToImgRequest(prompt: String, image: UIImage, mask: UIImage? = nil, advancedOptions: AdvancedOptions, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
         let imageData: String? = image.jpegData(compressionQuality: 0)?.base64EncodedString()
         var maskData: String? = nil

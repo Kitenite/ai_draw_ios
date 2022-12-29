@@ -19,8 +19,8 @@ struct SelectProjectView: View {
     @State private var selectedDrawing: DrawingProject? = nil
     
     // Helpers
-    internal var analytics = AnalyticsHelper()
-    internal var serviceHelper = ServiceHelper()
+    internal var analytics = AnalyticsHelper.shared
+    internal var serviceHelper = ServiceHelper.shared
     
     // Layout for displaying drawings. Count means collumn count
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
@@ -75,7 +75,7 @@ struct SelectProjectView: View {
         .navigationViewStyle(.stack)
         .task {
             navigationLinkIsActive = false
-            analytics.logHomeScreen()
+            analytics.logEvent(id: "nav-home-screen", title: "Home screen")
             serviceHelper.wakeService()
         }
     }
@@ -88,11 +88,13 @@ private extension SelectProjectView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             navigateToDrawing(index: 0)
         }
+        analytics.logEvent(id: "create-drawing", title: "Create drawing")
     }
     
     func navigateToDrawing(index: Int) {
         navDrawingIndex = index
         navigationLinkIsActive = true
+        analytics.logEvent(id: "nav-drawing", title: "Navigate to drawing")
     }
     
     func deleteSelectedDrawing() {
@@ -104,6 +106,7 @@ private extension SelectProjectView {
     
     func deleteDrawing(drawing: DrawingProject){
         projects = projects.filter({ $0.id.uuidString != drawing.id.uuidString })
+        analytics.logEvent(id: "delete-drawing", title: "Delete drawing")
     }
     
     func duplicateSelectedDrawing() {
@@ -116,7 +119,7 @@ private extension SelectProjectView {
     func duplicateDrawing(drawing: DrawingProject) {
         let newDrawing = DrawingProject(name: drawing.name)
         projects.insert(newDrawing, at: 0)
-        
+        analytics.logEvent(id: "duplicate-drawing", title: "Duplicate drawing")
     }
     
     func unselectDrawing() {

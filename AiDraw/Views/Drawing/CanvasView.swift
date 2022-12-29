@@ -16,7 +16,6 @@ struct CanvasView {
     let onSaved: () -> Void
     var isMask: Bool = false
     @State var toolPicker = PKToolPicker()
-    
 }
 
 // MARK: - UIViewRepresentable
@@ -28,9 +27,8 @@ extension CanvasView: UIViewRepresentable {
         #endif
         
         // Force light mode for consistency
-        canvasView.overrideUserInterfaceStyle = .light
         toolPicker.colorUserInterfaceStyle = .light
-        
+        canvasView.overrideUserInterfaceStyle = .light
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
         canvasView.drawing = drawing
@@ -84,7 +82,7 @@ extension PKCanvasView {
             drawingImage = self.drawing.image(from: self.bounds, scale: UIScreen.main.scale)
         }
         if (backgroundImage != nil) {
-            drawingImage = ImageHelper().overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage!, canvasSize: self.frame.size)
+            drawingImage = ImageHelper.shared.overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage!, canvasSize: self.frame.size)
         }
         return drawingImage!
     }

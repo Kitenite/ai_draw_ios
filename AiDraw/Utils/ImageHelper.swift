@@ -9,12 +9,15 @@ import Foundation
 import SwiftUI
 
 class ImageHelper {
-    
+    static let shared = ImageHelper()
+
     func downloadImage(image: UIImage) {
-        let imageSaver = ImageSaver()
-        imageSaver.writeToPhotoAlbum(image: image)
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
     }
     
+    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        print("Image saved to album")
+    }
     
     func cropImageToRect(sourceImage: UIImage, cropRect: CGRect) -> UIImage {
         // The shortest side

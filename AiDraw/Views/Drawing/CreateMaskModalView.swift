@@ -14,7 +14,8 @@ struct CreateMaskModalView: View {
     // Masking for inpainting
     @Binding var maskOptions: MaskOptions
     @State private var isMasking = false
-    
+    internal var analytics = AnalyticsHelper.shared
+
     let normalText = "AI will fill in the MASKED parts"
     let invertedText = "AI will fill in the UNMASKED parts"
     
@@ -61,6 +62,7 @@ extension CreateMaskModalView {
         } else {
             maskOptions.maskImage = maskOptions.canvasView.getMaskAsImage(invert: maskOptions.invertMask)
         }
+        analytics.logEvent(id: "apply-mask", title: "Apply mask")
     }
     
     func goBackWithoutSaving() -> Void {

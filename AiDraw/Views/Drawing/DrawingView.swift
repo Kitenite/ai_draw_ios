@@ -31,9 +31,10 @@ struct DrawingView: View {
     @State private var isShowingOnboarding = true
 
     // Helpers
-    internal var imageHelper = ImageHelper()
-    internal var serviceHelper = ServiceHelper()
-    
+    internal var imageHelper = ImageHelper.shared
+    internal var serviceHelper = ServiceHelper.shared
+    internal var analytics = AnalyticsHelper.shared
+
     // Cluster status
     @State internal var runningTasksCount: Int = 0
     @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
@@ -182,12 +183,14 @@ private extension DrawingView {
         drawingProject.prompt = newPrompt
         inferenceProgressBar.startTimer()
         showInterstiltialAd()
+        analytics.logEvent(id: "uploaded-drawing", title: "Uploaded drawing")
     }
     
     func showInterstiltialAd() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             adsViewModel.showInterstitial = true
         }
+        analytics.logEvent(id: "show-interstitial-ad", title: "Show interstitial ad")
     }
     
     func addInferredImage(inferredImage: UIImage) {
@@ -196,11 +199,13 @@ private extension DrawingView {
         updateBackgroundImage(newImage: croppedImage)
         isRunningInference = false
         inferenceProgressBar.stopTimer()
+        analytics.logEvent(id: "inference-succeeded", title: "Inference succeeded")
     }
     
     func inferenceFailed(title: String, message: String) {
         alertManager.presentAlert(title: title, message: message, dismissButton: nil)
         isRunningInference = false
+        analytics.logEvent(id: "inference-failed", title: "Inference failed")
     }
     
     func handleImportedPhoto(data: Data) {
@@ -209,6 +214,7 @@ private extension DrawingView {
             let croppedImage = imageHelper.cropImageToRect(sourceImage: importedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
             saveBackwardsSnapshot()
             updateBackgroundImage(newImage: croppedImage)
+            analytics.logEvent(id: "import-photo", title: "Import photo")
         }
     }
     
@@ -233,11 +239,13 @@ private extension DrawingView {
     func clearDrawing() {
         saveBackwardsSnapshot()
         canvasView.drawing = PKDrawing()
+        analytics.logEvent(id: "clear-drawing", title: "Clear drawing")
     }
     
     func clearBackground() {
         saveBackwardsSnapshot()
         drawingProject.backgroundImage = UIImage(color: .white)
+        analytics.logEvent(id: "clear-background", title: "Clear background")
     }
     
     func createSnapshot() -> DrawingSnapshot {
@@ -267,6 +275,7 @@ private extension DrawingView {
         } else {
             undoManager?.undo()
         }
+        analytics.logEvent(id: "undo-drawing", title: "Undo drawing")
     }
     
     func redoDrawing() {
@@ -282,6 +291,7 @@ private extension DrawingView {
         } else {
             undoManager?.redo()
         }
+        analytics.logEvent(id: "redo-drawing", title: "Redo drawing")
     }
 }
 

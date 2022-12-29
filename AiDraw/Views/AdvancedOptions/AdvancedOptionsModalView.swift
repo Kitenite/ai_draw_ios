@@ -11,6 +11,8 @@ struct AdvancedOptionsModalView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var isHelpPresented = false
+    internal var analytics = AnalyticsHelper.shared
+
     // Inputs
     @Binding var advancedOptions: AdvancedOptions
     
@@ -100,6 +102,8 @@ private extension AdvancedOptionsModalView {
     
     func saveUnmodifiedAdvancedOptions() -> Void {
         unmodifiedAdvancedOptions = advancedOptions
+        analytics.logEvent(id: "save-advanced-options", title: "Save advanced options")
+
     }
     
     func goBackWithoutSaving() -> Void {

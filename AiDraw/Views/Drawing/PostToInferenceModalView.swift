@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PostToInferenceModalView: View {
     @Environment(\.presentationMode) var presentation
-    
+
     // Inputs
     let sourceImage: UIImage
     @State var prompt: String
@@ -20,9 +20,9 @@ struct PostToInferenceModalView: View {
     let startInferenceHandler: (String) -> Void
     
     // Helpers
-    internal var serviceHelper = ServiceHelper()
-    @FocusState private var promptTextFieldIsFocused: Bool
-    
+    internal var serviceHelper = ServiceHelper.shared
+    internal var analytics = AnalyticsHelper.shared
+
     // Mask options
     @State private var maskOptions = MaskOptions()
     @State private var isMaskModalPresented = false
@@ -47,6 +47,7 @@ struct PostToInferenceModalView: View {
                         Button("Add mask") {
                             maskOptions.sourceImage = sourceImage
                             isMaskModalPresented = true
+                            analytics.logEvent(id: "nav-mask", title: "Navigate to mask")
                         }
                         .sheet(isPresented: $isMaskModalPresented) {
                             CreateMaskModalView(maskOptions: $maskOptions)
@@ -54,12 +55,14 @@ struct PostToInferenceModalView: View {
                     } else {
                         Button("Remove mask") {
                             maskOptions = MaskOptions()
+                            analytics.logEvent(id: "remove-mask", title: "Removed mask")
                         }
                     }
                     
                     Spacer()
                     Button("Advanced options") {
                         isAdvancedOptionsPresented = true
+                        analytics.logEvent(id: "nav-advanced-options", title: "Navigate to advanced options")
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)
                     .sheet(isPresented: $isAdvancedOptionsPresented) {
@@ -81,28 +84,18 @@ struct PostToInferenceModalView: View {
                     }
                 }
                 
-                
-                
                 if (maskOptions.maskImage != nil) {
-                    Text("Describe the \(maskOptions.invertMask ? "unmasked" : "masked") part")
-                    TextField(
-                        "The \(maskOptions.invertMask ? "UNMASKED" : "MASKED") part will be filled in",
-                        text: $maskOptions.prompt,
-                        axis: .vertical
+                    InferenceTextField(
+                        header: "Describe the \(maskOptions.invertMask ? "unmasked" : "masked") part",
+                        placeholder: "The \(maskOptions.invertMask ? "UNMASKED" : "MASKED") part will be filled in",
+                        text: $maskOptions.prompt
                     )
-                    .lineLimit(1...5)
-                    .textFieldStyle(.roundedBorder)
-                    .textFieldStyle(.roundedBorder)
                 } else {
-                    Text("Describe your drawing")
-                    TextField(
-                        "Be as descriptive as you can",
-                        text: $prompt,
-                        axis: .vertical
+                    InferenceTextField(
+                        header: "Describe your drawing",
+                        placeholder: "Be as descriptive as you can",
+                        text: $prompt
                     )
-                    .lineLimit(1...5)
-                    .textFieldStyle(.roundedBorder)
-                    
                 }
                 
                 VStack {
@@ -162,6 +155,7 @@ private extension PostToInferenceModalView {
         let enhancedPrompt: String = buildPrompt()
         serviceHelper.postImgToImgRequest(prompt: maskOptions.maskImage == nil ? enhancedPrompt : maskOptions.prompt, image: sourceImage, mask: maskOptions.maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
         startInferenceHandler(prompt)
+        analytics.logEvent(id: "drawing-sent", title: "Sent drawing for inference")
     }
     
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
