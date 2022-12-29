@@ -40,6 +40,7 @@
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
 		FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF995290CCB5800276E2E /* CodeableImage.swift */; };
 		FEACF998290D717000276E2E /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF997290D717000276E2E /* ProjectStore.swift */; };
+		FEC6BCE3295DF4A5001E97A2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */; };
 		FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC02949848E0074BBCA /* AppDelegate.swift */; };
 		FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */; };
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
@@ -82,6 +83,7 @@
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
 		FEACF995290CCB5800276E2E /* CodeableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeableImage.swift; sourceTree = "<group>"; };
 		FEACF997290D717000276E2E /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		FEDA3DC02949848E0074BBCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationHelper.swift; sourceTree = "<group>"; };
 		FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				FEDCAAD0290263B2007D40A5 /* PostToInferenceModalView.swift */,
 				FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */,
 				FE754530295BF272001D81DF /* InferenceTextField.swift */,
+				FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */,
 			);
 			path = Drawing;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				CC2BB25B295647FE00ABEB6D /* AdvancedOptions.swift in Sources */,
 				FE7DAB1D295901300037AD7E /* CreateMaskModalView.swift in Sources */,
 				FEDCAAD1290263B2007D40A5 /* PostToInferenceModalView.swift in Sources */,
+				FEC6BCE3295DF4A5001E97A2 /* PhotoPickerView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,

@@ -112,7 +112,6 @@ private extension AdvancedOptionsModalView {
     }
 }
 
-
 struct AdvancedOptionsModalView_Previews: PreviewProvider {
     static var previews: some View {
         AdvancedOptionsModalView(advancedOptions: .constant(AdvancedOptions()))

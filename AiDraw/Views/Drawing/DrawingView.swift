@@ -7,23 +7,21 @@
 
 import SwiftUI
 import PencilKit
-import PhotosUI
+import StoreKit
 
 struct DrawingView: View {
     // Environment variables
     @Environment(\.presentationMode) private var mode: Binding<PresentationMode>
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.undoManager) private var undoManager
+    @Environment(\.requestReview) var requestReview
     @EnvironmentObject private var alertManager: AlertManager
     @EnvironmentObject var adsViewModel: AdsViewModel
+    @AppStorage("inference_count") var inferenceCount = 0
     
     // Drawing
     @Binding var drawingProject: DrawingProject
     @State private var canvasView = PKCanvasView()
-
-    // Image picker
-    @State private var selectedItem: PhotosPickerItem? = nil
-    @State private var selectedImageData: Data? = nil
     
     // State of the application
     @State private var isUploadingDrawing = false
@@ -116,19 +114,7 @@ struct DrawingView: View {
                     Button(action: downloadCurrentDrawingAndBackground) {
                         Image(systemName: "square.and.arrow.down")
                     }
-                    PhotosPicker(
-                        selection: $selectedItem,
-                        matching: .images,
-                        photoLibrary: .shared()
-                    ) {
-                        Image(systemName: "photo.on.rectangle.angled")
-                    }.onChange(of: selectedItem) { newItem in
-                        Task {
-                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                handleImportedPhoto(data: data)
-                            }
-                        }
-                    }
+                    PhotoPickerView(photoImportedHandler: photoImportedHandler)
                 },
                 trailing: HStack {
                     Button(action: {isShowingOnboarding = true}) {
@@ -156,6 +142,18 @@ struct DrawingView: View {
 private extension DrawingView {
     func saveDrawing() {
         saveBackwardsSnapshot()
+    }
+    
+    func clearDrawing() {
+        saveBackwardsSnapshot()
+        canvasView.drawing = PKDrawing()
+        analytics.logEvent(id: "clear-drawing", title: "Clear drawing")
+    }
+    
+    func clearBackground() {
+        saveBackwardsSnapshot()
+        drawingProject.backgroundImage = UIImage(color: .white)
+        analytics.logEvent(id: "clear-background", title: "Clear background")
     }
         
     func saveProjectState() {
@@ -200,6 +198,12 @@ private extension DrawingView {
         isRunningInference = false
         inferenceProgressBar.stopTimer()
         analytics.logEvent(id: "inference-succeeded", title: "Inference succeeded")
+        
+        // Request review every 5 inference
+        inferenceCount += 1
+        if (inferenceCount % 5 == 0) {
+            requestReview()
+        }
     }
     
     func inferenceFailed(title: String, message: String) {
@@ -208,7 +212,7 @@ private extension DrawingView {
         analytics.logEvent(id: "inference-failed", title: "Inference failed")
     }
     
-    func handleImportedPhoto(data: Data) {
+    func photoImportedHandler(data: Data) {
         let importedPhoto = UIImage(data: data)
         if (importedPhoto != nil) {
             let croppedImage = imageHelper.cropImageToRect(sourceImage: importedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
@@ -234,18 +238,6 @@ private extension DrawingView {
                 clusterStatusProgressBar.startTimer()
             }
         }
-    }
-    
-    func clearDrawing() {
-        saveBackwardsSnapshot()
-        canvasView.drawing = PKDrawing()
-        analytics.logEvent(id: "clear-drawing", title: "Clear drawing")
-    }
-    
-    func clearBackground() {
-        saveBackwardsSnapshot()
-        drawingProject.backgroundImage = UIImage(color: .white)
-        analytics.logEvent(id: "clear-background", title: "Clear background")
     }
     
     func createSnapshot() -> DrawingSnapshot {

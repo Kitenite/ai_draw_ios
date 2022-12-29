@@ -18,5 +18,4 @@ class AnalyticsHelper {
           AnalyticsParameterContentType: "cont",
         ])
     }
-    
 }
