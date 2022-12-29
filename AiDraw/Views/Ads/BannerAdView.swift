@@ -10,7 +10,7 @@ import GoogleMobileAds
 import SwiftUI
 import UIKit
 
-public struct BannerAdVIew: View {
+public struct BannerAdView: View {
     @State var height: CGFloat = 0
     @State var width: CGFloat = 0
     @State var adPosition: AdPosition

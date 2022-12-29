@@ -13,9 +13,7 @@ struct AiDrawApp: App {
     @StateObject var alertManager = AlertManager()
     @Environment(\.scenePhase) private var scenePhase
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
-    let adsViewModel = AdsViewModel.shared
-    
+        
     var body: some Scene {
         WindowGroup {
             NavigationStack {
@@ -38,7 +36,6 @@ struct AiDrawApp: App {
                 }
             }
             .environmentObject(alertManager)
-            .environmentObject(adsViewModel)
             .task {
                 PushNotificationHelper.subscribeToTopic(topic: Constants.WAKE_TOPIC)
             }

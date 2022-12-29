@@ -6,8 +6,6 @@
 //
 
 import SwiftUI
-
-import SwiftUI
 import PencilKit
 
 struct CanvasView {
@@ -21,28 +19,37 @@ struct CanvasView {
 // MARK: - UIViewRepresentable
 extension CanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> PKCanvasView {
-        canvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
         #if targetEnvironment(simulator)
           canvasView.drawingPolicy = .anyInput
         #endif
         
+        canvasView.tool = PKInkingTool(.pen, color: .gray, width: 10)
+        canvasView.drawing = drawing
+        
         // Force light mode for consistency
         toolPicker.colorUserInterfaceStyle = .light
         canvasView.overrideUserInterfaceStyle = .light
+        
+        // Clear background for custom background
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
-        canvasView.drawing = drawing
+        setupCanvas(context: context)
+        return canvasView
+    }
+    
+    func setupCanvas(context: Context){
         if (!isMask) {
             showToolPicker()
         } else {
             canvasView.drawingPolicy = .anyInput
-            canvasView.tool = PKInkingTool(PKInkingTool.InkType.marker, color: .lightGray, width: 50)
+            canvasView.tool = PKInkingTool(.marker, color: .lightGray, width: 50)
         }
         canvasView.delegate = context.coordinator
-        return canvasView
     }
 
-    func updateUIView(_ uiView: PKCanvasView, context: Context) {}
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {
+        setupCanvas(context: context)
+    }
 
     func makeCoordinator() -> Coordinator {
         Coordinator(canvasView: $canvasView, onSaved: onSaved)

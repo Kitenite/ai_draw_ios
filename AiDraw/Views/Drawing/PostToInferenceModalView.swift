@@ -145,7 +145,8 @@ struct PostToInferenceModalView: View {
                 Button(action: sendDrawing) {
                     Text("Use AI")
                 }.disabled(prompt == "" && maskOptions.prompt == "")
-            }.padding()
+            }
+            .padding()
         }
     }
 }

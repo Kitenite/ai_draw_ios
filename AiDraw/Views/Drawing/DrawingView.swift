@@ -16,7 +16,6 @@ struct DrawingView: View {
     @Environment(\.undoManager) private var undoManager
     @Environment(\.requestReview) var requestReview
     @EnvironmentObject private var alertManager: AlertManager
-    @EnvironmentObject var adsViewModel: AdsViewModel
     @AppStorage("inference_count") var inferenceCount = 0
     
     // Drawing
@@ -27,12 +26,12 @@ struct DrawingView: View {
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
     @State private var isShowingOnboarding = true
-
+    
     // Helpers
     internal var imageHelper = ImageHelper.shared
     internal var serviceHelper = ServiceHelper.shared
     internal var analytics = AnalyticsHelper.shared
-
+    
     // Cluster status
     @State internal var runningTasksCount: Int = 0
     @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
@@ -56,7 +55,7 @@ struct DrawingView: View {
                         clusterStatusProgressBar
                     }
                 }
-                BannerAdVIew(adPosition: .top, adUnitId: nil)
+                BannerAdView(adPosition: .top, adUnitId: nil)
                 Spacer()
                 HStack {
                     Button(action: undoDrawing) {
@@ -71,7 +70,7 @@ struct DrawingView: View {
                     Button(action: clearBackground) {
                         Image(systemName: "trash")
                     }
-
+                    
                     Spacer()
                     
                     if (runningTasksCount <= 0) {
@@ -101,7 +100,7 @@ struct DrawingView: View {
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
                 Spacer()
-                BannerAdVIew(adPosition: .bottom, adUnitId: nil)
+                BannerAdView(adPosition: .bottom, adUnitId: nil)
             }
             .navigationBarTitle(Text(drawingProject.name), displayMode: .inline)
             .navigationBarBackButtonHidden(true)
@@ -155,7 +154,7 @@ private extension DrawingView {
         drawingProject.backgroundImage = UIImage(color: .white)
         analytics.logEvent(id: "clear-background", title: "Clear background")
     }
-        
+    
     func saveProjectState() {
         drawingProject.displayImage = canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage)
         drawingProject.drawing = canvasView.drawing
@@ -185,9 +184,6 @@ private extension DrawingView {
     }
     
     func showInterstiltialAd() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            adsViewModel.showInterstitial = true
-        }
         analytics.logEvent(id: "show-interstitial-ad", title: "Show interstitial ad")
     }
     
