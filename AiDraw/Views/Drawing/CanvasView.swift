@@ -48,7 +48,7 @@ extension CanvasView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
-        setupCanvas(context: context)
+        // Run when screen size changes or reappear
     }
 
     func makeCoordinator() -> Coordinator {
