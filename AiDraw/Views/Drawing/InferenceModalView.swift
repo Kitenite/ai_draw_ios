@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PostToInferenceModalView: View {
+struct InferenceModalView: View {
     @Environment(\.presentationMode) var presentation
 
     // Inputs
@@ -151,7 +151,7 @@ struct PostToInferenceModalView: View {
     }
 }
 
-private extension PostToInferenceModalView {
+private extension InferenceModalView {
     func sendDrawing() {
         let enhancedPrompt: String = buildPrompt()
         serviceHelper.postImgToImgRequest(prompt: maskOptions.maskImage == nil ? enhancedPrompt : maskOptions.prompt, image: sourceImage, mask: maskOptions.maskImage, advancedOptions: advancedOptions, inferenceResultHandler: inferenceResultHandler)
@@ -219,7 +219,7 @@ func mockInferenceFailedHandler(title: String, description: String) {}
 struct PostToInferenceModalView_Previews: PreviewProvider {
     static var previews: some View {
         let mockSourceImage = UIImage(color: .blue)
-        PostToInferenceModalView(sourceImage: mockSourceImage ?? UIImage(), prompt: "", addInferredImageHandler: mockInferenceHandler, inferenceFailedHandler: mockInferenceFailedHandler, startInferenceHandler: mockInferenceHandler)
+        InferenceModalView(sourceImage: mockSourceImage ?? UIImage(), prompt: "", addInferredImageHandler: mockInferenceHandler, inferenceFailedHandler: mockInferenceFailedHandler, startInferenceHandler: mockInferenceHandler)
     }
 }
 

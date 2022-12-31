@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 import Alamofire
 
 class ServiceHelper {
@@ -64,13 +64,13 @@ class ServiceHelper {
     }
     
     func wakeService() {
+        return
         print("Waking service")
         AF.request(
             Constants.WAKE_API,
             method: .get
         ).response { response in
             debugPrint("Waking service response: \(response)")
-
         }
     }
     

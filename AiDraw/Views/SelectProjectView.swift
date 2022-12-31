@@ -10,12 +10,13 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
-    let navigationBarTitle = "Create a drawing"
     
     // Navigation between projects
     @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
-    @State private var drawingSelected: Bool = false
+    
+    // Selecting drawings
+    @State private var isSelectingDrawing: Bool = false
     @State private var selectedDrawing: DrawingProject? = nil
     
     // Helpers
@@ -23,42 +24,51 @@ struct SelectProjectView: View {
     internal var serviceHelper = ServiceHelper.shared
     
     // Layout for displaying drawings. Count means collumn count
-    let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 4)
+    let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        PreviewProjectView(image: projects[index].displayImage!, selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString, title: projects[index].name)
+                        SelectableProjectView(image: projects[index].displayImage!, selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString, title: projects[index].name, subtitle: projects[index].createdDate.formatted(date: .abbreviated, time: .omitted))
                             .onTapGesture {
-                                navigateToDrawing(index: index)
+                                if (isSelectingDrawing) {
+                                    selectedDrawing = projects[index]
+                                } else {
+                                    navigateToDrawing(index: index)
+                                }
                             }
                             .onLongPressGesture {
-                                drawingSelected = true
+                                isSelectingDrawing = true
                                 selectedDrawing = projects[index]
                             }
                     }
                 }
                 .padding(.all, 20)
             }
-            .navigationBarTitle(Text(navigationBarTitle), displayMode: .inline)
             .navigationBarItems(
+                leading: HStack {
+                    Text("AI Pencil").font(.title).bold()
+                },
                 trailing: HStack {
-                    if drawingSelected {
+                    if isSelectingDrawing {
                         // Add textfield for updating selected project's name
                         Button(action: duplicateSelectedDrawing) {
                             Image(systemName: "doc.on.doc")
-                        }
+                        }.disabled(selectedDrawing == nil)
                         Button(action: deleteSelectedDrawing) {
                             Image(systemName: "trash")
-                        }
-                        Button(action: unselectDrawing) {
+                        }.disabled(selectedDrawing == nil)
+                        Button(action: selectDrawingButtonClicked) {
                             Text("Cancel")
                         }
                     } else {
-                        Button(action: createDrawing) {
-                            Image(systemName: "plus")
+                        Button(action: selectDrawingButtonClicked) {
+                            Text("Select")
+                        }
+                        Button(action: createDrawingButtonClicked) {
+                            Text("Create")
                         }
                     }
                 }
@@ -82,6 +92,17 @@ struct SelectProjectView: View {
 }
 
 private extension SelectProjectView {
+    
+    func createDrawingButtonClicked() {
+        
+    }
+    
+    func selectDrawingButtonClicked() {
+        selectedDrawing = nil
+        isSelectingDrawing.toggle()
+    }
+    
+    
     func createDrawing() {
         let newDrawing = DrawingProject(name: "Drawing #\(projects.count + 1)")
         projects.insert(newDrawing, at: 0)
@@ -123,7 +144,7 @@ private extension SelectProjectView {
     }
     
     func unselectDrawing() {
-        drawingSelected = false
+        isSelectingDrawing = false
         selectedDrawing = nil
     }
 }
@@ -132,12 +153,12 @@ struct SelectDrawingView_Previews: PreviewProvider {
     
     static var previews: some View {
         SelectProjectView(projects: .constant([
-            DrawingProject(name: "My project 1"),
-            DrawingProject(name: "My project 2"),
-            DrawingProject(name: "My project 3"),
-            DrawingProject(name: "My project 4"),
-            DrawingProject(name: "My project 5"),
-            DrawingProject(name: "My project 6")
+            DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-1")),
+            DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-2")),
+            DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-3")),
+            DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-4")),
+            DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-5")),
+            
         ]))
     }
 }

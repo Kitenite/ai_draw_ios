@@ -81,7 +81,7 @@ struct DrawingView: View {
                         Button(action: uploadDrawingForInference) {
                             Text("Use AI")
                         }.sheet(isPresented: $isUploadingDrawing) {
-                            PostToInferenceModalView(sourceImage: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
+                            InferenceModalView(sourceImage: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
                         }
                     } else {
                         ProgressView()
