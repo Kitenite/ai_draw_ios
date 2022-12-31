@@ -23,6 +23,9 @@ struct Constants {
     static let BANNER_AD_ID = "ca-app-pub-1255434922571560/3432148431"
     static let INTERSTITIAL_AD_ID = "ca-app-pub-1255434922571560/5149690259"
     
+    // UserDefaults
+    static let DEFAULT_ADVANCED_OPTIONS_KEY = "defaultAdvancedOptions"
+    
     // Test Advertisement IDs
 //    static let BANNER_AD_ID = "ca-app-pub-3940256099942544/2934735716"
 //    static let INTERSTITIAL_AD_ID = "ca-app-pub-3940256099942544/4411468910"

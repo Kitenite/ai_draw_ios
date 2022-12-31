@@ -11,6 +11,7 @@ struct AdvancedOptionsModalView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var isHelpPresented = false
+    @State private var showSetDefaultSuccessIcon = false
     internal var analytics = AnalyticsHelper.shared
 
     // Inputs
@@ -86,8 +87,27 @@ struct AdvancedOptionsModalView: View {
                         .textFieldStyle(.roundedBorder)
                 }
             }.padding()
-            Button("Save options") {
-                dismiss()
+            VStack {
+                Button(action: {
+                    Task {
+                        await setDefaultAdvancedOptions()
+                    }
+                }) {
+                    HStack {
+                        Spacer()
+                        Text(
+                            "Set selected options as default"
+                        )
+                        if (showSetDefaultSuccessIcon) {
+                            Image(systemName: "checkmark")
+                        }
+                        Spacer()
+                    }
+                }.fontWeight(Font.Weight.light)
+                Divider()
+                Button("Save options") {
+                    dismiss()
+                }.fontWeight(Font.Weight.bold)
             }
         }.onAppear {
             saveUnmodifiedAdvancedOptions()
@@ -104,6 +124,16 @@ private extension AdvancedOptionsModalView {
         unmodifiedAdvancedOptions = advancedOptions
         analytics.logEvent(id: "save-advanced-options", title: "Save advanced options")
 
+    }
+    
+    func setDefaultAdvancedOptions() async -> Void {
+        let encodedAdvancedOptionsData = try? JSONEncoder().encode(advancedOptions)
+        if (encodedAdvancedOptionsData != nil) {
+            UserDefaults.standard.set(encodedAdvancedOptionsData, forKey: Constants.DEFAULT_ADVANCED_OPTIONS_KEY)
+            showSetDefaultSuccessIcon = true
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            showSetDefaultSuccessIcon = false
+        }
     }
     
     func goBackWithoutSaving() -> Void {

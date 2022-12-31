@@ -28,7 +28,7 @@ struct PostToInferenceModalView: View {
     @State private var isMaskModalPresented = false
     
     // Advanced options
-    @State private var advancedOptions = AdvancedOptions()
+    @State private var advancedOptions = getDefaultAdvancedOptions()
     @State private var isAdvancedOptionsPresented = false
     
     // Prompt styles
@@ -175,6 +175,17 @@ private extension PostToInferenceModalView {
                 inferenceFailedHandler("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
             }
         }
+    }
+    
+    static func getDefaultAdvancedOptions() -> AdvancedOptions {
+        let defaultOptionsData = UserDefaults.standard.object(forKey: Constants.DEFAULT_ADVANCED_OPTIONS_KEY) as? Data
+        debugPrint("default options data: \(defaultOptionsData)")
+        if (defaultOptionsData != nil) {
+            let defaultOptions = try? JSONDecoder().decode(AdvancedOptions.self, from: defaultOptionsData!)
+            debugPrint("default options: \(defaultOptions)")
+            return defaultOptions ?? AdvancedOptions()
+        }
+        return AdvancedOptions()
     }
     
     func buildPrompt() -> String {
