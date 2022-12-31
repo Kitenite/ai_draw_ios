@@ -14,7 +14,7 @@ enum Sampler: String, CaseIterable {
     case DDIM = "DDIM"
 }
 
-struct AdvancedOptions {
+struct AdvancedOptions: Codable {
     var seed: Int = -1
     var sampler_index: String = Sampler.Euler_a.rawValue
     var cfg_scale: Float = 7.0
