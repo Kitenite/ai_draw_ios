@@ -14,7 +14,7 @@ struct LayerModalRowView: View {
     
     var body: some View {
         HStack {
-            Image(uiImage: layer.image!)
+            Image(uiImage: layer.image ?? UIImage(color: .white)!)
                 .resizable()
                 .frame(width: 50, height: 50)
                 .cornerRadius(5)
@@ -39,7 +39,7 @@ struct LayerModalRowView: View {
 
 
 struct LayerModalRowView_Previews: PreviewProvider {
-    @State static var layer = DrawingLayer(title: "Title", image: UIImage(named:"coffee-1")!, isActive: true, isVisible: true)
+    @State static var layer = DrawingLayer(title: "Title", image: UIImage(named:"coffee-1")!, isVisible: true)
     static var previews: some View {
         LayerModalRowView(layer: $layer, isVisible: layer.isVisible)
     }
