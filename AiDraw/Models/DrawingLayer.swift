@@ -8,7 +8,7 @@ import SwiftUI
 
 struct DrawingLayer: Codable, Equatable {
     var id = UUID()
-    var title: String = "New layer"
+    var title: String = "Layer 1"
     @CodableImage var image: UIImage?
     var isVisible: Bool = true
     

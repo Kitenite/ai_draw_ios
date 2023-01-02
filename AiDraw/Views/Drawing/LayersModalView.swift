@@ -51,13 +51,13 @@ struct LayersModalView: View {
     }
     
     func addLayer() {
-        layers.insert(DrawingLayer(title: "Layer \(layers.count)", isVisible: true), at: 0)
+        layers.insert(DrawingLayer(title: "Layer \(layers.count+1)", isVisible: true), at: 0)
     }
 }
 
 struct LayersModalView_Previews: PreviewProvider {
     @State static var layers = [
-        DrawingLayer(title: "Layer title  2", image: UIImage(named: "coffee-3"), isVisible: false),
+        DrawingLayer(title: "Layer title 2", image: UIImage(named: "coffee-3"), isVisible: false),
         DrawingLayer(title: "Layer title 1", image: UIImage(named: "coffee-2"), isVisible: true),
         DrawingLayer(title: "Layer title 0", image: UIImage(named: "coffee-1"), isVisible: true),
     ]

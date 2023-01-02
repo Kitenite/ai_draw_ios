@@ -48,12 +48,6 @@ struct DrawingView: View {
     // Early initialize prompt styles singleton so it is populated when user submits
     let promptStylesManager = PromptStylesManager.shared
     
-    @State var testLayers = [
-        DrawingLayer(title: "Layer title  2", image: UIImage(named: "coffee-3"), isVisible: false),
-        DrawingLayer(title: "Layer title 1", image: UIImage(named: "coffee-2"), isVisible: true),
-        DrawingLayer(title: "Layer title 0", image: UIImage(named: "coffee-1"), isVisible: true),
-    ]
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -157,7 +151,7 @@ struct DrawingView: View {
                     }) {
                         Image(systemName: "square.on.square")
                     }.popover(isPresented: $isShowingLayersPopup, arrowEdge: .top) {
-                        LayersModalView(layers: $testLayers, activeLayerIndex: 0)
+                        LayersModalView(layers: $drawingProject.layers, activeLayerIndex: 0)
                     }
                     
                     Menu {
