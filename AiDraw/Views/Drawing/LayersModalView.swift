@@ -28,8 +28,7 @@ struct LayersModalView: View {
             List {
                 ForEach(layers.indices, id: \.self) { index in
                     LayerModalRowView(
-                        layer: $layers[index],
-                        isVisible: layers[index].isVisible
+                        layer: $layers[index]
                     ).onTapGesture {
                         activeLayerIndex = index
                     }

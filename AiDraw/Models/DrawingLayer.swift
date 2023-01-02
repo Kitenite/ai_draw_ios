@@ -4,14 +4,13 @@
 //
 //  Created by Kiet Ho on 1/1/23.
 //
-
 import SwiftUI
 
 struct DrawingLayer: Codable, Equatable {
     var id = UUID()
-    let title: String
+    var title: String = "New layer"
     @CodableImage var image: UIImage?
-    var isVisible: Bool
+    var isVisible: Bool = true
     
     static func == (lhs: DrawingLayer, rhs: DrawingLayer) -> Bool {
         lhs.id.uuidString == rhs.id.uuidString

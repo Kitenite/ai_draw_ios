@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LayerModalRowView: View {
     @Binding var layer: DrawingLayer
-    @State var isVisible: Bool
     @State private var isShowingAlert = false
     
     var body: some View {
@@ -20,20 +19,20 @@ struct LayerModalRowView: View {
                 .cornerRadius(5)
             Text(layer.title)
             Spacer()
-            Button(action: toggleIsVisible) {
+            Button(action: {
+                DispatchQueue.main.async {
+                    layer.isVisible.toggle()
+                }
+            }) {
                 Image(
-                    systemName: isVisible ? "eye.fill" : "eye.slash"
+                    systemName: layer.isVisible ? "eye.fill" : "eye.slash"
                 )
                 .foregroundColor(
-                    isVisible ? .primary : .gray
+                    layer.isVisible ? .primary : .gray
                 )
-            }.buttonStyle(.borderless)
+            }
+            .buttonStyle(.borderless)
         }
-    }
-    
-    func toggleIsVisible() {
-        isVisible.toggle()
-        layer.isVisible = isVisible
     }
 }
 
@@ -41,6 +40,6 @@ struct LayerModalRowView: View {
 struct LayerModalRowView_Previews: PreviewProvider {
     @State static var layer = DrawingLayer(title: "Title", image: UIImage(named:"coffee-1")!, isVisible: true)
     static var previews: some View {
-        LayerModalRowView(layer: $layer, isVisible: layer.isVisible)
+        LayerModalRowView(layer: $layer)
     }
 }
