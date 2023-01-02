@@ -27,29 +27,8 @@ struct LayerModalRowView: View {
                 .foregroundColor(
                     isVisible ? .primary : .gray
                 )
-            }
-            Button(action: {
-                isShowingAlert = true
-            }) {
-                Image(systemName: "trash")
-            }
-            .alert(isPresented: $isShowingAlert) {
-                Alert(
-                    title: Text("Delete layer?"),
-                    message: Text("This is not reversable"),
-                    primaryButton: .default(
-                        Text("Cancel"),
-                        action: {}
-                    ),
-                    secondaryButton: .destructive(
-                        Text("Delete"),
-                        action: {}
-                    )
-                    
-                )
-            }.foregroundColor(.primary)
+            }.buttonStyle(.borderless)
         }
-        .padding()
     }
     
     func toggleIsVisible() {

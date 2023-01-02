@@ -24,30 +24,34 @@ struct LayersModalView: View {
                 }) {
                     Image(systemName: "plus")
                 }
+                EditButton()
             }
             Divider()
-            ForEach(layers.indices, id: \.self) { index in
-                LayerModalRowView(
-                    layer: $layers[index],
-                    isVisible: layers[index].isVisible
-                ).onTapGesture {
-                    activeLayerIndex = index
-                    print(activeLayerIndex)
+            List {
+                ForEach(layers.indices, id: \.self) { index in
+                    LayerModalRowView(
+                        layer: $layers[index],
+                        isVisible: layers[index].isVisible
+                    ).onTapGesture {
+                        activeLayerIndex = index
+                    }
+                    .listRowBackground(index == activeLayerIndex ? Color.blue: nil)
                 }
-                .onDrag {
-                    draggedLayer = layers[index]
-                    return NSItemProvider()
-                }
-                .onDrop(of: [.text],
-                        delegate: DropViewDelegate(destinationItem: layers[index], layers: $layers, draggedItem: $draggedLayer)
-                )
-                .background(index == activeLayerIndex ? Color.blue: nil)
+                .onMove(perform: move)
+                .onDelete(perform: delete)
             }
+            .listStyle(.plain)
+            
             Spacer()
         }.padding()
     }
+    func move(from source: IndexSet, to destination: Int) {
+        layers.move(fromOffsets: source, toOffset: destination)
+    }
     
-    
+    func delete(at offsets: IndexSet) {
+        layers.remove(atOffsets: offsets)
+    }
 }
 
 struct LayersModalView_Previews: PreviewProvider {
