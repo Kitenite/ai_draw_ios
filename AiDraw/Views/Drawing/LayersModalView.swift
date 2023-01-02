@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LayersModalView: View {
-    @State var layers: [DrawingLayer]
+    @Binding var layers: [DrawingLayer]
     @State var activeLayerIndex: Int = 0
+    @State private var draggedLayer: DrawingLayer?
     
     var body: some View {
         VStack {
@@ -27,24 +28,36 @@ struct LayersModalView: View {
             Divider()
             ForEach(layers.indices, id: \.self) { index in
                 LayerModalRowView(
-                    title: layers[index].title,
-                    image: layers[index].image ?? UIImage(color: .white)!,
-                    isActive: activeLayerIndex == index,
-                    isVisible: $layers[index].isVisible
+                    layer: $layers[index],
+                    isVisible: layers[index].isVisible
+                ).onTapGesture {
+                    activeLayerIndex = index
+                    print(activeLayerIndex)
+                }
+                .onDrag {
+                    draggedLayer = layers[index]
+                    return NSItemProvider()
+                }
+                .onDrop(of: [.text],
+                        delegate: DropViewDelegate(destinationItem: layers[index], layers: $layers, draggedItem: $draggedLayer)
                 )
+                .background(index == activeLayerIndex ? Color.blue: nil)
             }
             Spacer()
         }.padding()
     }
+    
+    
 }
 
 struct LayersModalView_Previews: PreviewProvider {
+    @State static var layers = [
+        DrawingLayer(title: "Layer title", image: UIImage(named: "coffee-1"), isActive: true, isVisible: true),
+        DrawingLayer(title: "Layer title", image: UIImage(named: "coffee-2"), isActive: false, isVisible: true),
+        DrawingLayer(title: "Layer title", image: UIImage(named: "coffee-3"), isActive: false, isVisible: false),
+    ]
+    
     static var previews: some View {
-        let layers = [
-            DrawingLayer(image: UIImage(named: "coffee-1"), title: "Layer title", isActive: true, isVisible: true),
-            DrawingLayer(image: UIImage(named: "coffee-2"), title: "Layer title", isActive: false, isVisible: true),
-            DrawingLayer(image: UIImage(named: "coffee-3"), title: "Layer title", isActive: false, isVisible: false),
-        ]
-        LayersModalView(layers: layers)
+        LayersModalView(layers: $layers)
     }
 }

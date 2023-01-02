@@ -8,23 +8,19 @@
 import SwiftUI
 
 struct LayerModalRowView: View {
-    let title: String
-    let image: UIImage
-    let isActive: Bool
-    @Binding var isVisible: Bool
+    @Binding var layer: DrawingLayer
+    @State var isVisible: Bool
     @State private var isShowingAlert = false
     
     var body: some View {
         HStack {
-            Image(uiImage: image)
+            Image(uiImage: layer.image!)
                 .resizable()
                 .frame(width: 50, height: 50)
                 .cornerRadius(5)
-            Text(title)
+            Text(layer.title)
             Spacer()
-            Button(action: {
-                isVisible.toggle()
-            }) {
+            Button(action: toggleIsVisible) {
                 Image(
                     systemName: isVisible ? "eye.fill" : "eye.slash"
                 )
@@ -54,13 +50,18 @@ struct LayerModalRowView: View {
             }.foregroundColor(.primary)
         }
         .padding()
-        .background(isActive ? Color.blue: nil)
+    }
+    
+    func toggleIsVisible() {
+        isVisible.toggle()
+        layer.isVisible = isVisible
     }
 }
 
+
 struct LayerModalRowView_Previews: PreviewProvider {
-    @State var isVisible = true
+    @State static var layer = DrawingLayer(title: "Title", image: UIImage(named:"coffee-1")!, isActive: true, isVisible: true)
     static var previews: some View {
-        LayerModalRowView(title: "Layer title", image: UIImage(named:"coffee-1")!, isActive: true, isVisible: .constant(true))
+        LayerModalRowView(layer: $layer, isVisible: layer.isVisible)
     }
 }

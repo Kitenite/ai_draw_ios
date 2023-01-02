@@ -20,6 +20,7 @@
 		FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */; };
 		FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE891296223E100A57BF0 /* DrawingLayer.swift */; };
 		FE3CE89429629D3A00A57BF0 /* SendToAIModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89329629D3A00A57BF0 /* SendToAIModalView.swift */; };
+		FE3CE89629632A8D00A57BF0 /* DropViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89529632A8D00A57BF0 /* DropViewDelegate.swift */; };
 		FE48C1BF295BAF5400DC2474 /* MaskOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */; };
 		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
 		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
@@ -71,6 +72,7 @@
 		FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModalRowView.swift; sourceTree = "<group>"; };
 		FE3CE891296223E100A57BF0 /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
 		FE3CE89329629D3A00A57BF0 /* SendToAIModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToAIModalView.swift; sourceTree = "<group>"; };
+		FE3CE89529632A8D00A57BF0 /* DropViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewDelegate.swift; sourceTree = "<group>"; };
 		FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskOptions.swift; sourceTree = "<group>"; };
 		FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE58DAD02936F441001012B5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -257,6 +259,7 @@
 				FEACF997290D717000276E2E /* ProjectStore.swift */,
 				FE791C3B2944FAF200E39A48 /* Extensions.swift */,
 				FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */,
+				FE3CE89529632A8D00A57BF0 /* DropViewDelegate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				FE791C3E2945016A00E39A48 /* AlertManager.swift in Sources */,
 				FE791C3C2944FAF200E39A48 /* Extensions.swift in Sources */,
 				FE48C1BF295BAF5400DC2474 /* MaskOptions.swift in Sources */,
+				FE3CE89629632A8D00A57BF0 /* DropViewDelegate.swift in Sources */,
 				CC2BB25529539F2900ABEB6D /* PromptStyles.swift in Sources */,
 				FE62BF81292E5E0500CC6055 /* Constants.swift in Sources */,
 				FE58DAD32936F535001012B5 /* AnalyticsHelper.swift in Sources */,
