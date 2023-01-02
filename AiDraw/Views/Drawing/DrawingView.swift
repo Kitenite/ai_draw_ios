@@ -157,11 +157,16 @@ struct DrawingView: View {
                     Menu {
                         Section("Create AI art") {
                             NavigationLink {
-                                SendToAIModalView()
+                                SendToAiView(
+                                    prompt: drawingProject.prompt,
+                                    image: drawingProject.displayImage // TODO: update this
+                                )
                             } label: {
                                 Text("From drawing")
                             }
-                            Button(action : {}){
+                            NavigationLink {
+                                SendToAiView(prompt: drawingProject.prompt)
+                            } label: {
                                 Text("From prompt")
                             }
                         }
