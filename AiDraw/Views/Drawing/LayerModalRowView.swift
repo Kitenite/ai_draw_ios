@@ -12,6 +12,7 @@ struct LayerModalRowView: View {
     let image: UIImage
     let isActive: Bool
     @Binding var isVisible: Bool
+    @State private var isShowingAlert = false
     
     var body: some View {
         HStack {
@@ -31,23 +32,29 @@ struct LayerModalRowView: View {
                     isVisible ? .primary : .gray
                 )
             }
+            Button(action: {
+                isShowingAlert = true
+            }) {
+                Image(systemName: "trash")
+            }
+            .alert(isPresented: $isShowingAlert) {
+                Alert(
+                    title: Text("Delete layer?"),
+                    message: Text("This is not reversable"),
+                    primaryButton: .default(
+                        Text("Cancel"),
+                        action: {}
+                    ),
+                    secondaryButton: .destructive(
+                        Text("Delete"),
+                        action: {}
+                    )
+                    
+                )
+            }.foregroundColor(.primary)
         }
         .padding()
         .background(isActive ? Color.blue: nil)
-        .swipeActions(allowsFullSwipe: false) {
-            Button {
-                print("Muting conversation")
-            } label: {
-                Label("Mute", systemImage: "bell.slash.fill")
-            }
-            .tint(.indigo)
-            
-            Button(role: .destructive) {
-                print("Deleting conversation")
-            } label: {
-                Label("Delete", systemImage: "trash.fill")
-            }
-        }
     }
 }
 

@@ -93,7 +93,7 @@ struct DrawingView: View {
                 }
                 
                 Spacer()
-
+                
                 ZStack {
                     if (drawingProject.backgroundImage != nil) {
                         Image(uiImage: drawingProject.backgroundImage!)
@@ -116,7 +116,7 @@ struct DrawingView: View {
                     Menu {
                         Section("Import") {
                             PhotoPickerView(photoImportedHandler: photoImportedHandler) {
-                                Text("Import a photo")
+                                Text("Import from photos")
                             }
                         }
                         Section("Export") {
@@ -162,14 +162,15 @@ struct DrawingView: View {
                     }
                     
                     Menu {
-                        Section {
-                            Text("Create AI art").bold().font(.title)
-                        }
-                        Button(action : {}){
-                            Text("From drawing")
-                        }
-                        Button(action : {}){
-                            Text("From prompt")
+                        Section("Create AI art") {
+                            NavigationLink {
+                                SendToAIModalView()
+                            } label: {
+                                Text("From drawing")
+                            }
+                            Button(action : {}){
+                                Text("From prompt")
+                            }
                         }
                     } label: {
                         Text("AI").bold().font(.title)
