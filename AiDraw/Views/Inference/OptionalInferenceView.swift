@@ -13,7 +13,7 @@ struct OptionalInferenceView: View {
             Text("Optional").bold()
             
             DisclosureGroup("Choose medium") {
-                Text("Long terms and conditions here long terms and conditions here long terms and conditions here long terms and conditions here long terms and conditions here long terms and conditions here.")
+                OptionPickerView()
             }
             
             DisclosureGroup("Choose style") {

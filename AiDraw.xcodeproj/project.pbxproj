@@ -21,6 +21,8 @@
 		FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE891296223E100A57BF0 /* DrawingLayer.swift */; };
 		FE3CE89429629D3A00A57BF0 /* SendToAiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */; };
 		FE3CE89A2963967D00A57BF0 /* OptionalInferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE8992963967D00A57BF0 /* OptionalInferenceView.swift */; };
+		FE3CE89D2963A1A100A57BF0 /* OptionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */; };
+		FE3CE8A02963A2C400A57BF0 /* SelectableOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89F2963A2C400A57BF0 /* SelectableOptionView.swift */; };
 		FE48C1BF295BAF5400DC2474 /* MaskOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */; };
 		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
 		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
@@ -73,6 +75,8 @@
 		FE3CE891296223E100A57BF0 /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
 		FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToAiView.swift; sourceTree = "<group>"; };
 		FE3CE8992963967D00A57BF0 /* OptionalInferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalInferenceView.swift; sourceTree = "<group>"; };
+		FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionPickerView.swift; sourceTree = "<group>"; };
+		FE3CE89F2963A2C400A57BF0 /* SelectableOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableOptionView.swift; sourceTree = "<group>"; };
 		FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskOptions.swift; sourceTree = "<group>"; };
 		FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE58DAD02936F441001012B5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -205,6 +209,8 @@
 				FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */,
 				FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */,
 				FE754530295BF272001D81DF /* InferenceTextField.swift */,
+				FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */,
+				FE3CE89F2963A2C400A57BF0 /* SelectableOptionView.swift */,
 			);
 			path = Inference;
 			sourceTree = "<group>";
@@ -382,6 +388,7 @@
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
+				FE3CE89D2963A1A100A57BF0 /* OptionPickerView.swift in Sources */,
 				FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */,
 				FE754531295BF272001D81DF /* InferenceTextField.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
@@ -406,6 +413,7 @@
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
+				FE3CE8A02963A2C400A57BF0 /* SelectableOptionView.swift in Sources */,
 				FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */,
 				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
 			);
