@@ -64,11 +64,29 @@ struct SelectProjectView: View {
                             Text("Cancel")
                         }
                     } else {
-                        Button(action: selectDrawingButtonClicked) {
-                            Text("Select")
+                        if (projects.count > 0) {
+                            Button(action: selectDrawingButtonClicked) {
+                                Text("Select")
+                            }
                         }
-                        Button(action: createDrawingButtonClicked) {
-                            Text("Create")
+                        Menu {
+                            Button {
+                                createDrawing()
+                            } label: {
+                                Text("Blank canvas")
+                            }
+                            Button {
+                                // Create then navigate to prompt creation
+                            } label: {
+                                Text("From prompt")
+                            }
+                            Button {
+                                // Import image then add as layer
+                            } label: {
+                                Text("Import image")
+                            }
+                        } label: {
+                             Text("Create")
                         }
                     }
                 }
@@ -92,16 +110,11 @@ struct SelectProjectView: View {
 }
 
 private extension SelectProjectView {
-    
-    func createDrawingButtonClicked() {
-        
-    }
-    
+
     func selectDrawingButtonClicked() {
         selectedDrawing = nil
         isSelectingDrawing.toggle()
     }
-    
     
     func createDrawing() {
         let newDrawing = DrawingProject(name: "Drawing #\(projects.count + 1)")
@@ -158,7 +171,6 @@ struct SelectDrawingView_Previews: PreviewProvider {
             DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-3")),
             DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-4")),
             DrawingProject(name: "This is a very long project title", displayImage: UIImage(named: "coffee-5")),
-            
         ]))
     }
 }

@@ -16,6 +16,9 @@
 		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
+		FE3CE88E29621FF400A57BF0 /* LayersModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */; };
+		FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */; };
+		FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE891296223E100A57BF0 /* DrawingLayer.swift */; };
 		FE48C1BF295BAF5400DC2474 /* MaskOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */; };
 		FE58DACA2936F32B001012B5 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DAC92936F32B001012B5 /* FirebaseAnalytics */; };
 		FE58DACC2936F32B001012B5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = FE58DACB2936F32B001012B5 /* FirebaseCrashlytics */; };
@@ -63,6 +66,9 @@
 		FE06E62428FE1FF700B6F4CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModalView.swift; sourceTree = "<group>"; };
+		FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModalRowView.swift; sourceTree = "<group>"; };
+		FE3CE891296223E100A57BF0 /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
 		FE48C1BE295BAF5400DC2474 /* MaskOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskOptions.swift; sourceTree = "<group>"; };
 		FE58DACD2936F34C001012B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE58DAD02936F441001012B5 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.1.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
@@ -213,6 +219,8 @@
 				FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */,
 				FE754530295BF272001D81DF /* InferenceTextField.swift */,
 				FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */,
+				FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */,
+				FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */,
 			);
 			path = Drawing;
 			sourceTree = "<group>";
@@ -254,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				FEACF993290CC3DF00276E2E /* DrawingProject.swift */,
+				FE3CE891296223E100A57BF0 /* DrawingLayer.swift */,
 				FEACF995290CCB5800276E2E /* CodeableImage.swift */,
 				FE62BF7E292E5D9700CC6055 /* InferenceModels.swift */,
 				CC2BB25429539F2900ABEB6D /* PromptStyles.swift */,
@@ -358,6 +367,7 @@
 				FEACF998290D717000276E2E /* ProjectStore.swift in Sources */,
 				FE62BF7F292E5D9700CC6055 /* InferenceModels.swift in Sources */,
 				FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */,
+				FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */,
 				FE754531295BF272001D81DF /* InferenceTextField.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* SelectableProjectView.swift in Sources */,
@@ -371,6 +381,7 @@
 				FEC6BCE3295DF4A5001E97A2 /* PhotoPickerView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
+				FE3CE88E29621FF400A57BF0 /* LayersModalView.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
 				FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */,
@@ -379,6 +390,7 @@
 				FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */,
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
+				FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */,
 				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

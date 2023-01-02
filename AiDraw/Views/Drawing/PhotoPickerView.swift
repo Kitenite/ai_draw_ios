@@ -8,10 +8,11 @@
 import SwiftUI
 import PhotosUI
 
-struct PhotoPickerView: View {
+struct PhotoPickerView<Content: View>: View {
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     let photoImportedHandler: (Data) -> Void
+    @ViewBuilder var content: Content
 
     var body: some View {
         PhotosPicker(
@@ -19,7 +20,7 @@ struct PhotoPickerView: View {
             matching: .images,
             photoLibrary: .shared()
         ) {
-            Image(systemName: "photo.on.rectangle.angled")
+            content
         }.onChange(of: selectedItem) { newItem in
             Task {
                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
@@ -33,6 +34,8 @@ struct PhotoPickerView: View {
 func mockPhotoImportedHandler(data: Data) {}
 struct PhotoPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoPickerView(photoImportedHandler: mockPhotoImportedHandler)
+        PhotoPickerView(photoImportedHandler: mockPhotoImportedHandler) {
+            Text("Generic button")
+        }
     }
 }
