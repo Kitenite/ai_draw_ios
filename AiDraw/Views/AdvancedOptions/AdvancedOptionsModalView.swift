@@ -8,35 +8,17 @@
 import SwiftUI
 
 struct AdvancedOptionsModalView: View {
-    @Environment(\.dismiss) private var dismiss
-    
-    @State private var isHelpPresented = false
-    internal var analytics = AnalyticsHelper.shared
-
     // Inputs
     @Binding var advancedOptions: AdvancedOptions
     
-    // Unmodified options for use on cancel
-    @State private var unmodifiedAdvancedOptions = AdvancedOptions()
+    @State private var isHelpPresented = false
+    @State private var isShowingRestoreDefaultAlert = false
+    
+    internal var analytics = AnalyticsHelper.shared
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                Group {
-                    HStack() {
-                        Button(action: goBackWithoutSaving) {
-                            Text("Cancel")
-                        }
-                        Spacer()
-                        Button(action: showHelp) {
-                            Image(systemName: "questionmark.circle")
-                        }
-                        .sheet(isPresented: $isHelpPresented) {
-                            AdvancedOptionsHelpView()
-                        }
-                    }
-                    Divider()
-                }
                 HStack {
                     Toggle(isOn: $advancedOptions.restore_faces) {
                         Text("Restore faces:")
@@ -85,12 +67,36 @@ struct AdvancedOptionsModalView: View {
                         .padding()
                         .textFieldStyle(.roundedBorder)
                 }
+                Divider()
+                Group {
+                    HStack {
+                        Button("Restore default") {
+                            isShowingRestoreDefaultAlert = true
+                        }
+                        .alert(isPresented: $isShowingRestoreDefaultAlert) {
+                            Alert(
+                                title: Text("Restore default"),
+                                message: Text("Current advanced settings will be lost"),
+                                primaryButton: .default(
+                                    Text("Cancel"),
+                                    action: {}
+                                ),
+                                secondaryButton: .destructive(
+                                    Text("Restore"),
+                                    action: restoreDefault
+                                )
+                            )
+                        }
+                        Spacer()
+                        Button(action: showHelp) {
+                            Image(systemName: "questionmark.circle")
+                        }
+                        .sheet(isPresented: $isHelpPresented) {
+                            AdvancedOptionsHelpView()
+                        }
+                    }
+                }
             }.padding()
-            Button("Save options") {
-                dismiss()
-            }
-        }.onAppear {
-            saveUnmodifiedAdvancedOptions()
         }
     }
 }
@@ -100,15 +106,8 @@ private extension AdvancedOptionsModalView {
         isHelpPresented = true
     }
     
-    func saveUnmodifiedAdvancedOptions() -> Void {
-        unmodifiedAdvancedOptions = advancedOptions
-        analytics.logEvent(id: "save-advanced-options", title: "Save advanced options")
-
-    }
-    
-    func goBackWithoutSaving() -> Void {
-        advancedOptions = unmodifiedAdvancedOptions
-        dismiss()
+    func restoreDefault() -> Void {
+        advancedOptions = AdvancedOptions()
     }
 }
 

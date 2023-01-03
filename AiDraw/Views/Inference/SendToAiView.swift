@@ -37,13 +37,15 @@ struct SendToAiView: View {
             Button(action: {}) {
                 Text("Generate Image")
                     .bold()
-                    .padding()
                     .foregroundColor(.blue)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25).stroke(Color.blue, lineWidth: 2)
-                    )
+                    
             }
-//            .background(Color(red: 0.90, green: 0.95, blue: 1))
+            .padding([.bottom, .top], 15)
+            .padding([.trailing, .leading], 20)
+
+            .overlay(
+                RoundedRectangle(cornerRadius: 25).stroke(Color.blue, lineWidth: 2)
+            )
         }
     }
 }
