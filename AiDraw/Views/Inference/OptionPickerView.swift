@@ -13,17 +13,20 @@ struct Option {
 }
 struct OptionPickerView: View {
     
-    var options: [Option] = [
-        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
-        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
-        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
-        Option(title: "Option 4", image: UIImage(named: "coffee-4")!),
-        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
-        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
-        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
-        Option(title: "Option 4", image: UIImage(named: "coffee-4")!)
-        
-    ]
+    var keys: [String]
+    var promptStylesManager = PromptStylesManager.shared
+    @Binding var selectedKey: String
+    
+//    var options: [Option] = [
+//        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
+//        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
+//        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
+//        Option(title: "Option 4", image: UIImage(named: "coffee-4")!),
+//        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
+//        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
+//        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
+//        Option(title: "Option 4", image: UIImage(named: "coffee-4")!)
+//    ]
     
     @State private var selectedOptionIndex: Int = 0
     
@@ -32,14 +35,14 @@ struct OptionPickerView: View {
     var body: some View {
         ScrollView(.horizontal) {
             LazyHStack {
-                ForEach(options.indices, id: \.self) { index in
+                ForEach(keys.indices, id: \.self) { index in
                     SelectableOptionView(
-                        image: options[index].image,
-                        selected: selectedOptionIndex == index,
-                        title: options[index].title
+                        image: UIImage(named: "coffee-1")!,
+                        selected: selectedKey == keys[index],
+                        title: keys[index]
                     )
                     .onTapGesture {
-                        selectedOptionIndex = index
+                        selectedKey = keys[index]
                     }
                 }
             }
@@ -49,7 +52,8 @@ struct OptionPickerView: View {
 }
 
 struct OptionPickerView_Previews: PreviewProvider {
+    @State static var selectedKey = "None"
     static var previews: some View {
-        OptionPickerView()
+        OptionPickerView(keys: ["Example0", "Example1", "Example2","Example3"], selectedKey: $selectedKey)
     }
 }
