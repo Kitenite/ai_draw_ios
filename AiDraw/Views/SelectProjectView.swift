@@ -53,7 +53,6 @@ struct SelectProjectView: View {
                 },
                 trailing: HStack {
                     if isSelectingDrawing {
-                        // Add textfield for updating selected project's name
                         Button(action: duplicateSelectedDrawing) {
                             Image(systemName: "doc.on.doc")
                         }.disabled(selectedDrawing == nil)
@@ -70,20 +69,22 @@ struct SelectProjectView: View {
                             }
                         }
                         Menu {
-                            Button {
-                                createDrawing()
-                            } label: {
-                                Text("Blank canvas")
-                            }
-                            Button {
-                                // Create then navigate to prompt creation
-                            } label: {
-                                Text("From prompt")
-                            }
-                            Button {
-                                // Import image then add as layer
-                            } label: {
-                                Text("Import image")
+                            Section("Create new project") {
+                                Button {
+                                    createDrawing()
+                                } label: {
+                                    Text("Blank canvas")
+                                }
+                                Button {
+                                    // Create then navigate to prompt creation
+                                } label: {
+                                    Text("From prompt")
+                                }
+                                Button {
+                                    // Import image then add as layer
+                                } label: {
+                                    Text("Import image")
+                                }
                             }
                         } label: {
                              Text("Create")
@@ -119,7 +120,7 @@ private extension SelectProjectView {
     func createDrawing() {
         let newDrawing = DrawingProject(name: "Drawing #\(projects.count + 1)")
         projects.insert(newDrawing, at: 0)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             navigateToDrawing(index: 0)
         }
         analytics.logEvent(id: "create-drawing", title: "Create drawing")

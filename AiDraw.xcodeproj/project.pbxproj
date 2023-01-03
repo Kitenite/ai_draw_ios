@@ -186,6 +186,7 @@
 				FE791C392944F24300E39A48 /* Drawing */,
 				FE6C393A29453DDE00E05F52 /* Tutorial */,
 				FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */,
+				FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */,
 				FEF06109294FF3F700B60ADF /* SelectableProjectView.swift */,
 				FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */,
 				FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */,
@@ -238,7 +239,6 @@
 			children = (
 				FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */,
 				FEDCAAC829025918007D40A5 /* CanvasView.swift */,
-				FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */,
 				FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */,
 				FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */,
 			);
