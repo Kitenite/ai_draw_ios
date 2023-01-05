@@ -16,7 +16,7 @@ struct SelectableOptionView: View {
         VStack{
             Image(uiImage: image)
                 .resizable()
-                .aspectRatio(1, contentMode: .fill)
+                .scaledToFill()
                 .frame(width: 100, height: 100)
                 .cornerRadius(5)
                 .overlay(

@@ -25,7 +25,7 @@ struct OptionPickerView: View {
             LazyHStack {
                 ForEach(keys.indices, id: \.self) { index in
                     SelectableOptionView(
-                        image: UIImage(named: keys[index]) ?? UIImage(named: "coffee-1")!,
+                        image: UIImage(named: keys[index]) ?? UIImage(color: .clear)!,
                         selected: selectedKey == keys[index],
                         title: keys[index]
                     )
