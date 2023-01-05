@@ -134,14 +134,14 @@ struct DrawingView: View {
                 trailing: HStack {
                     Button(action : {
                         isDrawingMode = false
-                        isDragginMode.toggle()
+                        isDragginMode = true
                     }){
                         Image(systemName: (isDragginMode ? "hand.point.up.left.fill": "hand.point.up.left"))
                     }
                     
                     Button(action : {
                         isDragginMode = false
-                        isDrawingMode.toggle()
+                        isDrawingMode = true
                     }){
                         Image(systemName: (isDrawingMode ? "paintbrush.pointed.fill": "paintbrush.pointed"))
                     }

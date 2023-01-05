@@ -40,7 +40,7 @@ struct SendToAiView: View {
                     .foregroundColor(.blue)
                     
             }
-            .padding([.bottom, .top], 15)
+            .padding([.bottom, .top], 12)
             .padding([.trailing, .leading], 20)
 
             .overlay(

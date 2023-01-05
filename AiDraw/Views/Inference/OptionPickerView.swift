@@ -16,18 +16,6 @@ struct OptionPickerView: View {
     var keys: [String]
     var promptStylesManager = PromptStylesManager.shared
     @Binding var selectedKey: String
-    
-//    var options: [Option] = [
-//        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
-//        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
-//        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
-//        Option(title: "Option 4", image: UIImage(named: "coffee-4")!),
-//        Option(title: "Option 1", image: UIImage(named: "coffee-1")!),
-//        Option(title: "Option 2", image: UIImage(named: "coffee-2")!),
-//        Option(title: "Option 3", image: UIImage(named: "coffee-3")!),
-//        Option(title: "Option 4", image: UIImage(named: "coffee-4")!)
-//    ]
-    
     @State private var selectedOptionIndex: Int = 0
     
     let gridLayout: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
@@ -37,7 +25,7 @@ struct OptionPickerView: View {
             LazyHStack {
                 ForEach(keys.indices, id: \.self) { index in
                     SelectableOptionView(
-                        image: UIImage(named: "coffee-1")!,
+                        image: UIImage(named: keys[index]) ?? UIImage(named: "coffee-1")!,
                         selected: selectedKey == keys[index],
                         title: keys[index]
                     )

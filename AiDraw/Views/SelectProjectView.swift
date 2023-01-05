@@ -49,7 +49,7 @@ struct SelectProjectView: View {
             }
             .navigationBarItems(
                 leading: HStack {
-                    Text("AI Pencil").font(.title).bold()
+                    Text("Ai Pencil").font(.title).bold()
                 },
                 trailing: HStack {
                     if isSelectingDrawing {
