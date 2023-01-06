@@ -213,9 +213,9 @@ private extension InferenceModalView {
     }
 }
 
-func mockInferenceHandler(prompt: String) {}
-func mockInferenceHandler(image: UIImage) {}
-func mockInferenceFailedHandler(title: String, description: String) {}
+private func mockInferenceHandler(prompt: String) {}
+private func mockInferenceHandler(image: UIImage) {}
+private func mockInferenceFailedHandler(title: String, description: String) {}
 struct PostToInferenceModalView_Previews: PreviewProvider {
     static var previews: some View {
         let mockSourceImage = UIImage(named: "coffee-1")

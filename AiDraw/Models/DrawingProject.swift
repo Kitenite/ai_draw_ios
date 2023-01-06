@@ -24,4 +24,6 @@ struct DrawingProject: Identifiable, Codable {
     @CodableImage var backgroundImage: UIImage? = UIImage(color: .white)
     @CodableImage var displayImage: UIImage? = UIImage(color: .white)
     var layers: [DrawingLayer] = [DrawingLayer()]
+    
+    
 }

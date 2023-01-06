@@ -31,7 +31,12 @@ struct SelectProjectView: View {
             ScrollView {
                 LazyVGrid(columns: gridLayout, alignment: .center, spacing: 30) {
                     ForEach(projects.indices, id: \.self) { index in
-                        SelectableProjectView(image: projects[index].displayImage!, selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString, title: projects[index].name, subtitle: projects[index].createdDate.formatted(date: .abbreviated, time: .omitted))
+                        SelectableProjectView(
+                            image: projects[index].displayImage!,
+                            selected: projects[index].id.uuidString == selectedDrawing?.id.uuidString,
+                            title: projects[index].prompt == "" ? projects[index].name: projects[index].prompt,
+                            subtitle: projects[index].createdDate.formatted(date: .abbreviated, time: .omitted)
+                        )
                             .onTapGesture {
                                 if (isSelectingDrawing) {
                                     selectedDrawing = projects[index]

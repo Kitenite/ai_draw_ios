@@ -38,7 +38,6 @@ struct AiDrawApp: App {
             .environmentObject(alertManager)
             .task {
                 PushNotificationHelper.subscribeToTopic(topic: Constants.WAKE_TOPIC)
-                
             }
         }
     }

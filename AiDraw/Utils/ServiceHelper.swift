@@ -64,7 +64,6 @@ class ServiceHelper {
     }
     
     func wakeService() {
-        return
         print("Waking service")
         AF.request(
             Constants.WAKE_API,

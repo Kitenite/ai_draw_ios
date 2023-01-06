@@ -42,6 +42,7 @@
 		FE7DAB1D295901300037AD7E /* CreateMaskModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */; };
 		FE84B2A7294FBB5F00A84F3E /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */; };
 		FE93E0372946E40C00D33D14 /* OnboardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */; };
+		FEAC82D02967A4ED00F9AECC /* BorderedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEAC82CF2967A4ED00F9AECC /* BorderedButtonStyle.swift */; };
 		FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF991290CC11300276E2E /* ImageHelper.swift */; };
 		FEACF994290CC3DF00276E2E /* DrawingProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF993290CC3DF00276E2E /* DrawingProject.swift */; };
 		FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF995290CCB5800276E2E /* CodeableImage.swift */; };
@@ -92,6 +93,7 @@
 		FE84B2A0294F8EDE00A84F3E /* SelectableProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SelectableProjectView.swift; path = AiDraw/Views/SelectableProjectView.swift; sourceTree = SOURCE_ROOT; };
 		FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		FE93E0362946E40C00D33D14 /* OnboardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTabView.swift; sourceTree = "<group>"; };
+		FEAC82CF2967A4ED00F9AECC /* BorderedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedButtonStyle.swift; sourceTree = "<group>"; };
 		FEACF991290CC11300276E2E /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		FEACF993290CC3DF00276E2E /* DrawingProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingProject.swift; sourceTree = "<group>"; };
 		FEACF995290CCB5800276E2E /* CodeableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeableImage.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				FE62BF80292E5E0500CC6055 /* Constants.swift */,
+				FEAC82CF2967A4ED00F9AECC /* BorderedButtonStyle.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
 				FE3CE8A02963A2C400A57BF0 /* SelectableOptionView.swift in Sources */,
 				FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */,
+				FEAC82D02967A4ED00F9AECC /* BorderedButtonStyle.swift in Sources */,
 				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

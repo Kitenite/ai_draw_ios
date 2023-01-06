@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct OptionalInferenceView: View {
-    
     // Prompt styles
     var promptStylesManager = PromptStylesManager.shared
-    
-    @State private var selectedArtTypeKey: String = "None"
-    @State private var selectedSubstyleKeys: [String] = [String](repeating: "None", count: 4)
+    @Binding var selectedArtTypeKey: String
+    @Binding var selectedSubstyleKeys: [String]
 
     // Advanced options
-    @State private var advancedOptions = AdvancedOptions()
-
+    @Binding var advancedOptions: AdvancedOptions
+    
     var body: some View {
         VStack {
             Text("Optional").bold()
@@ -44,12 +42,11 @@ struct OptionalInferenceView: View {
                 AdvancedOptionsModalView(advancedOptions: $advancedOptions)
             }
         }.padding()
-        
     }
 }
 
 struct OptionalInferenceView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionalInferenceView()
+        OptionalInferenceView(selectedArtTypeKey: .constant("None"), selectedSubstyleKeys: .constant(["None", "None", "None", "None"]), advancedOptions: .constant(AdvancedOptions()))
     }
 }

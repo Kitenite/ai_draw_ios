@@ -59,6 +59,7 @@ struct DrawingView: View {
                         clusterStatusProgressBar
                     }
                 }
+                Spacer()
                 if (isDrawingMode) {
                     HStack {
                         Button(action: undoDrawing) {
@@ -73,26 +74,9 @@ struct DrawingView: View {
                         Button(action: clearBackground) {
                             Image(systemName: "trash")
                         }
-                        
                         Spacer()
-                        
-                        if (runningTasksCount <= 0) {
-                            Text("Waking AI...")
-                        }
-                        
-                        if (!isRunningInference && runningTasksCount > 0) {
-                            Button(action: uploadDrawingForInference) {
-                                Text("Use AI")
-                            }.popover(isPresented: $isUploadingDrawing) {
-                                InferenceModalView(sourceImage: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage), prompt: drawingProject.prompt, addInferredImageHandler: addInferredImage, inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler)
-                            }
-                        } else {
-                            ProgressView()
-                        }
                     }.padding(.horizontal)
                 }
-                
-                Spacer()
                 
                 ZStack {
                     if (drawingProject.backgroundImage != nil) {
@@ -113,12 +97,10 @@ struct DrawingView: View {
                         Image(systemName: "chevron.backward")
                     }
                     Spacer(minLength: 10)
+                    PhotoPickerView(photoImportedHandler: photoImportedHandler) {
+                        Image(systemName: "photo")
+                    }
                     Menu {
-                        Section("Import") {
-                            PhotoPickerView(photoImportedHandler: photoImportedHandler) {
-                                Text("Import from photos")
-                            }
-                        }
                         Section("Export") {
                             Button(action : {}){
                                 Text("Save to photos")
@@ -132,46 +114,48 @@ struct DrawingView: View {
                     }
                 },
                 trailing: HStack {
-                    Button(action : {
-                        isDrawingMode = false
-                        isDragginMode = true
-                    }){
-                        Image(systemName: (isDragginMode ? "hand.point.up.left.fill": "hand.point.up.left"))
+                    //                    Button(action : {
+                    //                        isDrawingMode = false
+                    //                        isDragginMode = true
+                    //                    }){
+                    //                        Image(systemName: (isDragginMode ? "hand.point.up.left.fill": "hand.point.up.left"))
+                    //                    }
+                    //
+                    //                    Button(action : {
+                    //                        isDragginMode = false
+                    //                        isDrawingMode = true
+                    //                    }){
+                    //                        Image(systemName: (isDrawingMode ? "paintbrush.pointed.fill": "paintbrush.pointed"))
+                    //                    }
+                    //
+                    //                    Button( action: {
+                    //                        isShowingLayersPopup = true
+                    //                    }) {
+                    //                        Image(systemName: "square.on.square")
+                    //                    }.popover(isPresented: $isShowingLayersPopup, arrowEdge: .top) {
+                    //                        LayersModalView(layers: $drawingProject.layers, activeLayerIndex: 0)
+                    //                    }
+                    //
+                    
+                    
+                    // TODO: Remove later
+                    if (runningTasksCount <= 0) {
+                        Text("Waking AI...")
                     }
                     
-                    Button(action : {
-                        isDragginMode = false
-                        isDrawingMode = true
-                    }){
-                        Image(systemName: (isDrawingMode ? "paintbrush.pointed.fill": "paintbrush.pointed"))
-                    }
-                    
-                    Button( action: {
-                        isShowingLayersPopup = true
-                    }) {
-                        Image(systemName: "square.on.square")
-                    }.popover(isPresented: $isShowingLayersPopup, arrowEdge: .top) {
-                        LayersModalView(layers: $drawingProject.layers, activeLayerIndex: 0)
-                    }
-                    
-                    Menu {
-                        Section("Create AI art") {
-                            NavigationLink {
-                                SendToAiView(
-                                    prompt: drawingProject.prompt,
-                                    image: drawingProject.displayImage // TODO: update this
-                                )
-                            } label: {
-                                Text("From drawing")
-                            }
-                            NavigationLink {
-                                SendToAiView(prompt: drawingProject.prompt)
-                            } label: {
-                                Text("From prompt")
-                            }
+                    if (!isRunningInference && runningTasksCount > 0) {
+                        Button(action: uploadDrawingForInference) {
+                            Text("AI").bold().font(.title)
+                        }.popover(isPresented: $isUploadingDrawing) {
+                            SendToAiView(
+                                prompt: drawingProject.prompt,
+                                image: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
+                                addInferredImageHandler: addInferredImage,
+                                inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler
+                            )
                         }
-                    } label: {
-                        Text("AI").bold().font(.title)
+                    } else {
+                        ProgressView()
                     }
                 }
             )
