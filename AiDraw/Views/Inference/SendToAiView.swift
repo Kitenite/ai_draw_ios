@@ -49,12 +49,13 @@ struct SendToAiView: View {
                     selectedSubstyleKeys: $selectedSubstyleKeys,
                     advancedOptions: $advancedOptions
                 )
+                Button(action: sendDrawing) {
+                    Text("Generate Image")
+                }
+                .buttonStyle(BorderedButtonStyle())
+                .disabled(prompt == "")
             }
-            Button(action: sendDrawing) {
-                Text("Generate Image")
-            }
-            .buttonStyle(BorderedButtonStyle())
-            .disabled(prompt == "")
+           
         }
     }
 }

@@ -23,7 +23,8 @@ struct AiDrawApp: App {
                 ProjectStore.load { result in
                     switch result {
                     case .failure(let error):
-                        fatalError(error.localizedDescription)
+                        print(error.localizedDescription)
+                        store.projects = []
                     case .success(let projects):
                         store.projects = projects
                     }

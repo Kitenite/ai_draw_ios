@@ -12,11 +12,7 @@ class ImageHelper {
     static let shared = ImageHelper()
 
     func downloadImage(image: UIImage) {
-        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
-    }
-    
-    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-        print("Image saved to album")
+        ImageSaver().writeToPhotoAlbum(image: image)
     }
     
     func cropImageToRect(sourceImage: UIImage, cropRect: CGRect) -> UIImage {

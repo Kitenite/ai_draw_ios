@@ -102,7 +102,7 @@ struct DrawingView: View {
                     }
                     Menu {
                         Section("Export") {
-                            Button(action : {}){
+                            Button(action : downloadCurrentDrawingAndBackground){
                                 Text("Save to photos")
                             }
                         }
