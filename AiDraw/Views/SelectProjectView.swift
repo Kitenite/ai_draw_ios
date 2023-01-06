@@ -73,27 +73,32 @@ struct SelectProjectView: View {
                                 Text("Select")
                             }
                         }
-                        Menu {
-                            Section("Create new project") {
-                                Button {
-                                    createDrawing()
-                                } label: {
-                                    Text("Blank canvas")
-                                }
-                                Button {
-                                    // Create then navigate to prompt creation
-                                } label: {
-                                    Text("From prompt")
-                                }
-                                Button {
-                                    // Import image then add as layer
-                                } label: {
-                                    Text("Import image")
-                                }
-                            }
-                        } label: {
-                             Text("Create")
+                        Button(action: createDrawing) {
+                            Image(systemName: "plus")
                         }
+                        
+                        // TODO: Add this later
+//                        Menu {
+//                            Section("Create new project") {
+//                                Button {
+//                                    createDrawing()
+//                                } label: {
+//                                    Text("Blank canvas")
+//                                }
+//                                Button {
+//                                    // Create then navigate to prompt creation
+//                                } label: {
+//                                    Text("From prompt")
+//                                }
+//                                Button {
+//                                    // Import image then add as layer
+//                                } label: {
+//                                    Text("Import image")
+//                                }
+//                            }
+//                        } label: {
+//                             Text("Create")
+//                        }
                     }
                 }
             )
