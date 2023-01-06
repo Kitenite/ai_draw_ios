@@ -9,25 +9,21 @@ import SwiftUI
 
 struct SendToAiView: View {
     // Inputs
-    @State var prompt: String
     var image: UIImage?
+    @State var prompt: String
+    @State var selectedArtTypeKey: String
+    @State var selectedSubstyleKeys: [String]
+    @State var advancedOptions: AdvancedOptions
     
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
     let inferenceFailedHandler: (String, String) -> Void
-    let startInferenceHandler: (String) -> Void
+    let startInferenceHandler: (String, String, [String], AdvancedOptions) -> Void
     
     // Helpers
     internal var serviceHelper = ServiceHelper.shared
     internal var analytics = AnalyticsHelper.shared
-    
-    // Prompt styles
     var promptStylesManager = PromptStylesManager.shared
-    @State private var selectedArtTypeKey: String = "None"
-    @State private var selectedSubstyleKeys: [String] = [String](repeating: "None", count: 4)
-    
-    // Advanced options
-    @State private var advancedOptions = AdvancedOptions()
     
     var body: some View {
         VStack {
@@ -78,7 +74,7 @@ private extension SendToAiView {
             print("Post to text to image")
         }
         
-        startInferenceHandler(prompt)
+        startInferenceHandler(prompt, selectedArtTypeKey, selectedSubstyleKeys, advancedOptions)
     }
     
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
@@ -100,7 +96,7 @@ private extension SendToAiView {
     }
     
     func buildPrompt() -> String {
-        var enhancedPrompt = "of " + prompt
+        var enhancedPrompt = selectedArtTypeKey == "None" ? prompt : "of \(prompt)"
         enhancedPrompt = addPrefix(prefix: promptStylesManager.getArtTypePrefix(artType: selectedArtTypeKey),
                                    prompt: enhancedPrompt)
         enhancedPrompt = addSuffix(suffix: promptStylesManager.getArtTypeSuffix(artType: selectedArtTypeKey),
@@ -110,7 +106,6 @@ private extension SendToAiView {
             enhancedPrompt = addSuffix(suffix: promptStylesManager.getPromptArtStyleSuffix(artType: selectedArtTypeKey, substyleIndex: index, substyleValue: selectedSubStyleKey),
                                        prompt: enhancedPrompt)
         }
-        print(enhancedPrompt)
         return enhancedPrompt
     }
     
@@ -130,18 +125,20 @@ private extension SendToAiView {
 }
 
 
-private func mockInferenceHandler(prompt: String) {}
-private func mockInferenceHandler(image: UIImage) {}
-private func mockInferenceFailedHandler(title: String, description: String) {}
+private func mockStartInferenceHandler(prompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {}
+private func mockAddInferredImageHandler(image: UIImage) {}
+private func mockInferenceFailedHandler(title: String, message: String) {}
 struct SendToAIModalView_Previews: PreviewProvider {
     static var previews: some View {
-        let image = UIImage(named: "coffee-1")
         SendToAiView(
+            image: UIImage(named: "coffee-1")!,
             prompt: "This is my prompt",
-            image: image!,
-            addInferredImageHandler: mockInferenceHandler,
+            selectedArtTypeKey: "",
+            selectedSubstyleKeys: ["None","None","None","None"],
+            advancedOptions: AdvancedOptions(),
+            addInferredImageHandler: mockAddInferredImageHandler,
             inferenceFailedHandler: mockInferenceFailedHandler,
-            startInferenceHandler: mockInferenceHandler
+            startInferenceHandler: mockStartInferenceHandler
         )
     }
 }

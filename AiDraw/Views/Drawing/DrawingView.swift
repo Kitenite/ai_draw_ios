@@ -148,8 +148,11 @@ struct DrawingView: View {
                             Text("AI").bold().font(.title)
                         }.popover(isPresented: $isUploadingDrawing) {
                             SendToAiView(
-                                prompt: drawingProject.prompt,
                                 image: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
+                                prompt: drawingProject.prompt,
+                                selectedArtTypeKey: drawingProject.selectedArtTypeKey,
+                                selectedSubstyleKeys: drawingProject.selectedSubstyleKeys,
+                                advancedOptions: drawingProject.advancedOptions,
                                 addInferredImageHandler: addInferredImage,
                                 inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler
                             )
@@ -212,17 +215,18 @@ private extension DrawingView {
         isUploadingDrawing = true
     }
     
-    func startInferenceHandler(newPrompt: String) {
+    func startInferenceHandler(prompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {
         isUploadingDrawing = false
         isRunningInference = true
-        drawingProject.prompt = newPrompt
         inferenceProgressBar.startTimer()
-        showInterstiltialAd()
+
+        // Save project settings
+        drawingProject.prompt = prompt
+        drawingProject.selectedArtTypeKey = selectedArtTypeKey
+        drawingProject.selectedSubstyleKeys = selectedSubstyleKeys
+        drawingProject.advancedOptions = advancedOptions
+
         analytics.logEvent(id: "uploaded-drawing", title: "Uploaded drawing")
-    }
-    
-    func showInterstiltialAd() {
-        analytics.logEvent(id: "show-interstitial-ad", title: "Show interstitial ad")
     }
     
     func addInferredImage(inferredImage: UIImage) {
