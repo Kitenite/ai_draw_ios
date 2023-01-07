@@ -13,7 +13,7 @@ struct DrawingSnapshot: Codable {
     @CodableImage var backgroundImage: UIImage?
 }
 
-struct DrawingProject: Identifiable, Codable {
+struct DrawingProject: Identifiable, Codable, CustomStringConvertible{
     var id = UUID()
     var createdDate = Date()
     var name: String
@@ -27,4 +27,7 @@ struct DrawingProject: Identifiable, Codable {
     var selectedArtTypeKey: String = "None"
     var selectedSubstyleKeys: [String] = [String](repeating: "None", count: 4)
     var advancedOptions = AdvancedOptions()
+    var enhancedPrompt = ""
+    public var description: String { return "Prompt: \((enhancedPrompt != "" ? enhancedPrompt : (prompt != "" ? prompt : name) ))\n\(advancedOptions)" }
+
 }

@@ -18,7 +18,7 @@ struct SendToAiView: View {
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
     let inferenceFailedHandler: (String, String) -> Void
-    let startInferenceHandler: (String, String, [String], AdvancedOptions) -> Void
+    let startInferenceHandler: (String, String, String, [String], AdvancedOptions) -> Void
     
     // Helpers
     internal var serviceHelper = ServiceHelper.shared
@@ -75,7 +75,7 @@ private extension SendToAiView {
             print("Post to text to image")
         }
         
-        startInferenceHandler(prompt, selectedArtTypeKey, selectedSubstyleKeys, advancedOptions)
+        startInferenceHandler(prompt, enhancedPrompt, selectedArtTypeKey, selectedSubstyleKeys, advancedOptions)
     }
     
     func inferenceResultHandler(inferenceResponse: InferenceResponse) {
@@ -126,7 +126,7 @@ private extension SendToAiView {
 }
 
 
-private func mockStartInferenceHandler(prompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {}
+private func mockStartInferenceHandler(prompt: String, enahncedPrompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {}
 private func mockAddInferredImageHandler(image: UIImage) {}
 private func mockInferenceFailedHandler(title: String, message: String) {}
 struct SendToAIModalView_Previews: PreviewProvider {

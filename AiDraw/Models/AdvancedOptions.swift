@@ -25,4 +25,5 @@ struct AdvancedOptions: Codable {
     //var steps: Int?
     //var width: Int?
     //var height: Int?
+
 }

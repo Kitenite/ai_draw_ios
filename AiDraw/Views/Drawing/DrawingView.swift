@@ -154,7 +154,8 @@ struct DrawingView: View {
                                 selectedSubstyleKeys: drawingProject.selectedSubstyleKeys,
                                 advancedOptions: drawingProject.advancedOptions,
                                 addInferredImageHandler: addInferredImage,
-                                inferenceFailedHandler: inferenceFailed, startInferenceHandler: startInferenceHandler
+                                inferenceFailedHandler: inferenceFailed,
+                                startInferenceHandler: startInferenceHandler
                             )
                         }
                     } else {
@@ -208,20 +209,21 @@ private extension DrawingView {
     
     func downloadCurrentDrawingAndBackground() {
         let currentDrawingAndBackground = canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage)
-        imageHelper.downloadImage(image: currentDrawingAndBackground)
+        imageHelper.downloadImage(image: currentDrawingAndBackground, caption: drawingProject.description)
     }
     
     func uploadDrawingForInference() {
         isUploadingDrawing = true
     }
     
-    func startInferenceHandler(prompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {
+    func startInferenceHandler(prompt: String, enhancedPrompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {
         isUploadingDrawing = false
         isRunningInference = true
         inferenceProgressBar.startTimer()
 
         // Save project settings
         drawingProject.prompt = prompt
+        drawingProject.enhancedPrompt = enhancedPrompt
         drawingProject.selectedArtTypeKey = selectedArtTypeKey
         drawingProject.selectedSubstyleKeys = selectedSubstyleKeys
         drawingProject.advancedOptions = advancedOptions

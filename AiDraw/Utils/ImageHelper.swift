@@ -11,8 +11,8 @@ import SwiftUI
 class ImageHelper {
     static let shared = ImageHelper()
 
-    func downloadImage(image: UIImage) {
-        ImageSaver().writeToPhotoAlbum(image: image)
+    func downloadImage(image: UIImage, caption: String) {
+        ImageSaver().writeToPhotoAlbum(image: image, caption: caption)
     }
     
     func cropImageToRect(sourceImage: UIImage, cropRect: CGRect) -> UIImage {
