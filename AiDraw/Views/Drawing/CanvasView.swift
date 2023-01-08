@@ -11,6 +11,7 @@ import PencilKit
 struct CanvasView {
     @Binding var canvasView: PKCanvasView
     var drawing: PKDrawing
+    @Binding var backgroundImage: UIImage?
     let onSaved: () -> Void
     var isMask: Bool = false
     @State var toolPicker = PKToolPicker()
@@ -33,6 +34,11 @@ extension CanvasView: UIViewRepresentable {
         // Clear background for custom background
         canvasView.backgroundColor = .clear
         canvasView.isOpaque = false
+        
+        // Allow users to zoom in, but not out
+        canvasView.minimumZoomScale = 1
+        canvasView.maximumZoomScale = 10
+        
         setupCanvas(context: context)
         return canvasView
     }
@@ -48,7 +54,7 @@ extension CanvasView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: PKCanvasView, context: Context) {
-        // Run when screen size changes or reappear
+        updateBackgroundImage()
     }
 
     func makeCoordinator() -> Coordinator {
@@ -61,6 +67,28 @@ private extension CanvasView {
         toolPicker.setVisible(true, forFirstResponder: canvasView)
         toolPicker.addObserver(canvasView)
         canvasView.becomeFirstResponder()
+    }
+    
+    func updateBackgroundImage() {
+        if (backgroundImage != nil) {
+            
+            // nothing special about tag number, using as key for O(1) old background removal
+            let imgViewTag = 12345
+            
+            // Get image subview and remove old background
+            let subView = canvasView.subviews[0]
+            subView.viewWithTag(imgViewTag)?.removeFromSuperview()
+            
+            // Create new background and re-size to match canvas
+            let newBackgroundImageView = UIImageView(image: backgroundImage)
+
+            newBackgroundImageView.tag = imgViewTag
+            newBackgroundImageView.center = canvasView.center
+            newBackgroundImageView.frame = canvasView.frame
+            
+            subView.addSubview(newBackgroundImageView)
+            subView.sendSubviewToBack(newBackgroundImageView)
+        }
     }
 }
 
