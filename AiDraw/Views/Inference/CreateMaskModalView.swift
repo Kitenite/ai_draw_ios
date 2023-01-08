@@ -33,9 +33,9 @@ struct CreateMaskModalView: View {
                 }
             }
             ZStack {
-                Image(uiImage: maskOptions.sourceImage)
+                Image(uiImage: maskOptions.sourceImage!)
                     .aspectRatio(1, contentMode: .fit)
-                CanvasView(canvasView: $maskOptions.canvasView, drawing: maskOptions.canvasView.drawing, onSaved: saveMask, isMask: true)
+                CanvasView(canvasView: $maskOptions.canvasView, drawing: maskOptions.canvasView.drawing, backgroundImage: $maskOptions.sourceImage, onSaved: saveMask, isMask: true)
                     .aspectRatio(1, contentMode: .fit)
                     .border(Color.gray, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
             }

@@ -78,12 +78,7 @@ struct DrawingView: View {
                 }
                 
                 ZStack {
-                    if (drawingProject.backgroundImage != nil) {
-                        Image(uiImage: drawingProject.backgroundImage!)
-                            .resizable()
-                            .aspectRatio(1, contentMode: .fit)
-                    }
-                    CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, onSaved: saveDrawing)
+                    CanvasView(canvasView: $canvasView, drawing: drawingProject.drawing, backgroundImage: $drawingProject.backgroundImage, onSaved: saveDrawing)
                         .aspectRatio(CGSize(width: 1, height: 1), contentMode: .fit)
                         .border(/*@START_MENU_TOKEN@*/Color.gray/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
