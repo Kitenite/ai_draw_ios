@@ -54,7 +54,16 @@ struct SelectProjectView: View {
             }
             .navigationBarItems(
                 leading: HStack {
-                    Text("Ai Pencil").font(.title).bold()
+                    Menu {
+                        Link("Join our Discord", destination: URL(string: "https://discord.gg/9zYj6yx7Z4")!)
+                    } label: {
+                        HStack {
+                            Text("Ai Pencil").font(.title).bold()
+                            Image(systemName: "chevron.down")
+                        }
+                       
+                    }
+                    
                 },
                 trailing: HStack {
                     if isSelectingDrawing {
