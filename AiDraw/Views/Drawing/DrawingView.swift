@@ -25,9 +25,8 @@ struct DrawingView: View {
     // State of the application
     @State private var isUploadingDrawing = false
     @State private var isRunningInference = false
-    @State private var isShowingOnboarding = false
     @State private var isShowingLayersPopup = false
-    
+    @State private var isShowingOnboarding = AppVersionHelper.isFirstLaunch()
     @State private var isDrawingMode = true
     @State private var isDragginMode = false
     

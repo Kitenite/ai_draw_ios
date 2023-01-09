@@ -16,6 +16,7 @@
 		FE06E62328FE1FF600B6F4CE /* SelectProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE06E62228FE1FF600B6F4CE /* SelectProjectView.swift */; };
 		FE06E62528FE1FF700B6F4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62428FE1FF700B6F4CE /* Assets.xcassets */; };
 		FE06E62928FE1FF700B6F4CE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */; };
+		FE16E73D296BBD8700D7DA1D /* AppVersionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE16E73C296BBD8700D7DA1D /* AppVersionHelper.swift */; };
 		FE3CE88E29621FF400A57BF0 /* LayersModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */; };
 		FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */; };
 		FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE891296223E100A57BF0 /* DrawingLayer.swift */; };
@@ -72,6 +73,7 @@
 		FE06E62428FE1FF700B6F4CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FE06E62628FE1FF700B6F4CE /* AiDraw.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AiDraw.entitlements; sourceTree = "<group>"; };
 		FE06E62828FE1FF700B6F4CE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		FE16E73C296BBD8700D7DA1D /* AppVersionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionHelper.swift; sourceTree = "<group>"; };
 		FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModalView.swift; sourceTree = "<group>"; };
 		FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModalRowView.swift; sourceTree = "<group>"; };
 		FE3CE891296223E100A57BF0 /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
@@ -280,6 +282,7 @@
 				FE791C3B2944FAF200E39A48 /* Extensions.swift */,
 				FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */,
 				FEAC82D32967BBED00F9AECC /* ImageSaver.swift */,
+				FE16E73C296BBD8700D7DA1D /* AppVersionHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				FE06E62128FE1FF600B6F4CE /* AiDrawApp.swift in Sources */,
 				FEACF992290CC11300276E2E /* ImageHelper.swift in Sources */,
 				FE3CE8A02963A2C400A57BF0 /* SelectableOptionView.swift in Sources */,
+				FE16E73D296BBD8700D7DA1D /* AppVersionHelper.swift in Sources */,
 				FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */,
 				FEAC82D02967A4ED00F9AECC /* BorderedButtonStyle.swift in Sources */,
 				FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */,
