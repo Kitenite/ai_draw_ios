@@ -23,8 +23,7 @@ class ServiceHelper {
         // Optional image
         var imageData: String? = nil
         if (image != nil) {
-            let resizedImage = image!.aspectFittedToHeight(512/3)
-            imageData = resizedImage.jpegData(compressionQuality: 0)?.base64EncodedString()
+            imageData = image!.jpegData(compressionQuality: 0)?.base64EncodedString()
         }
         
         // Optional mask

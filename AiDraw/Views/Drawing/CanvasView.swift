@@ -37,7 +37,7 @@ extension CanvasView: UIViewRepresentable {
         
         // Allow users to zoom in, but not out
         canvasView.minimumZoomScale = 1
-        canvasView.maximumZoomScale = 10
+        canvasView.maximumZoomScale = 1 // Disable for pinch zooming bug on drawing
         
         setupCanvas(context: context)
         return canvasView
