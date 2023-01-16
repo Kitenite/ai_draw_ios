@@ -68,7 +68,8 @@ private extension InferenceModalView {
                 prompt: enhancedPrompt,
                 image: image!,
                 advancedOptions: advancedOptions,
-                inferenceResultHandler: inferenceResultHandler
+                inferenceResultHandler: inferenceResultHandler,
+                inferenceFailedHandler: inferenceFailedHandler
             )
             analytics.logEvent(id: "drawing-sent", title: "Sent drawing for inference")
         } else {
@@ -86,7 +87,7 @@ private extension InferenceModalView {
             if (decodedImage != nil) {
                 addInferredImageHandler(decodedImage!)
             } else {
-                inferenceFailedHandler("Creation failed", "Connection timed out. Try again in a few minutes or report this issue.")
+                inferenceFailedHandler("Image generation failed", "Server error. Try again in a few seconds or report this issue")
             }
         }
     }

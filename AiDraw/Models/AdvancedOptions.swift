@@ -15,7 +15,7 @@ enum Sampler: String, CaseIterable {
 }
 
 struct AdvancedOptions: Codable {
-    var seed: Int = -1
+    var seed: Int = 0
     var sampler_index: String = Sampler.Euler_a.rawValue
     var cfg_scale: Float = 7.0
     var restore_faces: Bool = false

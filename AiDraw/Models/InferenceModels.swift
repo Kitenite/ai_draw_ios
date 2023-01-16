@@ -36,6 +36,11 @@ struct InferenceResponse: Decodable {
     let payload:InferenceRequestInput
 }
 
+struct InferenceResponseV2: Decodable {
+    let image: String?
+    let error: String?
+}
+
 struct ClusterStatusResponse: Decodable {
     let clusterArn: String
     let clusterName: String

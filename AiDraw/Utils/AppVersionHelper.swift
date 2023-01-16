@@ -15,7 +15,6 @@ class AppVersionHelper {
     static func getCurrentAppVersion() -> String {
         let appVersion = Bundle.main.infoDictionary?[SYSTEM_VERSION_KEY]
         let version = (appVersion as! String)
-        print(version)
         return version
     }
     

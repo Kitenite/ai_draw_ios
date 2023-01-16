@@ -12,7 +12,14 @@ import Alamofire
 class ServiceHelper {
     static let shared = ServiceHelper()
     
-    func postInferenceRequest(prompt: String, image: UIImage, mask: UIImage? = nil, advancedOptions: AdvancedOptions, inferenceResultHandler: @escaping (String) -> Void) {
+    func postInferenceRequest(
+        prompt: String,
+        image: UIImage,
+        mask: UIImage? = nil,
+        advancedOptions: AdvancedOptions,
+        inferenceResultHandler: @escaping (String) -> Void,
+        inferenceFailedHandler: @escaping (String, String) -> Void
+    ) {
         let resizedImage = image.aspectFittedToHeight(512/3)
         let imageData: String? = resizedImage.jpegData(compressionQuality: 0)?.base64EncodedString()
         var maskData: String? = nil
@@ -39,30 +46,18 @@ class ServiceHelper {
             method: .post,
             parameters: input,
             encoder: JSONParameterEncoder.default
-        ).responseJSON { response in
-            if let json = response.value as? [String: Any], let imageData = json["image"] as? String {
-                inferenceResultHandler(imageData)
-            }
-        }
-    }
-
-    func shortPollForImg(output_location: String, shortPollResultHandler: @escaping (String) -> Void) {
-        let input = ShortPollRequestInput(
-            output_location: output_location
-        )
-        AF.request(
-            Constants.SHORT_POLL_API,
-            method: .post,
-            parameters: input,
-            encoder: JSONParameterEncoder.default
-        ) { $0.timeoutInterval = 300 }
-        .responseString { response in
+        ){ $0.timeoutInterval = 300 }.responseDecodable(of: InferenceResponseV2.self) { response in
             if (response.value != nil) {
-                shortPollResultHandler(response.value!)
+                if (response.value!.error != nil) {
+                    inferenceFailedHandler("Image generation failed", response.value!.error!)
+                } else if (response.value!.image != nil) {
+                    inferenceResultHandler(response.value!.image!)
+                }
+            } else {
+                inferenceFailedHandler("Image generation failed", "Server error. Try again in a few seconds or report this issue")
             }
         }
     }
-    
     func getClusterStatus(handler: @escaping (ClusterStatusResponse) -> ()) {
         print("Getting cluster status")
         AF.request(
