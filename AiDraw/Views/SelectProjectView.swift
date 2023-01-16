@@ -124,7 +124,6 @@ struct SelectProjectView: View {
         .task {
             navigationLinkIsActive = false
             analytics.logEvent(id: "nav-home-screen", title: "Home screen")
-            serviceHelper.wakeService()
         }
     }
 }

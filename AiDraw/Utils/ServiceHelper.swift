@@ -12,8 +12,9 @@ import Alamofire
 class ServiceHelper {
     static let shared = ServiceHelper()
     
-    func postImgToImgRequest(prompt: String, image: UIImage, mask: UIImage? = nil, advancedOptions: AdvancedOptions, inferenceResultHandler: @escaping (InferenceResponse) -> Void) {
-        let imageData: String? = image.jpegData(compressionQuality: 0)?.base64EncodedString()
+    func postInferenceRequest(prompt: String, image: UIImage, mask: UIImage? = nil, advancedOptions: AdvancedOptions, inferenceResultHandler: @escaping (String) -> Void) {
+        let resizedImage = image.aspectFittedToHeight(512/3)
+        let imageData: String? = resizedImage.jpegData(compressionQuality: 0)?.base64EncodedString()
         var maskData: String? = nil
         
         if (mask != nil) {
@@ -34,14 +35,13 @@ class ServiceHelper {
         )
         
         AF.request(
-            Constants.INFERENCE_API,
+            Constants.INFERENCE_API_V2,
             method: .post,
             parameters: input,
             encoder: JSONParameterEncoder.default
-        ).responseDecodable(of: InferenceResponse.self) { response in
-            debugPrint("Post inference response: \(response)")
-            if ((response.value) != nil) {
-                inferenceResultHandler(response.value!)
+        ).responseJSON { response in
+            if let json = response.value as? [String: Any], let imageData = json["image"] as? String {
+                inferenceResultHandler(imageData)
             }
         }
     }
@@ -60,16 +60,6 @@ class ServiceHelper {
             if (response.value != nil) {
                 shortPollResultHandler(response.value!)
             }
-        }
-    }
-    
-    func wakeService() {
-        print("Waking service")
-        AF.request(
-            Constants.WAKE_API,
-            method: .get
-        ).response { response in
-            debugPrint("Waking service response: \(response)")
         }
     }
     

@@ -11,6 +11,7 @@ struct Constants {
     static let API_ROOT = "https://waw35mmbsj.execute-api.us-east-1.amazonaws.com/dev"
     // APIs
     static let INFERENCE_API = "\(API_ROOT)/inference"
+    static let INFERENCE_API_V2 = "\(API_ROOT)/inference-v2"
     static let SHORT_POLL_API = "\(API_ROOT)/shortpoll"
     static let WAKE_API = "\(API_ROOT)/wake"
     static let STATUS_API = "\(API_ROOT)/status"

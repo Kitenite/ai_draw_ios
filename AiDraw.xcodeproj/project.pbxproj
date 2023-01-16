@@ -20,7 +20,7 @@
 		FE3CE88E29621FF400A57BF0 /* LayersModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */; };
 		FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */; };
 		FE3CE892296223E100A57BF0 /* DrawingLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE891296223E100A57BF0 /* DrawingLayer.swift */; };
-		FE3CE89429629D3A00A57BF0 /* SendToAiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */; };
+		FE3CE89429629D3A00A57BF0 /* InferenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89329629D3A00A57BF0 /* InferenceModalView.swift */; };
 		FE3CE89A2963967D00A57BF0 /* OptionalInferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE8992963967D00A57BF0 /* OptionalInferenceView.swift */; };
 		FE3CE89D2963A1A100A57BF0 /* OptionPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */; };
 		FE3CE8A02963A2C400A57BF0 /* SelectableOptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3CE89F2963A2C400A57BF0 /* SelectableOptionView.swift */; };
@@ -56,7 +56,6 @@
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
 		FEDCAAC929025918007D40A5 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC829025918007D40A5 /* CanvasView.swift */; };
 		FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */; };
-		FEDCAAD1290263B2007D40A5 /* InferenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD0290263B2007D40A5 /* InferenceModalView.swift */; };
 		FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */; };
 		FEF0610A294FF3F700B60ADF /* SelectableProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF06109294FF3F700B60ADF /* SelectableProjectView.swift */; };
 /* End PBXBuildFile section */
@@ -77,7 +76,7 @@
 		FE3CE88D29621FF400A57BF0 /* LayersModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayersModalView.swift; sourceTree = "<group>"; };
 		FE3CE88F296220A500A57BF0 /* LayerModalRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerModalRowView.swift; sourceTree = "<group>"; };
 		FE3CE891296223E100A57BF0 /* DrawingLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingLayer.swift; sourceTree = "<group>"; };
-		FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToAiView.swift; sourceTree = "<group>"; };
+		FE3CE89329629D3A00A57BF0 /* InferenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModalView.swift; sourceTree = "<group>"; };
 		FE3CE8992963967D00A57BF0 /* OptionalInferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalInferenceView.swift; sourceTree = "<group>"; };
 		FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionPickerView.swift; sourceTree = "<group>"; };
 		FE3CE89F2963A2C400A57BF0 /* SelectableOptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableOptionView.swift; sourceTree = "<group>"; };
@@ -110,7 +109,6 @@
 		FEDCAAC829025918007D40A5 /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		FEDCAACD29025F92007D40A5 /* ServiceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceHelper.swift; sourceTree = "<group>"; };
 		FEDCAACF29026300007D40A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		FEDCAAD0290263B2007D40A5 /* InferenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InferenceModalView.swift; sourceTree = "<group>"; };
 		FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		FEF06109294FF3F700B60ADF /* SelectableProjectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableProjectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,8 +211,7 @@
 			isa = PBXGroup;
 			children = (
 				FE3CE8992963967D00A57BF0 /* OptionalInferenceView.swift */,
-				FEDCAAD0290263B2007D40A5 /* InferenceModalView.swift */,
-				FE3CE89329629D3A00A57BF0 /* SendToAiView.swift */,
+				FE3CE89329629D3A00A57BF0 /* InferenceModalView.swift */,
 				FE7DAB1C295901300037AD7E /* CreateMaskModalView.swift */,
 				FE754530295BF272001D81DF /* InferenceTextField.swift */,
 				FE3CE89C2963A1A100A57BF0 /* OptionPickerView.swift */,
@@ -408,14 +405,13 @@
 				CCFFFAD4295CDECA00AF23C5 /* AdvancedOptionsHelpModalView.swift in Sources */,
 				CC2BB25B295647FE00ABEB6D /* AdvancedOptions.swift in Sources */,
 				FE7DAB1D295901300037AD7E /* CreateMaskModalView.swift in Sources */,
-				FEDCAAD1290263B2007D40A5 /* InferenceModalView.swift in Sources */,
 				FEC6BCE3295DF4A5001E97A2 /* PhotoPickerView.swift in Sources */,
 				CC2BB2572953D9B400ABEB6D /* PromptStylesManager.swift in Sources */,
 				FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */,
 				FE3CE88E29621FF400A57BF0 /* LayersModalView.swift in Sources */,
 				FEDCAAD72903A51B007D40A5 /* ImagePickerView.swift in Sources */,
 				FE6C393C29453DFA00E05F52 /* OnboardingView.swift in Sources */,
-				FE3CE89429629D3A00A57BF0 /* SendToAiView.swift in Sources */,
+				FE3CE89429629D3A00A57BF0 /* InferenceModalView.swift in Sources */,
 				FEAC82D42967BBED00F9AECC /* ImageSaver.swift in Sources */,
 				FEACF996290CCB5800276E2E /* CodeableImage.swift in Sources */,
 				FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */,

@@ -34,15 +34,9 @@ struct DrawingView: View {
     internal var imageHelper = ImageHelper.shared
     internal var serviceHelper = ServiceHelper.shared
     internal var analytics = AnalyticsHelper.shared
-    
-    // Cluster status
-    @State internal var runningTasksCount: Int = 0
-    @State var clusterStatusTimer = Timer.publish(every: 15, on: .main, in: .common).autoconnect()
-    @State var clusterWakeTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
-    
+   
     // Progress bars
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
-    let clusterStatusProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 4500)
     
     // Early initialize prompt styles singleton so it is populated when user submits
     let promptStylesManager = PromptStylesManager.shared
@@ -53,9 +47,6 @@ struct DrawingView: View {
                 ZStack {
                     if (isRunningInference) {
                         inferenceProgressBar
-                    }
-                    if (runningTasksCount <= 0) {
-                        clusterStatusProgressBar
                     }
                 }
                 Spacer()
@@ -131,17 +122,11 @@ struct DrawingView: View {
                     //                    }
                     //
                     
-                    
-                    // TODO: Remove later
-                    if (runningTasksCount <= 0) {
-                        Text("Waking AI...")
-                    }
-                    
-                    if (!isRunningInference && runningTasksCount > 0) {
+                    if (!isRunningInference) {
                         Button(action: uploadDrawingForInference) {
                             Text("AI").bold().font(.title)
                         }.popover(isPresented: $isUploadingDrawing) {
-                            SendToAiView(
+                            InferenceModalView(
                                 image: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
                                 prompt: drawingProject.prompt,
                                 selectedArtTypeKey: drawingProject.selectedArtTypeKey,
@@ -159,13 +144,6 @@ struct DrawingView: View {
             )
         }.onChange(of: scenePhase) { newScenePhase in
             saveProjectState()
-        }.task {
-            serviceHelper.wakeService()
-            serviceHelper.getClusterStatus(handler: clusterStatusHandler)
-        }.onReceive(clusterStatusTimer) { time in
-            serviceHelper.getClusterStatus(handler: clusterStatusHandler)
-        }.onReceive(clusterWakeTimer) { time in
-            serviceHelper.wakeService()
         }.alert(isPresented: $alertManager.isPresented) {
             alertManager.alert
         }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
@@ -259,19 +237,6 @@ private extension DrawingView {
     func updateBackgroundImage(newImage: UIImage) {
         drawingProject.backgroundImage = newImage
         saveProjectState()
-    }
-    
-    func clusterStatusHandler(clusterStatusResponse: ClusterStatusResponse) {
-        runningTasksCount = clusterStatusResponse.runningTasksCount
-        if (runningTasksCount > 0) {
-            clusterStatusTimer.upstream.connect().cancel()
-            clusterStatusProgressBar.stopTimer()
-        } else {
-            
-            if (!clusterStatusProgressBar.isTimerActive && !inferenceProgressBar.isTimerActive) {
-                clusterStatusProgressBar.startTimer()
-            }
-        }
     }
     
     func createSnapshot() -> DrawingSnapshot {
