@@ -37,7 +37,7 @@ extension CanvasView: UIViewRepresentable {
         
         // Allow users to zoom in, but not out
         canvasView.minimumZoomScale = 1
-        canvasView.maximumZoomScale = 1 // Disable for pinch zooming bug on drawing
+        canvasView.maximumZoomScale = 10
         
         setupCanvas(context: context)
         return canvasView
@@ -114,7 +114,7 @@ extension PKCanvasView {
     func getDrawingAsImage(backgroundImage: UIImage? = nil) -> UIImage {
         var drawingImage: UIImage? = nil
         self.traitCollection.performAsCurrent {
-            drawingImage = self.drawing.image(from: self.bounds, scale: UIScreen.main.scale)
+            drawingImage = self.drawing.image(from: self.frame, scale: UIScreen.main.scale)
         }
         if (backgroundImage != nil) {
             drawingImage = ImageHelper.shared.overlayDrawingOnBackground(backgroundImage: backgroundImage!, drawingImage: drawingImage!, canvasSize: self.frame.size)
