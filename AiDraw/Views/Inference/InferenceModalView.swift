@@ -55,7 +55,7 @@ struct InferenceModalView: View {
                 .buttonStyle(BorderedButtonStyle())
                 .disabled(prompt == "")
             }
-           
+            
         }
     }
 }
@@ -63,21 +63,18 @@ struct InferenceModalView: View {
 private extension InferenceModalView {
     func sendDrawing() {
         let enhancedPrompt: String = buildPrompt()
-        if (image != nil) {
-            serviceHelper.postInferenceRequest(
-                prompt: enhancedPrompt,
-                image: image!,
-                advancedOptions: advancedOptions,
-                inferenceResultHandler: inferenceResultHandler,
-                inferenceFailedHandler: inferenceFailedHandler
-            )
-            analytics.logEvent(id: "drawing-sent", title: "Sent drawing for inference")
-        } else {
-            print("Post to text to image")
-        }
+        serviceHelper.postInferenceRequest(
+            prompt: enhancedPrompt,
+            image: image,
+            advancedOptions: advancedOptions,
+            inferenceResultHandler: inferenceResultHandler,
+            inferenceFailedHandler: inferenceFailedHandler
+        )
+        analytics.logEvent(id: "drawing-sent", title: "Sent drawing for inference")
+        
         startInferenceHandler(prompt, enhancedPrompt, selectedArtTypeKey, selectedSubstyleKeys, advancedOptions)
     }
-
+    
     func inferenceResultHandler(inferenceResult: String) {
         let imageData: String = inferenceResult
         let dataDecoded: Data? = Data(base64Encoded: imageData, options: .ignoreUnknownCharacters)

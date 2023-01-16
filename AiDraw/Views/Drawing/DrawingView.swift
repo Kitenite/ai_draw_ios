@@ -23,7 +23,8 @@ struct DrawingView: View {
     @State private var canvasView = PKCanvasView()
     
     // State of the application
-    @State private var isUploadingDrawing = false
+    @State private var isPreparingInference = false
+    @State private var isInferenceTextOnly = false
     @State private var isRunningInference = false
     @State private var isShowingLayersPopup = false
     @State private var isShowingOnboarding = AppVersionHelper.isFirstLaunch()
@@ -34,7 +35,7 @@ struct DrawingView: View {
     internal var imageHelper = ImageHelper.shared
     internal var serviceHelper = ServiceHelper.shared
     internal var analytics = AnalyticsHelper.shared
-   
+    
     // Progress bars
     let inferenceProgressBar = ProgressBarView(title: "", currentValue: 0, totalValue: 100)
     
@@ -123,19 +124,21 @@ struct DrawingView: View {
                     //
                     
                     if (!isRunningInference) {
-                        Button(action: uploadDrawingForInference) {
+                        Menu {
+                            Button(action: {
+                                isPreparingInference = true
+                                isInferenceTextOnly = false
+                            }) {
+                                Text("Using drawing")
+                            }
+                            Button(action: {
+                                isPreparingInference = true
+                                isInferenceTextOnly = true
+                            }) {
+                                Text("Without drawing (text only)")
+                            }
+                        } label: {
                             Text("AI").bold().font(.title)
-                        }.popover(isPresented: $isUploadingDrawing) {
-                            InferenceModalView(
-                                image: canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
-                                prompt: drawingProject.prompt,
-                                selectedArtTypeKey: drawingProject.selectedArtTypeKey,
-                                selectedSubstyleKeys: drawingProject.selectedSubstyleKeys,
-                                advancedOptions: drawingProject.advancedOptions,
-                                addInferredImageHandler: addInferredImage,
-                                inferenceFailedHandler: inferenceFailed,
-                                startInferenceHandler: startInferenceHandler
-                            )
                         }
                     } else {
                         ProgressView()
@@ -148,7 +151,18 @@ struct DrawingView: View {
             alertManager.alert
         }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
             OnboardingView(showOnboarding: $isShowingOnboarding)
-        })
+        }).popover(isPresented: $isPreparingInference) {
+            InferenceModalView(
+                image: isInferenceTextOnly ? nil : canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
+                prompt: drawingProject.prompt,
+                selectedArtTypeKey: drawingProject.selectedArtTypeKey,
+                selectedSubstyleKeys: drawingProject.selectedSubstyleKeys,
+                advancedOptions: drawingProject.advancedOptions,
+                addInferredImageHandler: addInferredImage,
+                inferenceFailedHandler: inferenceFailed,
+                startInferenceHandler: startInferenceHandler
+            )
+        }
     }
 }
 
@@ -184,22 +198,18 @@ private extension DrawingView {
         imageHelper.downloadImage(image: currentDrawingAndBackground, caption: drawingProject.description)
     }
     
-    func uploadDrawingForInference() {
-        isUploadingDrawing = true
-    }
-    
     func startInferenceHandler(prompt: String, enhancedPrompt: String, selectedArtTypeKey: String, selectedSubstyleKeys: [String], advancedOptions: AdvancedOptions) {
-        isUploadingDrawing = false
+        isPreparingInference = false
         isRunningInference = true
         inferenceProgressBar.startTimer()
-
+        
         // Save project settings
         drawingProject.prompt = prompt
         drawingProject.enhancedPrompt = enhancedPrompt
         drawingProject.selectedArtTypeKey = selectedArtTypeKey
         drawingProject.selectedSubstyleKeys = selectedSubstyleKeys
         drawingProject.advancedOptions = advancedOptions
-
+        
         analytics.logEvent(id: "uploaded-drawing", title: "Uploaded drawing")
     }
     

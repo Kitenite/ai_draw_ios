@@ -14,16 +14,21 @@ class ServiceHelper {
     
     func postInferenceRequest(
         prompt: String,
-        image: UIImage,
+        image: UIImage?,
         mask: UIImage? = nil,
         advancedOptions: AdvancedOptions,
         inferenceResultHandler: @escaping (String) -> Void,
         inferenceFailedHandler: @escaping (String, String) -> Void
     ) {
-        let resizedImage = image.aspectFittedToHeight(512/3)
-        let imageData: String? = resizedImage.jpegData(compressionQuality: 0)?.base64EncodedString()
-        var maskData: String? = nil
+        // Optional image
+        var imageData: String? = nil
+        if (image != nil) {
+            let resizedImage = image!.aspectFittedToHeight(512/3)
+            imageData = resizedImage.jpegData(compressionQuality: 0)?.base64EncodedString()
+        }
         
+        // Optional mask
+        var maskData: String? = nil
         if (mask != nil) {
             maskData = mask!.jpegData(compressionQuality: 0)?.base64EncodedString()
         }
@@ -58,6 +63,7 @@ class ServiceHelper {
             }
         }
     }
+    
     func getClusterStatus(handler: @escaping (ClusterStatusResponse) -> ()) {
         print("Getting cluster status")
         AF.request(
