@@ -70,8 +70,7 @@ private extension InferenceModalView {
             inferenceResultHandler: inferenceResultHandler,
             inferenceFailedHandler: inferenceFailedHandler
         )
-        analytics.logEvent(id: "drawing-sent", title: "Sent drawing for inference")
-        
+        analytics.logEvent(id: "drawing_sent", title: "Sent drawing for inference")
         startInferenceHandler(prompt, enhancedPrompt, selectedArtTypeKey, selectedSubstyleKeys, advancedOptions)
     }
     

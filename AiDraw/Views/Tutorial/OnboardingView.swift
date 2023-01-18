@@ -20,14 +20,6 @@ struct OnboardingView: View {
                 }.padding()
             }
             TabView {
-                
-                OnboardingTabView(
-                    title: "AI may be asleep",
-                    description: "Disclaimer: Since this is an early build, the AI may take 5 minutes to wake up to save costs. We will send you a message when it's ready.",
-                    image: "onboard-sleep",
-                    showOnboarding: $showOnboarding
-                )
-                
                 OnboardingTabView(
                     title: "Create your drawing",
                     description: "Add colors for better results. You can also import drawings from your camera roll.",

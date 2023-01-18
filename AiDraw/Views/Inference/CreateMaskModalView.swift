@@ -62,7 +62,7 @@ extension CreateMaskModalView {
         } else {
             maskOptions.maskImage = maskOptions.canvasView.getMaskAsImage(invert: maskOptions.invertMask)
         }
-        analytics.logEvent(id: "apply-mask", title: "Apply mask")
+        analytics.logEvent(id: "apply_mask", title: "Apply mask")
     }
     
     func goBackWithoutSaving() -> Void {

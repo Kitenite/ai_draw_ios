@@ -67,9 +67,9 @@ struct SelectProjectView: View {
                 },
                 trailing: HStack {
                     if isSelectingDrawing {
-                        Button(action: duplicateSelectedDrawing) {
-                            Image(systemName: "doc.on.doc")
-                        }.disabled(selectedDrawing == nil)
+//                        Button(action: duplicateSelectedDrawing) {
+//                            Image(systemName: "doc.on.doc")
+//                        }.disabled(selectedDrawing == nil)
                         Button(action: deleteSelectedDrawing) {
                             Image(systemName: "trash")
                         }.disabled(selectedDrawing == nil)
@@ -123,7 +123,7 @@ struct SelectProjectView: View {
         .navigationViewStyle(.stack)
         .task {
             navigationLinkIsActive = false
-            analytics.logEvent(id: "nav-home-screen", title: "Home screen")
+            analytics.logEvent(id: "nav_home_screen", title: "Home screen")
         }
     }
 }
@@ -141,13 +141,13 @@ private extension SelectProjectView {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             navigateToDrawing(index: 0)
         }
-        analytics.logEvent(id: "create-drawing", title: "Create drawing")
+        analytics.logEvent(id: "create_drawing", title: "Create drawing")
     }
     
     func navigateToDrawing(index: Int) {
         navDrawingIndex = index
         navigationLinkIsActive = true
-        analytics.logEvent(id: "nav-drawing", title: "Navigate to drawing")
+        analytics.logEvent(id: "nav_drawing", title: "Navigate to drawing")
     }
     
     func deleteSelectedDrawing() {
@@ -159,7 +159,7 @@ private extension SelectProjectView {
     
     func deleteDrawing(drawing: DrawingProject){
         projects = projects.filter({ $0.id.uuidString != drawing.id.uuidString })
-        analytics.logEvent(id: "delete-drawing", title: "Delete drawing")
+        analytics.logEvent(id: "delete_drawing", title: "Delete drawing")
     }
     
     func duplicateSelectedDrawing() {
@@ -172,7 +172,7 @@ private extension SelectProjectView {
     func duplicateDrawing(drawing: DrawingProject) {
         let newDrawing = DrawingProject(name: drawing.name)
         projects.insert(newDrawing, at: 0)
-        analytics.logEvent(id: "duplicate-drawing", title: "Duplicate drawing")
+        analytics.logEvent(id: "duplicate_drawing", title: "Duplicate drawing")
     }
     
     func unselectDrawing() {

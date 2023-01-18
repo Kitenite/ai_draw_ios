@@ -12,7 +12,7 @@ class AnalyticsHelper {
     static let shared = AnalyticsHelper()
 
     func logEvent(id: String, title: String) {
-        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+        Analytics.logEvent(id, parameters: [
           AnalyticsParameterItemID: id,
           AnalyticsParameterItemName: title,
           AnalyticsParameterContentType: "cont",

@@ -27,7 +27,7 @@ struct DrawingView: View {
     @State private var isInferenceTextOnly = false
     @State private var isRunningInference = false
     @State private var isShowingLayersPopup = false
-    @State private var isShowingOnboarding = AppVersionHelper.isFirstLaunch()
+    @State private var isShowingOnboarding = false
     @State private var isDrawingMode = true
     @State private var isDragginMode = false
     
@@ -162,6 +162,10 @@ struct DrawingView: View {
                 inferenceFailedHandler: inferenceFailed,
                 startInferenceHandler: startInferenceHandler
             )
+        }.task {
+            if (AppVersionHelper.isFirstLaunch()) {
+                isShowingOnboarding = true
+            }
         }
     }
 }
@@ -174,13 +178,13 @@ private extension DrawingView {
     func clearDrawing() {
         saveBackwardsSnapshot()
         canvasView.drawing = PKDrawing()
-        analytics.logEvent(id: "clear-drawing", title: "Clear drawing")
+        analytics.logEvent(id: "clear_drawing", title: "Clear drawing")
     }
     
     func clearBackground() {
         saveBackwardsSnapshot()
         drawingProject.backgroundImage = UIImage(color: .white)
-        analytics.logEvent(id: "clear-background", title: "Clear background")
+        analytics.logEvent(id: "clear_background", title: "Clear background")
     }
     
     func saveProjectState() {
@@ -210,7 +214,7 @@ private extension DrawingView {
         drawingProject.selectedSubstyleKeys = selectedSubstyleKeys
         drawingProject.advancedOptions = advancedOptions
         
-        analytics.logEvent(id: "uploaded-drawing", title: "Uploaded drawing")
+        analytics.logEvent(id: "uploaded_drawing", title: "Uploaded drawing")
     }
     
     func addInferredImage(inferredImage: UIImage) {
@@ -219,7 +223,7 @@ private extension DrawingView {
         updateBackgroundImage(newImage: croppedImage)
         isRunningInference = false
         inferenceProgressBar.stopTimer()
-        analytics.logEvent(id: "inference-succeeded", title: "Inference succeeded")
+        analytics.logEvent(id: "inference_succeeded", title: "Inference succeeded")
         
         // Request review every 5 inference
         inferenceCount += 1
@@ -231,7 +235,7 @@ private extension DrawingView {
     func inferenceFailed(title: String, message: String) {
         alertManager.presentAlert(title: title, message: message, dismissButton: nil)
         isRunningInference = false
-        analytics.logEvent(id: "inference-failed", title: "Inference failed")
+        analytics.logEvent(id: "inference_failed", title: "Inference failed")
     }
     
     func photoImportedHandler(data: Data) {
@@ -240,7 +244,7 @@ private extension DrawingView {
             let croppedImage = imageHelper.cropImageToRect(sourceImage: importedPhoto!, cropRect: CGRect(origin: CGPoint.zero, size: canvasView.frame.size))
             saveBackwardsSnapshot()
             updateBackgroundImage(newImage: croppedImage)
-            analytics.logEvent(id: "import-photo", title: "Import photo")
+            analytics.logEvent(id: "import_photo", title: "Import photo")
         }
     }
     
@@ -276,7 +280,7 @@ private extension DrawingView {
         } else {
             undoManager?.undo()
         }
-        analytics.logEvent(id: "undo-drawing", title: "Undo drawing")
+        analytics.logEvent(id: "undo_drawing", title: "Undo drawing")
     }
     
     func redoDrawing() {
@@ -292,7 +296,7 @@ private extension DrawingView {
         } else {
             undoManager?.redo()
         }
-        analytics.logEvent(id: "redo-drawing", title: "Redo drawing")
+        analytics.logEvent(id: "redo_drawing", title: "Redo drawing")
     }
 }
 
