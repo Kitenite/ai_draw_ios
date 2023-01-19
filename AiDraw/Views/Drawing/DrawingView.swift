@@ -151,13 +151,14 @@ struct DrawingView: View {
             alertManager.alert
         }.fullScreenCover(isPresented: $isShowingOnboarding, content: {
             OnboardingView(showOnboarding: $isShowingOnboarding)
-        }).popover(isPresented: $isPreparingInference) {
+        }).fullScreenCover(isPresented: $isPreparingInference) {
             InferenceModalView(
                 image: isInferenceTextOnly ? nil : canvasView.getDrawingAsImage(backgroundImage: drawingProject.backgroundImage),
                 prompt: drawingProject.prompt,
                 selectedArtTypeKey: drawingProject.selectedArtTypeKey,
                 selectedSubstyleKeys: drawingProject.selectedSubstyleKeys,
                 advancedOptions: drawingProject.advancedOptions,
+                isPreparingInference: $isPreparingInference,
                 addInferredImageHandler: addInferredImage,
                 inferenceFailedHandler: inferenceFailed,
                 startInferenceHandler: startInferenceHandler

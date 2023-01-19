@@ -14,6 +14,7 @@ struct InferenceModalView: View {
     @State var selectedArtTypeKey: String
     @State var selectedSubstyleKeys: [String]
     @State var advancedOptions: AdvancedOptions
+    @Binding var isPreparingInference: Bool
     
     // Handlers
     let addInferredImageHandler: (UIImage) -> Void
@@ -28,6 +29,12 @@ struct InferenceModalView: View {
     var body: some View {
         VStack {
             ScrollView {
+                HStack {
+                    Button( action: { isPreparingInference = false }) {
+                        Text("Cancel")
+                    }
+                    Spacer()
+                }.padding()
                 if (image != nil) {
                     Image(uiImage: image!)
                         .resizable()
@@ -129,6 +136,7 @@ struct SendToAIModalView_Previews: PreviewProvider {
             selectedArtTypeKey: "",
             selectedSubstyleKeys: ["None","None","None","None"],
             advancedOptions: AdvancedOptions(),
+            isPreparingInference: .constant(true),
             addInferredImageHandler: mockAddInferredImageHandler,
             inferenceFailedHandler: mockInferenceFailedHandler,
             startInferenceHandler: mockStartInferenceHandler
