@@ -49,3 +49,8 @@ struct ClusterStatusResponse: Decodable {
     let pendingTasksCount: Int
     let activeServicesCount: Int
 }
+
+struct FeedbackRequestInput: Codable {
+    let feedbackText: String
+    let contactText: String
+}

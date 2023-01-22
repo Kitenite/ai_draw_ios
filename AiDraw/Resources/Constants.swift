@@ -16,7 +16,8 @@ struct Constants {
     static let WAKE_API = "\(API_ROOT)/wake"
     static let STATUS_API = "\(API_ROOT)/status"
     static let PROMPT_STYLES_API = "\(API_ROOT)/prompt-styles"
-    
+    static let FEEDBACK_API = "\(API_ROOT)/feedback"
+
     // Push Notification topics
     static let WAKE_TOPIC = "WAKE"
     

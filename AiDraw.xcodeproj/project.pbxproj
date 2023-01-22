@@ -51,6 +51,7 @@
 		FEACF998290D717000276E2E /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEACF997290D717000276E2E /* ProjectStore.swift */; };
 		FEC6BCE3295DF4A5001E97A2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */; };
 		FEC6BCE5295E0943001E97A2 /* InterstitialAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC6BCE4295E0943001E97A2 /* InterstitialAdView.swift */; };
+		FECA3AC8297C58A4007C57C0 /* FeedbackScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FECA3AC7297C58A4007C57C0 /* FeedbackScreen.swift */; };
 		FEDA3DC12949848E0074BBCA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC02949848E0074BBCA /* AppDelegate.swift */; };
 		FEDA3DC42949853C0074BBCA /* PushNotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */; };
 		FEDCAAC72900EAF3007D40A5 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */; };
@@ -103,6 +104,7 @@
 		FEACF997290D717000276E2E /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
 		FEC6BCE2295DF4A5001E97A2 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		FEC6BCE4295E0943001E97A2 /* InterstitialAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdView.swift; sourceTree = "<group>"; };
+		FECA3AC7297C58A4007C57C0 /* FeedbackScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackScreen.swift; sourceTree = "<group>"; };
 		FEDA3DC02949848E0074BBCA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEDA3DC32949853C0074BBCA /* PushNotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationHelper.swift; sourceTree = "<group>"; };
 		FEDCAAC62900EAF3007D40A5 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				FEF06109294FF3F700B60ADF /* SelectableProjectView.swift */,
 				FE84B2A6294FBB5F00A84F3E /* ProgressBarView.swift */,
 				FEDCAAD62903A51B007D40A5 /* ImagePickerView.swift */,
+				FECA3AC7297C58A4007C57C0 /* FeedbackScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				FE3CE89D2963A1A100A57BF0 /* OptionPickerView.swift in Sources */,
 				FE3CE890296220A500A57BF0 /* LayerModalRowView.swift in Sources */,
 				FE754531295BF272001D81DF /* InferenceTextField.swift in Sources */,
+				FECA3AC8297C58A4007C57C0 /* FeedbackScreen.swift in Sources */,
 				FEDCAACE29025F92007D40A5 /* ServiceHelper.swift in Sources */,
 				FEF0610A294FF3F700B60ADF /* SelectableProjectView.swift in Sources */,
 				CC2BB259295636DD00ABEB6D /* AdvancedOptionsModalView.swift in Sources */,
@@ -579,7 +583,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madebykiet.AiDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -629,7 +633,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.madebykiet.AiDraw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

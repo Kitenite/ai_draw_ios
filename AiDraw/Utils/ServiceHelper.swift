@@ -88,4 +88,22 @@ class ServiceHelper {
             }
         }
     }
+    
+    func sendFeedback(feedbackText: String, contactText: String) {
+        print("Sending feedback")
+        let input = FeedbackRequestInput(
+            feedbackText: feedbackText,
+            contactText: contactText
+        )
+        
+        AF.request(
+            Constants.FEEDBACK_API,
+            method: .post,
+            parameters: input,
+            encoder: JSONParameterEncoder.default
+        ).responseString { response in
+            print(response)
+        }
+    }
 }
+

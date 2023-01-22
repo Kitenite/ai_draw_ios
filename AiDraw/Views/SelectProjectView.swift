@@ -10,7 +10,8 @@ import SwiftUI
 struct SelectProjectView: View {
     
     @Binding var projects: [DrawingProject]
-    
+    @State private var isShowingFeedbackPopup: Bool = false
+
     // Navigation between projects
     @State private var navDrawingIndex: Int = 0
     @State private var navigationLinkIsActive: Bool = false
@@ -55,6 +56,7 @@ struct SelectProjectView: View {
             .navigationBarItems(
                 leading: HStack {
                     Menu {
+                        Button(action: {isShowingFeedbackPopup = true}) {Text("Send feedback")}
                         Link("Join our Discord", destination: URL(string: "https://discord.gg/9zYj6yx7Z4")!)
                     } label: {
                         HStack {
@@ -85,29 +87,6 @@ struct SelectProjectView: View {
                         Button(action: createDrawing) {
                             Image(systemName: "plus")
                         }
-                        
-                        // TODO: Add this later
-//                        Menu {
-//                            Section("Create new project") {
-//                                Button {
-//                                    createDrawing()
-//                                } label: {
-//                                    Text("Blank canvas")
-//                                }
-//                                Button {
-//                                    // Create then navigate to prompt creation
-//                                } label: {
-//                                    Text("From prompt")
-//                                }
-//                                Button {
-//                                    // Import image then add as layer
-//                                } label: {
-//                                    Text("Import image")
-//                                }
-//                            }
-//                        } label: {
-//                             Text("Create")
-//                        }
                     }
                 }
             )
@@ -124,6 +103,8 @@ struct SelectProjectView: View {
         .task {
             navigationLinkIsActive = false
             analytics.logEvent(id: "nav_home_screen", title: "Home screen")
+        }.fullScreenCover(isPresented: $isShowingFeedbackPopup) {
+            FeedbackScreen(isShowingFeedbackPopup: $isShowingFeedbackPopup)
         }
     }
 }
